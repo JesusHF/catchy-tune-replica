@@ -53,4 +53,11 @@ public class Conductor : MonoBehaviour
         loopPositionInAnalog = loopPositionInBeats / beatsPerLoop;
     }
 
+    public float GetTimeToNextBeat()
+    {
+        int nextBeat = Mathf.CeilToInt(Conductor.instance.songPositionInBeats);
+        float timeToNextBeat = (nextBeat - Conductor.instance.songPositionInBeats);
+        timeToNextBeat = timeToNextBeat / songBpm * 60f;
+        return timeToNextBeat;
+    }
 }

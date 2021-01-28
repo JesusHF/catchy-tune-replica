@@ -970,6 +970,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fruitSpawner: {fileID: 344896621}
   keynoteHolder: {fileID: 1537707945}
+  songs:
+  - {fileID: 11400000, guid: 152d1449d02400b4ea41bb12c7ac2332, type: 2}
+  - {fileID: 11400000, guid: d8307db9c5d5ac545a699a5764a00fee, type: 2}
 --- !u!114 &1537707943
 MonoBehaviour:
   m_ObjectHideFlags: 0

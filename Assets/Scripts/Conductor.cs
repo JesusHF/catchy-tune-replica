@@ -30,15 +30,14 @@ public class Conductor : MonoBehaviour
     }
     #endregion
 
-    public void StartSong(/*SongInfo songInfo*/)
+    public void StartSong(SongData songData)
     {
-        songBpm = 130;
+        songBpm = songData.bpm;
         secPerBeat = 60f / songBpm;
         dspSongTime = (float)AudioSettings.dspTime;
-        beatsPerLoop = 8;
+        beatsPerLoop = songData.beats_per_loop;
 
-        //AudioManager.Instance().PlaySong(songInfo.song_clip);
-        AudioManager.instance.PlaySong("tutorial", true);
+        AudioManager.instance.PlaySong(songData.song_clip, songData.loop);
     }
 
     void Update()

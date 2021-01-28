@@ -73,6 +73,7 @@ public class TutorialManager : MonoBehaviour
         GameManager.OnKeynotePressedSuccessfully -= DecreaseNumber;
         moreTimesText.gameObject.SetActive(false);
         numberText.gameObject.SetActive(false);
+        GameManager.instance.EndTutorial();
         this.enabled = false;
     }
 

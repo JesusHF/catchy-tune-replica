@@ -22,10 +22,11 @@ public class GameManager : MonoBehaviour
     public static event Action OnKeynotePressedSuccessfully;
     public FruitSpawner fruitSpawner;
     public KeynoteHolder keynoteHolder;
+    public SongData[] songs;
 
     void Start()
     {
-        Conductor.instance.StartSong();
+        StartTutorial();
     }
 
     public void CreateKeynote()
@@ -51,6 +52,23 @@ public class GameManager : MonoBehaviour
         // player animate fail
         // play fail sfx
         // track fails
+    }
+
+    private void StartTutorial()
+    {
+        Conductor.instance.StartSong(songs[0]);
+    }
+
+    public void EndTutorial()
+    {
+        // transition to game
+        AudioManager.instance.FadeCurrentSong(3f);
+        Invoke("StartGame", 4f);
+    }
+
+    public void StartGame()
+    {
+        Conductor.instance.StartSong(songs[1]);
     }
 
 }

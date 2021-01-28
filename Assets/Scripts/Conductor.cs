@@ -3,7 +3,7 @@
 public class Conductor : MonoBehaviour
 {
     private float songBpm;
-    private float secPerBeat;
+    public float secPerBeat { get; private set; }
     public float songPosition { get; private set; }
     public int songPositionMs { get; private set; }
     public float songPositionInBeats { get; private set; }

@@ -35,15 +35,15 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrabbing)
         {
-            if (true) // check if player hit the note right
-            {
-                ChangeAnimationState(PLAYER_GRAB_FAIL);
-                // play grab fail sfx
-            }
-            else
+            if (GameManager.instance.CheckCurrentBeatHasAnyNote())
             {
                 ChangeAnimationState(PLAYER_GRAB);
                 // play grab success sfx
+            }
+            else
+            {
+                ChangeAnimationState(PLAYER_GRAB_FAIL);
+                // play grab fail sfx
             }
 
             isGrabbing = false;

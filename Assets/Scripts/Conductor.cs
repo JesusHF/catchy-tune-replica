@@ -5,7 +5,7 @@ public class Conductor : MonoBehaviour
     private float songBpm;
     public float secPerBeat { get; private set; }
     public float songPosition { get; private set; }
-    public int songPositionMs { get; private set; }
+    public float songPositionMs { get; private set; }
     public float songPositionInBeats { get; private set; }
     public float dspSongTime { get; private set; }
 
@@ -44,7 +44,7 @@ public class Conductor : MonoBehaviour
     void Update()
     {
         songPosition = (float)(AudioSettings.dspTime - dspSongTime);
-        songPositionMs = (int)(songPosition * 1000);
+        songPositionMs = songPosition * 1000f;
         songPositionInBeats = songPosition / secPerBeat;
 
         if (songPositionInBeats >= (completedLoops + 1) * beatsPerLoop)

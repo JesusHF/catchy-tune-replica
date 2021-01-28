@@ -7,9 +7,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI numberText;
     [SerializeField]
-    private FruitSpawner fruitSpawner;
+    private int nextBeatToSpawnItem = 11;
     private int itemsLeft;
-    private int nextBeatToSpawnItem;
     private TutorialStates tutorialState;
 
     // tutorial states
@@ -24,7 +23,6 @@ public class TutorialManager : MonoBehaviour
         tutorialState = TutorialStates.SpawnLoop;
         itemsLeft = 3;
         numberText.text = itemsLeft.ToString();
-        nextBeatToSpawnItem = 12;
     }
 
     void Update()
@@ -48,7 +46,7 @@ public class TutorialManager : MonoBehaviour
         if (currentBeat >= nextBeatToSpawnItem)
         {
             nextBeatToSpawnItem += 16;
-            fruitSpawner.SpawnOrange();
+            GameManager.instance.CreateKeynote();
         }
     }
 

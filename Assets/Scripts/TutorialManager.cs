@@ -47,7 +47,7 @@ public class TutorialManager : MonoBehaviour
         float currentBeat = Conductor.instance.songPositionInBeats;
         if (currentBeat >= nextBeatToSpawnItem)
         {
-            nextBeatToSpawnItem += 16;
+            nextBeatToSpawnItem += 8;
             GameManager.instance.CreateKeynote();
         }
     }

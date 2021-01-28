@@ -38,12 +38,12 @@ public class PlayerController : MonoBehaviour
             if (GameManager.instance.CheckCurrentBeatHasAnyNote())
             {
                 ChangeAnimationState(PLAYER_GRAB);
-                // play grab success sfx
+                AudioManager.instance.PlaySfx("grab_success");
             }
             else
             {
                 ChangeAnimationState(PLAYER_GRAB_FAIL);
-                // play grab fail sfx
+                AudioManager.instance.PlaySfx("grab_fail");
             }
 
             isGrabbing = false;

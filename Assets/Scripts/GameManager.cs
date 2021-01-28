@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -31,8 +32,11 @@ public class GameManager : MonoBehaviour
 
     public void CreateKeynote()
     {
-        float currentTime = Conductor.instance.songPosition + (4 * Conductor.instance.secPerBeat);
-        keynoteHolder.CreateKeynote(currentTime);
+        float currentBeat = Conductor.instance.songPositionInBeats;
+        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + (1)));
+        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + (2)));
+        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + (3)));
+        keynoteHolder.CreateKeynote(Conductor.instance.songPosition + (4 * Conductor.instance.secPerBeat));
         fruitSpawner.SpawnOrange();
     }
 
@@ -70,5 +74,16 @@ public class GameManager : MonoBehaviour
     {
         Conductor.instance.StartSong(songs[1]);
     }
+
+
+    private IEnumerator ScheduleSoundEffect(string sfxName, float beat)
+    {
+        while (Conductor.instance.songPositionInBeats < beat)
+        {
+            yield return null;
+        }
+        AudioManager.instance.PlaySfx(sfxName);
+    }
+
 
 }

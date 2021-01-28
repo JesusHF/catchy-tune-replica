@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public static event Action OnKeynotePressedSuccessfully;
     public FruitSpawner fruitSpawner;
     public KeynoteHolder keynoteHolder;
 
@@ -35,7 +37,12 @@ public class GameManager : MonoBehaviour
 
     public bool CheckCurrentBeatHasAnyNote()
     {
-        return keynoteHolder.CheckCurrentBeatHasAnyNote();
+        if (keynoteHolder.CheckCurrentBeatHasAnyNote())
+        {
+            OnKeynotePressedSuccessfully?.Invoke();
+            return true;
+        }
+        return false;
     }
 
     public void NotifyNotePassed()

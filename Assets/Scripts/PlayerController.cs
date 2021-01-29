@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
     {
         ChangeAnimationState(PlayerStates.GrabPassed);
         lockInput = 0.5f;
-        // todo: play fail sfx
+        AudioManager.instance.PlaySfx("grab_passed");
         ScheduleLoopAnimation();
     }
 }

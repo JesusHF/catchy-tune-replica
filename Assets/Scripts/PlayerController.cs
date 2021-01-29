@@ -1,5 +1,15 @@
 ﻿using UnityEngine;
 
+public class PlayerStates
+{
+    // animation states
+    public const string Loop = "loop";
+    public const string Grab = "player_grab";
+    public const string GrabFail = "player_grab_fail";
+    public const string GrabPassed = "player_grab_passed";
+}
+
+
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
@@ -8,26 +18,30 @@ public class PlayerController : MonoBehaviour
 
     private bool isGrabbing;
     private string currentState;
-
-    // animation states
-    const string PLAYER_LOOP = "loop";
-    const string PLAYER_GRAB = "player_grab";
-    const string PLAYER_GRAB_FAIL = "player_grab_fail";
+    private float lockInput;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         animator.speed = 0;
 
-        currentState = PLAYER_LOOP;
+        currentState = PlayerStates.Loop;
         isGrabbing = false;
+        GameManager.OnKeynoteNotPressed += OnNotePassed;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (lockInput <= 0f)
         {
-            isGrabbing = true;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                isGrabbing = true;
+            }
+        }
+        else
+        {
+            lockInput -= Time.deltaTime;
         }
     }
 
@@ -37,19 +51,19 @@ public class PlayerController : MonoBehaviour
         {
             if (GameManager.instance.CheckCurrentBeatHasAnyNote())
             {
-                ChangeAnimationState(PLAYER_GRAB);
+                ChangeAnimationState(PlayerStates.Grab);
                 AudioManager.instance.PlaySfx("grab_success");
             }
             else
             {
-                ChangeAnimationState(PLAYER_GRAB_FAIL);
+                ChangeAnimationState(PlayerStates.GrabFail);
                 AudioManager.instance.PlaySfx("grab_fail");
             }
 
             isGrabbing = false;
             ScheduleLoopAnimation();
         }
-        else if (currentState == PLAYER_LOOP)
+        else if (currentState == PlayerStates.Loop)
         {
             float analogPosition = Conductor.instance.loopPositionInAnalog * (8 / durationInBeats);
             int loopHash = animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
@@ -85,6 +99,14 @@ public class PlayerController : MonoBehaviour
 
     void SetLoopAnimation()
     {
-        ChangeAnimationState(PLAYER_LOOP, 0f);
+        ChangeAnimationState(PlayerStates.Loop, 0f);
+    }
+
+    void OnNotePassed()
+    {
+        ChangeAnimationState(PlayerStates.GrabPassed);
+        lockInput = 0.5f;
+        // todo: play fail sfx
+        ScheduleLoopAnimation();
     }
 }

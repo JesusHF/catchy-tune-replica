@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public static event Action OnKeynotePressedSuccessfully;
+    public static event Action OnKeynoteNotPressed;
     public FruitSpawner fruitSpawner;
     public KeynoteHolder keynoteHolder;
     public SongData[] songs;
@@ -52,9 +53,7 @@ public class GameManager : MonoBehaviour
 
     public void NotifyNotePassed()
     {
-        Debug.Log("Note passed");
-        // player animate fail
-        // play fail sfx
+        OnKeynoteNotPressed?.Invoke();
         // track fails
     }
 

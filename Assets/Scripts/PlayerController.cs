@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
         currentState = PlayerStates.Loop;
         isGrabbing = false;
-        GameManager.OnKeynoteNotPressed += OnNotePassed;
+        GameManager.OnKeynoteNotPressed += SetGrabPassedAnimation;
     }
 
     void Update()
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
         ChangeAnimationState(PlayerStates.Loop, 0f);
     }
 
-    void OnNotePassed()
+    void SetGrabPassedAnimation()
     {
         ChangeAnimationState(PlayerStates.GrabPassed);
         lockInput = 0.5f;

@@ -16,12 +16,14 @@ public class FruitSpawner : MonoBehaviour
         orange.SetActive(false);
         orangelifeSpawn = 0f;
         animationOffset = 0f;
+        GameManager.OnKeynotePressedSuccessfully += StopOrangeAnimation;
     }
 
     public void SpawnOrange()
     {
         orange.SetActive(true);
         orangeIsEnabled = true;
+        orangeAnimator.speed = 0f;
         orangeAnimator.Play("orange_spawn");
         orangelifeSpawn = 4 * Conductor.instance.secPerBeat;
         animationOffset = Conductor.instance.loopPositionInAnalog;
@@ -39,7 +41,8 @@ public class FruitSpawner : MonoBehaviour
             if (orangeIsEnabled)
             {
                 orangeIsEnabled = false;
-                orange.SetActive(false);
+                orangeAnimator.Play("orange_hit");
+                orangeAnimator.speed = 2f;
             }
         }
     }
@@ -50,5 +53,12 @@ public class FruitSpawner : MonoBehaviour
         analogPosition *= 2;
         int loopHash = orangeAnimator.GetCurrentAnimatorStateInfo(0).fullPathHash;
         orangeAnimator.Play(loopHash, -1, analogPosition);
+    }
+
+    void StopOrangeAnimation()
+    {
+        orangelifeSpawn = 0f;
+        orangeIsEnabled = false;
+        orange.SetActive(false);
     }
 }

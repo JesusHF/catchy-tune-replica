@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class KeynoteHolder : MonoBehaviour
 {
+    [SerializeField, Range(100f, 300f)]
+    private float threshold = 200f;
     private Queue<float> keynoteTimes;
 
     void Start()
@@ -26,7 +28,7 @@ public class KeynoteHolder : MonoBehaviour
     {
         if (keynoteTimes.Count > 0)
         {
-            if (Conductor.instance.songPositionMs > keynoteTimes.Peek())
+            if (Conductor.instance.songPositionMs > (keynoteTimes.Peek() + (threshold/2)))
             {
                 keynoteTimes.Dequeue();
                 GameManager.instance.NotifyNotePassed();
@@ -38,7 +40,6 @@ public class KeynoteHolder : MonoBehaviour
     {
         if (keynoteTimes.Count > 0)
         {
-            float threshold = 200f;
             if (Mathf.Abs(Conductor.instance.songPositionMs - keynoteTimes.Peek()) < threshold)
             {
                 keynoteTimes.Dequeue();

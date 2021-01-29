@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ScheduleSoundEffect(string sfxName, float beat)
     {
-        while (Conductor.instance.songPositionInBeats < beat)
+        while (Conductor.instance.songPositionInBeats < beat + 0.1f)
         {
             yield return null;
         }

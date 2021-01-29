@@ -13,6 +13,8 @@ public class Conductor : MonoBehaviour
     public int completedLoops { get; private set; }
     public float loopPositionInBeats { get; private set; }
     public float loopPositionInAnalog { get; private set; }
+    private bool paused;
+
 
     #region Singleton
     public static Conductor instance { get; private set; }
@@ -32,6 +34,8 @@ public class Conductor : MonoBehaviour
 
     public void StartSong(SongData songData)
     {
+        StopSong();
+        paused = false;
         songBpm = songData.bpm;
         secPerBeat = 60f / songBpm;
         dspSongTime = (float)AudioSettings.dspTime;
@@ -40,22 +44,37 @@ public class Conductor : MonoBehaviour
         AudioManager.instance.PlaySong(songData.song_clip, songData.loop);
     }
 
+    public void StopSong()
+    {
+        paused = true;
+        dspSongTime = 0f;
+        songPosition = 0f;
+        songPositionMs = 0f;
+        songPositionInBeats = 0f;
+        completedLoops = 0;
+        loopPositionInBeats = 0f;
+        loopPositionInAnalog = 0f;
+    }
+
     void Update()
     {
-        songPosition = (float)(AudioSettings.dspTime - dspSongTime);
-        songPositionMs = songPosition * 1000f;
-        songPositionInBeats = songPosition / secPerBeat;
+        if (!paused)
+        {
+            songPosition = (float)(AudioSettings.dspTime - dspSongTime);
+            songPositionMs = songPosition * 1000f;
+            songPositionInBeats = songPosition / secPerBeat;
 
-        if (songPositionInBeats >= (completedLoops + 1) * beatsPerLoop)
-            completedLoops++;
-        loopPositionInBeats = songPositionInBeats - completedLoops * beatsPerLoop;
-        loopPositionInAnalog = loopPositionInBeats / beatsPerLoop;
+            if (songPositionInBeats >= (completedLoops + 1) * beatsPerLoop)
+                completedLoops++;
+            loopPositionInBeats = songPositionInBeats - completedLoops * beatsPerLoop;
+            loopPositionInAnalog = loopPositionInBeats / beatsPerLoop;
+        }
     }
 
     public float GetTimeToNextBeat()
     {
-        int nextBeat = Mathf.CeilToInt(Conductor.instance.songPositionInBeats);
-        float timeToNextBeat = (nextBeat - Conductor.instance.songPositionInBeats);
+        int nextBeat = Mathf.CeilToInt(songPositionInBeats);
+        float timeToNextBeat = (nextBeat - songPositionInBeats);
         timeToNextBeat = timeToNextBeat / songBpm * 60f;
         return timeToNextBeat;
     }

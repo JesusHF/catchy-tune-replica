@@ -23,6 +23,13 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
+        tutorialState = TutorialStates.None;
+        ShowUI(false);
+    }
+
+    public void StartTutorial()
+    {
+        ShowUI(true);
         GetNextState();
         GameManager.OnKeynotePressedSuccessfully += DecreaseNumber;
     }
@@ -31,11 +38,13 @@ public class TutorialManager : MonoBehaviour
     {
         switch (tutorialState)
         {
+            case TutorialStates.None:
+                break;
             case TutorialStates.SpawnLoop:
                 SpawnOrangeLoop();
                 break;
             case TutorialStates.End:
-                // object should be disabled
+                // component should be disabled
                 return;
             default:
                 break;
@@ -62,7 +71,6 @@ public class TutorialManager : MonoBehaviour
                 numberText.text = itemsLeft.ToString();
                 break;
             case TutorialStates.End:
-                // end tutorial, start game
                 EndTutorial();
                 break;
         }
@@ -70,9 +78,8 @@ public class TutorialManager : MonoBehaviour
 
     private void EndTutorial()
     {
+        ShowUI(false);
         GameManager.OnKeynotePressedSuccessfully -= DecreaseNumber;
-        moreTimesText.gameObject.SetActive(false);
-        numberText.gameObject.SetActive(false);
         GameManager.instance.EndTutorial();
         this.enabled = false;
     }
@@ -92,6 +99,12 @@ public class TutorialManager : MonoBehaviour
                 moreTimesText.text = moreTimesText.text.Replace("times!", "time!");
             }
         }
+    }
+
+    private void ShowUI(bool show = true)
+    {
+        moreTimesText.gameObject.SetActive(show);
+        numberText.gameObject.SetActive(show);
     }
 
 }

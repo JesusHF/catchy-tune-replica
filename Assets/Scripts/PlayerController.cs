@@ -22,10 +22,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        currentState = PlayerStates.Loop;
         animator = GetComponent<Animator>();
         animator.speed = 0;
+        animator.Play(currentState);
 
-        currentState = PlayerStates.Loop;
         isGrabbing = false;
         GameManager.OnKeynoteNotPressed += SetGrabPassedAnimation;
     }

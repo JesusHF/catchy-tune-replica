@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,19 +25,21 @@ public class GameManager : MonoBehaviour
     public static event Action OnKeynoteNotPressed;
     public FruitSpawner fruitSpawner;
     public KeynoteHolder keynoteHolder;
+    public TutorialManager tutorialManager;
+    public Image blackSquareImage;
     public SongData[] songs;
 
     void Start()
     {
-        StartTutorial();
+        StartCoroutine(FadeBlackSquare(2f, 0f, StartTutorial));
     }
 
     public void CreateKeynote()
     {
         float currentBeat = Conductor.instance.songPositionInBeats;
-        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + (1)));
-        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + (2)));
-        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + (3)));
+        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1));
+        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 2));
+        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 3));
         keynoteHolder.CreateKeynote(Conductor.instance.songPosition + (4 * Conductor.instance.secPerBeat));
         fruitSpawner.SpawnOrange();
     }
@@ -60,16 +63,22 @@ public class GameManager : MonoBehaviour
     private void StartTutorial()
     {
         Conductor.instance.StartSong(songs[0]);
+        tutorialManager.StartTutorial();
     }
 
     public void EndTutorial()
     {
-        // transition to game
         AudioManager.instance.FadeCurrentSong(3f);
-        Invoke("StartGame", 4f);
+        StartCoroutine(FadeBlackSquare(3f, 1f, TransitionToGame));
     }
 
-    public void StartGame()
+    private void TransitionToGame()
+    {
+        Conductor.instance.StopSong();
+        StartCoroutine(FadeBlackSquare(3f, 0f, StartGame));
+    }
+    
+    private void StartGame()
     {
         Conductor.instance.StartSong(songs[1]);
     }
@@ -84,5 +93,21 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.PlaySfx(sfxName);
     }
 
+    private IEnumerator FadeBlackSquare(float duration, float finalAlpha = 0f, Action onFinished = null)
+    {
+        float currentTime = 0;
+        float startAlpha = 1 - finalAlpha;
+        Color c = blackSquareImage.color;
 
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            float a = Mathf.Lerp(startAlpha, finalAlpha, currentTime / duration);
+            blackSquareImage.color = new Color(c.r, c.g, c.b, a);
+            yield return null;
+        }
+
+        onFinished?.Invoke();
+        yield break;
+    }
 }

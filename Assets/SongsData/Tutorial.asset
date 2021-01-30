@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bpm: 130
   beats_per_loop: 8
+  presong_clip: tutorial_start
   song_clip: tutorial
   loop: 1
   keynotes: []

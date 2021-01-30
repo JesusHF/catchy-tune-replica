@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(FadeBlackSquare(2f, 0f, StartTutorial));
+        StartCoroutine(FadeBlackSquare(2f, 0f, () => {
+            AudioManager.instance.PlaySongWithCallback(songs[0].presong_clip, StartTutorial); 
+        }));
     }
 
     public void CreateKeynote()
@@ -75,7 +77,9 @@ public class GameManager : MonoBehaviour
     private void TransitionToGame()
     {
         Conductor.instance.StopSong();
-        StartCoroutine(FadeBlackSquare(3f, 0f, StartGame));
+        StartCoroutine(FadeBlackSquare(3f, 0f, ()=> { 
+            AudioManager.instance.PlaySongWithCallback(songs[1].presong_clip, StartGame);
+        }));
     }
     
     private void StartGame()

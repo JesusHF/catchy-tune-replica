@@ -45,6 +45,11 @@ public class AudioManager : MonoBehaviour
         songAudioSource.Play();
     }
 
+    public void PlaySongWithCallback(string name, Action callback = null)
+    {
+        StartCoroutine(StartSongWithCallback(name, callback));
+    }
+
     public void PlaySfx(string name)
     {
         var sfx = Array.Find(sfxSounds, sound => sound.name == name);
@@ -78,5 +83,18 @@ public class AudioManager : MonoBehaviour
         songAudioSource.Stop();
         songAudioSource.volume = 1f;
         yield break;
+    }
+
+    private IEnumerator StartSongWithCallback(string name, Action callback)
+    {
+        var music = Array.Find(songs, song => song.name == name);
+        Assert.IsNotNull(music, "Song '" + name + "' not found");
+
+        songAudioSource.clip = music.clip;
+        songAudioSource.loop = false;
+        songAudioSource.Play();
+
+        yield return new WaitForSeconds(music.clip.length);
+        callback?.Invoke();
     }
 }

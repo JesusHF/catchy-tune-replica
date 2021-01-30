@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(FadeBlackSquare(2f, 0f, () => {
+            tutorialManager.ShowUI();
             AudioManager.instance.PlaySongWithCallback(songs[0].presong_clip, StartTutorial); 
         }));
     }

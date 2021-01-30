@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using TMPro;
-using System;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -8,6 +7,8 @@ public class TutorialManager : MonoBehaviour
     private TextMeshProUGUI moreTimesText;
     [SerializeField]
     private TextMeshProUGUI numberText;
+    [SerializeField]
+    private TextMeshProUGUI pressEscapeText;
     [SerializeField]
     private int nextBeatToSpawnItem = 11;
     private int itemsLeft;
@@ -48,6 +49,11 @@ public class TutorialManager : MonoBehaviour
                 return;
             default:
                 break;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            tutorialState = TutorialStates.End;
+            EndTutorial();
         }
     }
 
@@ -101,10 +107,11 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private void ShowUI(bool show = true)
+    public void ShowUI(bool show = true)
     {
         moreTimesText.gameObject.SetActive(show);
         numberText.gameObject.SetActive(show);
+        pressEscapeText.gameObject.SetActive(show);
     }
 
 }

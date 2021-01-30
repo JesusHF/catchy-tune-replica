@@ -66,7 +66,7 @@ public class KeynoteHolder : MonoBehaviour
             float msTime = note.beat * Conductor.instance.secPerBeat * 1000f;
             int instrument = note.instrument;
 
-            if (instrument == 1)
+            if (instrument == 1 || instrument == 2)
             {
                 keynotesToSpawn.Enqueue(msTime);
             }

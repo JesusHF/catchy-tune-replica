@@ -1684,6 +1684,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: songs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: songs.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 06b468b9e59d4f84d907df0c8a535512, type: 3}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: songs.Array.data[1].name
+      value: song1_start
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: songs.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e655beeca6a7d4342893f18400050eb2, type: 3}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: songs.Array.data[2].name
+      value: song1
+      objectReference: {fileID: 0}
     - target: {fileID: 1446914669895302953, guid: 004fb058e567e3f4b8b92841b8f64930,
         type: 3}
       propertyPath: m_RootOrder

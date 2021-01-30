@@ -12,8 +12,9 @@ public class PlayerStates
 
 public class PlayerController : MonoBehaviour
 {
+    const float durationInBeats = 1f;
     [SerializeField]
-    private float durationInBeats = 1f;
+    private KeyCode actionKey = KeyCode.Space;
     private Animator animator;
 
     private bool isGrabbing;
@@ -35,7 +36,7 @@ public class PlayerController : MonoBehaviour
     {
         if (lockInput <= 0f)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(actionKey))
             {
                 isGrabbing = true;
             }

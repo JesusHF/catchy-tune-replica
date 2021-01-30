@@ -57,7 +57,7 @@ public class TutorialManager : MonoBehaviour
         if (currentBeat >= nextBeatToSpawnItem)
         {
             nextBeatToSpawnItem += 8;
-            GameManager.instance.CreateKeynote();
+            GameManager.instance.CreateKeynoteNow();
         }
     }
 

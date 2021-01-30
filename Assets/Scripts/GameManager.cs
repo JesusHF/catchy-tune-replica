@@ -21,13 +21,13 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public static event Action OnKeynotePressedSuccessfully;
-    public static event Action OnKeynoteNotPressed;
     public FruitSpawner fruitSpawner;
     public KeynoteHolder keynoteHolder;
     public TutorialManager tutorialManager;
     public Image blackSquareImage;
     public SongData[] songs;
+    public static event Action OnKeynotePressedSuccessfully;
+    public static event Action OnKeynoteNotPressed;
 
     void Start()
     {
@@ -36,13 +36,13 @@ public class GameManager : MonoBehaviour
         }));
     }
 
-    public void CreateKeynote()
+    public void CreateKeynoteNow()
     {
         float currentBeat = Conductor.instance.songPositionInBeats;
         StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1));
         StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 2));
         StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 3));
-        keynoteHolder.CreateKeynote(Conductor.instance.songPosition + (4 * Conductor.instance.secPerBeat));
+        keynoteHolder.QueueNoteInBeat(4f);
         fruitSpawner.SpawnOrange();
     }
 
@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
 
     public void EndTutorial()
     {
+        tutorialManager.enabled = false;
         AudioManager.instance.FadeCurrentSong(3f);
         StartCoroutine(FadeBlackSquare(3f, 1f, TransitionToGame));
     }
@@ -85,6 +86,7 @@ public class GameManager : MonoBehaviour
     private void StartGame()
     {
         Conductor.instance.StartSong(songs[1]);
+        keynoteHolder.PreprocessSongNotes(songs[1].keynotes);
     }
 
 

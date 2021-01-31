@@ -46,19 +46,19 @@ public class GameManager : MonoBehaviour
 
     public void CreateKeynoteNow(Instrument instrument = Instrument.orangeR)
     {
+        float currentBeat = Conductor.instance.songPositionInBeats;
         if (instrument == Instrument.orangeL || instrument == Instrument.orangeR)
         {
-            float currentBeat = Conductor.instance.songPositionInBeats;
             StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1));
             StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 2));
             StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 3));
             keynoteHolder.QueueNoteInBeat(4f, instrument);
-            fruitSpawner.SpawnOrange(); // todo: implement spawn in sides
         }
         else
         {
             // todo: implement next intrument
         }
+        fruitSpawner.SpawnFruit(instrument);
     }
 
     public bool CheckCurrentBeatHasAnyNoteInSide(StairsSide side)

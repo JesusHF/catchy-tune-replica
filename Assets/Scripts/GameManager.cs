@@ -37,25 +37,33 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(FadeBlackSquare(2f, 0f, () => {
+        StartCoroutine(FadeBlackSquare(2f, 0f, () =>
+        {
             tutorialManager.ShowUI();
-            AudioManager.instance.PlaySongWithCallback(songs[0].presong_clip, StartTutorial); 
+            AudioManager.instance.PlaySongWithCallback(songs[0].presong_clip, StartTutorial);
         }));
     }
 
-    public void CreateKeynoteNow()
+    public void CreateKeynoteNow(Instrument instrument = Instrument.orangeR)
     {
-        float currentBeat = Conductor.instance.songPositionInBeats;
-        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1));
-        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 2));
-        StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 3));
-        keynoteHolder.QueueNoteInBeat(4f);
-        fruitSpawner.SpawnOrange();
+        if (instrument == Instrument.orangeL || instrument == Instrument.orangeR)
+        {
+            float currentBeat = Conductor.instance.songPositionInBeats;
+            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1));
+            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 2));
+            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 3));
+            keynoteHolder.QueueNoteInBeat(4f, instrument);
+            fruitSpawner.SpawnOrange(); // todo: implement spawn in sides
+        }
+        else
+        {
+            // todo: implement next intrument
+        }
     }
 
-    public bool CheckCurrentBeatHasAnyNote()
+    public bool CheckCurrentBeatHasAnyNoteInSide(StairsSide side)
     {
-        if (keynoteHolder.CheckCurrentBeatHasAnyNote())
+        if (keynoteHolder.CheckCurrentBeatHasAnyNoteInSide(side))
         {
             OnKeynotePressedSuccessfully?.Invoke();
             return true;
@@ -63,11 +71,10 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public void NotifyNotePassed(Instrument instrument = Instrument.orangeR)
+    public void NotifyNotePassedInSide(StairsSide side)
     {
-        StairsSide side = GetSideOfInstrument(instrument);
         OnKeynoteNotPressed?.Invoke(side);
-        // track fails
+        // todo: track fails for score
     }
 
     private void StartTutorial()
@@ -86,11 +93,12 @@ public class GameManager : MonoBehaviour
     private void TransitionToGame()
     {
         Conductor.instance.StopSong();
-        StartCoroutine(FadeBlackSquare(3f, 0f, ()=> { 
+        StartCoroutine(FadeBlackSquare(3f, 0f, () =>
+        {
             AudioManager.instance.PlaySongWithCallback(songs[1].presong_clip, StartGame);
         }));
     }
-    
+
     private void StartGame()
     {
         Conductor.instance.StartSong(songs[1]);
@@ -123,17 +131,5 @@ public class GameManager : MonoBehaviour
 
         onFinished?.Invoke();
         yield break;
-    }
-
-    private StairsSide GetSideOfInstrument(Instrument instrument)
-    {
-        if (instrument == Instrument.orangeL || instrument == Instrument.pineAppleL)
-        {
-            return StairsSide.Left;
-        }
-        else
-        {
-            return StairsSide.Right;
-        }
     }
 }

@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class KeynoteHolder : MonoBehaviour
 {
     [SerializeField, Range(100f, 300f)]
     private float threshold = 200f;
-    private Queue<float> keynoteTimes = new Queue<float>();
-    private Queue<float> keynotesToSpawn = new Queue<float>();
+    private Queue<Keynote> keynoteTimes = new Queue<Keynote>();
+    private Queue<Keynote> keynotesToSpawn = new Queue<Keynote>();
 
     private void Update()
     {
@@ -15,21 +14,21 @@ public class KeynoteHolder : MonoBehaviour
         CheckPassedNotes();
     }
 
-    public void QueueNoteInBeat(float beatsFromNow)
+    public void QueueNoteInBeat(float beatsFromNow, Instrument instrument)
     {
-        float time = Conductor.instance.songPosition + (beatsFromNow * Conductor.instance.secPerBeat);
-        time *= 1000f;
-        keynoteTimes.Enqueue(time);
+        float beat = Conductor.instance.songPositionInBeats + beatsFromNow;
+        keynoteTimes.Enqueue(new Keynote(beat, instrument));
     }
 
     private void CheckNotesToSpawn()
     {
         if (keynotesToSpawn.Count > 0)
         {
-            if (Conductor.instance.songPositionMs >= keynotesToSpawn.Peek())
+            float nextKeynoteMS = keynotesToSpawn.Peek().beat * Conductor.instance.secPerBeat * 1000f;
+            if (Conductor.instance.songPositionMs >= nextKeynoteMS)
             {
-                keynotesToSpawn.Dequeue();
-                GameManager.instance.CreateKeynoteNow();
+                Keynote note = keynotesToSpawn.Dequeue();
+                GameManager.instance.CreateKeynoteNow(note.instrument);
             }
         }
     }
@@ -38,19 +37,22 @@ public class KeynoteHolder : MonoBehaviour
     {
         if (keynoteTimes.Count > 0)
         {
-            if (Conductor.instance.songPositionMs > (keynoteTimes.Peek() + (threshold/2)))
+            float nextKeynoteMS = keynoteTimes.Peek().beat * Conductor.instance.secPerBeat * 1000f;
+            if (Conductor.instance.songPositionMs > (nextKeynoteMS + (threshold / 2)))
             {
-                keynoteTimes.Dequeue();
-                GameManager.instance.NotifyNotePassed();
+                Keynote note = keynoteTimes.Dequeue();
+                GameManager.instance.NotifyNotePassedInSide(GetSide(note.instrument));
             }
         }
     }
 
-    public bool CheckCurrentBeatHasAnyNote()
+    public bool CheckCurrentBeatHasAnyNoteInSide(StairsSide side)
     {
         if (keynoteTimes.Count > 0)
         {
-            if (Mathf.Abs(Conductor.instance.songPositionMs - keynoteTimes.Peek()) < threshold)
+            float nextKeynoteMS = keynoteTimes.Peek().beat * Conductor.instance.secPerBeat * 1000f;
+            if (GetSide(keynoteTimes.Peek().instrument) == side &&
+                Mathf.Abs(Conductor.instance.songPositionMs - nextKeynoteMS) < threshold)
             {
                 keynoteTimes.Dequeue();
                 return true;
@@ -61,16 +63,21 @@ public class KeynoteHolder : MonoBehaviour
 
     public void PreprocessSongNotes(Keynote[] notes)
     {
-        foreach (var note in notes)
+        foreach (Keynote note in notes)
         {
-            float msTime = note.beat * Conductor.instance.secPerBeat * 1000f;
-            int instrument = note.instrument;
-
-            if (instrument == 1 || instrument == 2)
-            {
-                keynotesToSpawn.Enqueue(msTime);
-            }
+            keynotesToSpawn.Enqueue(note);
         }
     }
 
+    private StairsSide GetSide(Instrument instrument)
+    {
+        if (instrument == Instrument.orangeL || instrument == Instrument.pineAppleL)
+        {
+            return StairsSide.Left;
+        }
+        else
+        {
+            return StairsSide.Right;
+        }
+    }
 }

@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrabbing)
         {
-            if (GameManager.instance.CheckCurrentBeatHasAnyNote())
+            if (GameManager.instance.CheckCurrentBeatHasAnyNoteInSide(playerSide))
             {
                 ChangeAnimationState(PlayerStates.Grab);
                 AudioManager.instance.PlaySfx("grab_success");

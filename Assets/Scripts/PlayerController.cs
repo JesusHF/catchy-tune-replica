@@ -9,17 +9,18 @@ public class PlayerStates
     public const string GrabPassed = "player_grab_passed";
 }
 
-
 public class PlayerController : MonoBehaviour
 {
-    const float durationInBeats = 1f;
     [SerializeField]
     private KeyCode actionKey = KeyCode.Space;
+    [SerializeField]
+    private StairsSide playerSide;
     private Animator animator;
 
     private bool isGrabbing;
     private string currentState;
     private float lockInput;
+    const float durationInBeats = 1f;
 
     void Start()
     {
@@ -104,11 +105,14 @@ public class PlayerController : MonoBehaviour
         ChangeAnimationState(PlayerStates.Loop, 0f);
     }
 
-    void SetGrabPassedAnimation()
+    void SetGrabPassedAnimation(StairsSide side)
     {
-        ChangeAnimationState(PlayerStates.GrabPassed);
-        lockInput = 0.5f;
-        AudioManager.instance.PlaySfx("grab_passed");
-        ScheduleLoopAnimation();
+        if (side == playerSide)
+        {
+            ChangeAnimationState(PlayerStates.GrabPassed);
+            lockInput = 0.5f;
+            AudioManager.instance.PlaySfx("grab_passed");
+            ScheduleLoopAnimation();
+        }
     }
 }

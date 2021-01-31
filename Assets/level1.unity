@@ -1678,6 +1678,16 @@ PrefabInstance:
       propertyPath: actionKey
       value: 104
       objectReference: {fileID: 0}
+    - target: {fileID: 5972900341163523538, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
+        type: 3}
+      propertyPath: playerSide
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972900341163523538, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
+        type: 3}
+      propertyPath: playerNumber
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5972900341163523543, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
         type: 3}
       propertyPath: m_RootOrder

@@ -3,6 +3,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum StairsSide
+{
+    Left,
+    Right
+}
+
 public class GameManager : MonoBehaviour
 {
     #region Singleton
@@ -27,7 +33,7 @@ public class GameManager : MonoBehaviour
     public Image blackSquareImage;
     public SongData[] songs;
     public static event Action OnKeynotePressedSuccessfully;
-    public static event Action OnKeynoteNotPressed;
+    public static event Action<StairsSide> OnKeynoteNotPressed;
 
     void Start()
     {
@@ -57,9 +63,10 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public void NotifyNotePassed()
+    public void NotifyNotePassed(Instrument instrument = Instrument.orangeR)
     {
-        OnKeynoteNotPressed?.Invoke();
+        StairsSide side = GetSideOfInstrument(instrument);
+        OnKeynoteNotPressed?.Invoke(side);
         // track fails
     }
 
@@ -116,5 +123,17 @@ public class GameManager : MonoBehaviour
 
         onFinished?.Invoke();
         yield break;
+    }
+
+    private StairsSide GetSideOfInstrument(Instrument instrument)
+    {
+        if (instrument == Instrument.orangeL || instrument == Instrument.pineAppleL)
+        {
+            return StairsSide.Left;
+        }
+        else
+        {
+            return StairsSide.Right;
+        }
     }
 }

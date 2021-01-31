@@ -1,10 +1,23 @@
 ﻿using UnityEngine;
 
+public enum Instrument
+{
+    orangeL,
+    orangeR,
+    pineAppleL,
+    pineAppleR
+}
+
 [System.Serializable]
 public struct Keynote
 {
-    public int instrument;
     public float beat;
+    public Instrument instrument;
+    public Keynote(float beat, Instrument instrument)
+    {
+        this.beat = beat;
+        this.instrument = instrument;
+    }
 }
 
 [CreateAssetMenu(fileName = "New Song Data", menuName = "Songs/Song Data")]

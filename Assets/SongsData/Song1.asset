@@ -18,21 +18,21 @@ MonoBehaviour:
   song_clip: song1
   loop: 0
   keynotes:
-  - instrument: 1
-    beat: 3
-  - instrument: 2
-    beat: 11
-  - instrument: 1
-    beat: 19
-  - instrument: 2
-    beat: 27
-  - instrument: 1
-    beat: 35
-  - instrument: 2
-    beat: 39
-  - instrument: 1
-    beat: 43
-  - instrument: 2
-    beat: 43
-  - instrument: 3
-    beat: 47
+  - beat: 3
+    instrument: 0
+  - beat: 11
+    instrument: 1
+  - beat: 19
+    instrument: 0
+  - beat: 27
+    instrument: 1
+  - beat: 35
+    instrument: 0
+  - beat: 39
+    instrument: 1
+  - beat: 43
+    instrument: 0
+  - beat: 43
+    instrument: 1
+  - beat: 47
+    instrument: 2

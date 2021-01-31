@@ -18,7 +18,8 @@ public class TutorialManager : MonoBehaviour
     private enum TutorialStates
     {
         None,
-        SpawnLoop,
+        SpawnLoopRight,
+        SpawnLoopLeft,
         End
     }
 
@@ -41,8 +42,11 @@ public class TutorialManager : MonoBehaviour
         {
             case TutorialStates.None:
                 break;
-            case TutorialStates.SpawnLoop:
-                SpawnOrangeLoop();
+            case TutorialStates.SpawnLoopRight:
+                SpawnInstrumentLoop(Instrument.orangeR);
+                break;
+            case TutorialStates.SpawnLoopLeft:
+                SpawnInstrumentLoop(Instrument.orangeL);
                 break;
             case TutorialStates.End:
                 // component should be disabled
@@ -57,13 +61,13 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private void SpawnOrangeLoop()
+    private void SpawnInstrumentLoop(Instrument instrument)
     {
         float currentBeat = Conductor.instance.songPositionInBeats;
         if (currentBeat >= nextBeatToSpawnItem)
         {
             nextBeatToSpawnItem += 8;
-            GameManager.instance.CreateKeynoteNow();
+            GameManager.instance.CreateKeynoteNow(instrument);
         }
     }
 
@@ -72,9 +76,15 @@ public class TutorialManager : MonoBehaviour
         tutorialState++;
         switch (tutorialState)
         {
-            case TutorialStates.SpawnLoop:
+            case TutorialStates.SpawnLoopRight:
                 itemsLeft = 3;
                 numberText.text = itemsLeft.ToString();
+                moreTimesText.text = "More times!";
+                break;
+            case TutorialStates.SpawnLoopLeft:
+                itemsLeft = 3;
+                numberText.text = itemsLeft.ToString();
+                moreTimesText.text = "More times!";
                 break;
             case TutorialStates.End:
                 EndTutorial();
@@ -102,7 +112,7 @@ public class TutorialManager : MonoBehaviour
             numberText.text = itemsLeft.ToString();
             if (itemsLeft == 1)
             {
-                moreTimesText.text = moreTimesText.text.Replace("times!", "time!");
+                moreTimesText.text = "More time!";
             }
         }
     }

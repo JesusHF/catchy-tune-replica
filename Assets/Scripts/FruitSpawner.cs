@@ -73,21 +73,24 @@ public class FruitSpawner : MonoBehaviour
         containerRight.transform.parent = this.gameObject.transform;
         InitFruitBasket();
 
-        GameManager.OnKeynotePressedSuccessfully += StopOrangeAnimation;
+        GameManager.OnKeynotePressedSuccessfully += StopFruitHitAnimations;
     }
 
     private void InitFruitBasket()
     {
-        GameObject orangeLObject = Instantiate(orangePrefab, containerLeft.transform);
-        GameObject orangeRObject = Instantiate(orangePrefab, containerRight.transform);
-        orangeLObject.name = "OrangeLeft";
-        orangeRObject.name = "OrangeRight";
-        orangeLObject.SetActive(false);
-        orangeRObject.SetActive(false);
-        Fruit orangeL = new Fruit(orangeLObject, Instrument.orangeL, 0f, 0f, false);
-        Fruit orangeR = new Fruit(orangeRObject, Instrument.orangeR, 0f, 0f, false);
-        fruitBasket.Add(orangeL);
-        fruitBasket.Add(orangeR);
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject orangeLObject = Instantiate(orangePrefab, containerLeft.transform);
+            GameObject orangeRObject = Instantiate(orangePrefab, containerRight.transform);
+            orangeLObject.name = "OrangeLeft";
+            orangeRObject.name = "OrangeRight";
+            orangeLObject.SetActive(false);
+            orangeRObject.SetActive(false);
+            Fruit orangeL = new Fruit(orangeLObject, Instrument.orangeL, 0f, 0f, false);
+            Fruit orangeR = new Fruit(orangeRObject, Instrument.orangeR, 0f, 0f, false);
+            fruitBasket.Add(orangeL);
+            fruitBasket.Add(orangeR);
+        }
     }
 
     public void SpawnFruit(Instrument instrument)
@@ -139,13 +142,13 @@ public class FruitSpawner : MonoBehaviour
         fruit.Release();
     }
 
-    void StopOrangeAnimation()
+    void StopFruitHitAnimations()
     {
         if (fruitBasket.Count > 0)
         {
             foreach (var fruit in fruitBasket)
             {
-                if (fruit.fruitObject.activeInHierarchy && fruit.lifeSpawn <= 0.5f)
+                if (fruit.fruitObject.activeInHierarchy && fruit.lifeSpawn <= 0.25f)
                 {
                     fruit.Release();
                     break;
@@ -159,7 +162,7 @@ public class FruitSpawner : MonoBehaviour
     {
         for (int i = 0; i < fruitBasket.Count; i++)
         {
-            if (fruitBasket[i].type == fruitType)
+            if (fruitBasket[i].lifeSpawn == 0f && fruitBasket[i].type == fruitType)
             {
                 return i;
             }

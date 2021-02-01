@@ -14,7 +14,6 @@ public class TutorialManager : MonoBehaviour
     private int itemsLeft;
     private TutorialStates tutorialState;
 
-    // tutorial states
     private enum TutorialStates
     {
         None,
@@ -38,10 +37,21 @@ public class TutorialManager : MonoBehaviour
 
     void Update()
     {
+        if (tutorialState != TutorialStates.None)
+        {
+            UpdateTutorial();
+        }
+    }
+
+    void UpdateTutorial()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            tutorialState = TutorialStates.End;
+            EndTutorial();
+        }
         switch (tutorialState)
         {
-            case TutorialStates.None:
-                break;
             case TutorialStates.SpawnLoopRight:
                 SpawnInstrumentLoop(Instrument.orangeR);
                 break;
@@ -53,11 +63,6 @@ public class TutorialManager : MonoBehaviour
                 return;
             default:
                 break;
-        }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            tutorialState = TutorialStates.End;
-            EndTutorial();
         }
     }
 

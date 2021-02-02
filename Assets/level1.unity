@@ -749,7 +749,7 @@ MonoBehaviour:
   moreTimesText: {fileID: 1755269777}
   numberText: {fileID: 1009885551}
   pressEscapeText: {fileID: 1874637334}
-  nextBeatToSpawnItem: 11
+  nextBeatToSpawnItem: 12
 --- !u!114 &1537707944
 MonoBehaviour:
   m_ObjectHideFlags: 0

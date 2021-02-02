@@ -38,7 +38,7 @@ public class Conductor : MonoBehaviour
         paused = false;
         songBpm = songData.bpm;
         secPerBeat = 60f / songBpm;
-        dspSongTime = (float)AudioSettings.dspTime;
+        dspSongTime = (float)AudioSettings.dspTime - secPerBeat;
         beatsPerLoop = songData.beats_per_loop;
 
         AudioManager.instance.PlaySong(songData.song_clip, songData.loop);

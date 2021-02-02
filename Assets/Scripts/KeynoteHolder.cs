@@ -110,7 +110,7 @@ public class KeynoteHolder : MonoBehaviour
         keynoteTimes.Enqueue(new Keynote(beat, instrument));
     }
 
-    public bool CheckCurrentBeatHasAnyNoteInSide(StairsSide side)
+    public FruitType CheckCurrentBeatHasAnyFruitInSide(StairsSide side)
     {
         if (keynoteTimes.Count > 0)
         {
@@ -118,11 +118,13 @@ public class KeynoteHolder : MonoBehaviour
             if (GetSide(keynoteTimes.Peek().instrument) == side &&
                 Mathf.Abs(Conductor.instance.songPositionMs - nextKeynoteMS) < threshold)
             {
-                keynoteTimes.Dequeue();
-                return true;
+                Instrument note = keynoteTimes.Dequeue().instrument;
+                FruitType type = note == Instrument.orangeL || note == Instrument.orangeR ?
+                    FruitType.Orange : FruitType.PineApple;
+                return type;
             }
         }
-        return false;
+        return FruitType.None;
     }
 
     public void PreprocessSongNotes(Keynote[] notes)

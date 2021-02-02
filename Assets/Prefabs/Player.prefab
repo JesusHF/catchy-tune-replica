@@ -199,6 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82d44135cee7ed543b11442f454def0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionKey: 32
+  playerSide: 0
 --- !u!1 &5972900341281192088
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,7 +212,7 @@ GameObject:
   - component: {fileID: 5972900341281192089}
   - component: {fileID: 5972900341281192070}
   m_Layer: 0
-  m_Name: orange
+  m_Name: Fruit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

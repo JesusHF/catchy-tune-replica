@@ -4,7 +4,8 @@ public class PlayerStates
 {
     // animation states
     public const string Loop = "loop";
-    public const string Grab = "player_grab";
+    public const string GrabOrange = "player_grab_orange";
+    public const string GrabPineapple = "player_grab_pineapple";
     public const string GrabFail = "player_grab_fail";
     public const string GrabPassed = "player_grab_passed";
 }
@@ -52,10 +53,12 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrabbing)
         {
-            if (GameManager.instance.CheckCurrentBeatHasAnyNoteInSide(playerSide))
+            FruitType fruit = GameManager.instance.CheckCurrentBeatHasAnyNoteInSide(playerSide);
+            if (fruit != FruitType.None)
             {
-                // todo check for pineapple
-                ChangeAnimationState(PlayerStates.Grab);
+                string animation = fruit == FruitType.Orange ?
+                    PlayerStates.GrabOrange : PlayerStates.GrabPineapple;
+                ChangeAnimationState(animation);
                 AudioManager.instance.PlaySfx("grab_success");
             }
             else

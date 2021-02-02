@@ -9,6 +9,14 @@ public enum StairsSide
     Right
 }
 
+public enum FruitType
+{
+    None,
+    Orange,
+    PineApple
+}
+
+
 public class GameManager : MonoBehaviour
 {
     #region Singleton
@@ -89,14 +97,14 @@ public class GameManager : MonoBehaviour
         fruitSpawner.SpawnFruit(instrument2);
     }
 
-    public bool CheckCurrentBeatHasAnyNoteInSide(StairsSide side)
+    public FruitType CheckCurrentBeatHasAnyNoteInSide(StairsSide side)
     {
-        if (keynoteHolder.CheckCurrentBeatHasAnyNoteInSide(side))
+        FruitType fruit = keynoteHolder.CheckCurrentBeatHasAnyFruitInSide(side);
+        if (fruit != FruitType.None)
         {
             OnKeynotePressedSuccessfully?.Invoke();
-            return true;
         }
-        return false;
+        return fruit;
     }
 
     public void NotifyNotePassedInSide(StairsSide side)

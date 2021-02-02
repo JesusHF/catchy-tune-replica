@@ -56,7 +56,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // todo: implement next intrument
+            // todo: change provisional bounce sfx
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 1, "bounce", 1f);
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 3, "bounce", 1f);
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 5, "bounce", 1f);
+            keynoteHolder.QueueNoteInBeat(7f, instrument);
         }
         fruitSpawner.SpawnFruit(instrument);
     }
@@ -74,7 +78,12 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // todo: implement next intrument
+            // todo: change provisional bounce sfx
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 1, "bounce", 1.3f);
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 3, "bounce", 1.3f);
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 5, "bounce", 1.3f);
+            keynoteHolder.QueueNoteInBeat(7f, instrument1);
+            keynoteHolder.QueueNoteInBeat(7f, instrument2);
         }
         fruitSpawner.SpawnFruit(instrument1);
         fruitSpawner.SpawnFruit(instrument2);

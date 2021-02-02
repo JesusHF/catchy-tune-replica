@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
         {
             if (GameManager.instance.CheckCurrentBeatHasAnyNoteInSide(playerSide))
             {
+                // todo check for pineapple
                 ChangeAnimationState(PlayerStates.Grab);
                 AudioManager.instance.PlaySfx("grab_success");
             }

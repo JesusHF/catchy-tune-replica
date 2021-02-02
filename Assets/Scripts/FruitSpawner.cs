@@ -5,6 +5,10 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Fruit
 {
+    public const string ORANGE_LOOP = "orange_spawn";
+    public const string ORANGE_HIT = "orange_hit";
+    public const string PINEAPPLE_LOOP = "pineapple_spawn";
+    public const string PINEAPPLE_HIT = "pineapple_hit";
     public GameObject fruitObject;
     public Animator animator;
     public Instrument type;
@@ -34,14 +38,22 @@ public class Fruit
     internal void Update()
     {
         float analogPosition = Conductor.instance.loopPositionInAnalog - animationOffset;
-        analogPosition *= 2;
+        if (type == Instrument.orangeL || type == Instrument.orangeR)
+        {
+            analogPosition *= (8f / 4f);
+        }
+        else
+        {
+            analogPosition *= (8f / 7f);
+        }
         int loopHash = animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
         animator.Play(loopHash, -1, analogPosition);
         lifeSpawn -= Time.deltaTime;
     }
 
-    internal void PlayLastAnimation(string animationName)
+    internal void PlayLastAnimation()
     {
+        string animationName = GetLastAnimationName();
         isSynced = false;
         animator.Play(animationName);
         animator.speed = 2f;
@@ -53,6 +65,18 @@ public class Fruit
         isSynced = false;
         lifeSpawn = 0f;
         animationOffset = 0f;
+    }
+
+    private string GetLastAnimationName()
+    {
+        if (type == Instrument.orangeL || type == Instrument.orangeR)
+        {
+            return ORANGE_HIT;
+        }
+        else
+        {
+            return PINEAPPLE_HIT;
+        }
     }
 }
 
@@ -91,6 +115,19 @@ public class FruitSpawner : MonoBehaviour
             fruitBasket.Add(orangeL);
             fruitBasket.Add(orangeR);
         }
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject pineappleLObject = Instantiate(fruitPrefab, containerLeft.transform);
+            GameObject pineappleRObject = Instantiate(fruitPrefab, containerRight.transform);
+            pineappleLObject.name = "PineAppleLeft";
+            pineappleRObject.name = "PineAppleRight";
+            pineappleLObject.SetActive(false);
+            pineappleRObject.SetActive(false);
+            Fruit pineappleL = new Fruit(pineappleLObject, Instrument.pineAppleL, 0f, 0f, false);
+            Fruit pineappleR = new Fruit(pineappleRObject, Instrument.pineAppleR, 0f, 0f, false);
+            fruitBasket.Add(pineappleL);
+            fruitBasket.Add(pineappleR);
+        }
     }
 
     public void SpawnFruit(Instrument instrument)
@@ -103,7 +140,12 @@ public class FruitSpawner : MonoBehaviour
             case Instrument.orangeR:
                 SpawnOrange(StairsSide.Right);
                 break;
-            // todo: implement pineapple
+            case Instrument.pineAppleL:
+                SpawnPineapple(StairsSide.Left);
+                break;
+            case Instrument.pineAppleR:
+                SpawnPineapple(StairsSide.Right);
+                break;
             default:
                 break;
         }
@@ -114,7 +156,15 @@ public class FruitSpawner : MonoBehaviour
         Instrument fruitType = side == StairsSide.Left ? Instrument.orangeL : Instrument.orangeR;
         int orangeIndex = GetFruitFromPool(fruitType);
         float orangelifeSpawn = 4 * Conductor.instance.secPerBeat;
-        fruitBasket[orangeIndex].PlaySyncedAnimation("orange_spawn", orangelifeSpawn);
+        fruitBasket[orangeIndex].PlaySyncedAnimation(Fruit.ORANGE_LOOP, orangelifeSpawn);
+    }
+
+    public void SpawnPineapple(StairsSide side)
+    {
+        Instrument fruitType = side == StairsSide.Left ? Instrument.pineAppleL : Instrument.pineAppleR;
+        int pineIndex = GetFruitFromPool(fruitType);
+        float pinelifeSpawn = 7 * Conductor.instance.secPerBeat;
+        fruitBasket[pineIndex].PlaySyncedAnimation(Fruit.PINEAPPLE_LOOP, pinelifeSpawn);
     }
 
     void Update()
@@ -129,7 +179,7 @@ public class FruitSpawner : MonoBehaviour
                 }
                 else if (fruit.isSynced)
                 {
-                    fruit.PlayLastAnimation("orange_hit");
+                    fruit.PlayLastAnimation();
                     StartCoroutine(StartReleaseCountDown(fruit, 0.7f));
                 }
             }

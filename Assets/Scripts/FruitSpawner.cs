@@ -58,7 +58,7 @@ public class Fruit
 
 public class FruitSpawner : MonoBehaviour
 {
-    public GameObject orangePrefab;
+    public GameObject fruitPrefab;
 
     private GameObject containerLeft;
     private GameObject containerRight;
@@ -80,8 +80,8 @@ public class FruitSpawner : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            GameObject orangeLObject = Instantiate(orangePrefab, containerLeft.transform);
-            GameObject orangeRObject = Instantiate(orangePrefab, containerRight.transform);
+            GameObject orangeLObject = Instantiate(fruitPrefab, containerLeft.transform);
+            GameObject orangeRObject = Instantiate(fruitPrefab, containerRight.transform);
             orangeLObject.name = "OrangeLeft";
             orangeRObject.name = "OrangeRight";
             orangeLObject.SetActive(false);

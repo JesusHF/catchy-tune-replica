@@ -49,9 +49,9 @@ public class GameManager : MonoBehaviour
         float currentBeat = Mathf.Floor(Conductor.instance.songPositionInBeats);
         if (instrument == Instrument.orangeL || instrument == Instrument.orangeR)
         {
-            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1, 1f));
-            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 2, 1f));
-            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 3, 1f));
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 1, "bounce", 1f);
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 2, "bounce", 1f);
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 3, "bounce", 1f);
             keynoteHolder.QueueNoteInBeat(4f, instrument);
         }
         else
@@ -66,9 +66,9 @@ public class GameManager : MonoBehaviour
         float currentBeat = Mathf.Floor(Conductor.instance.songPositionInBeats);
         if (instrument1 == Instrument.orangeL || instrument1 == Instrument.orangeR)
         {
-            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1, 1.3f));
-            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 2, 1.3f));
-            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 3, 1.3f));
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 1, "bounce", 1.3f);
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 2, "bounce", 1.3f);
+            keynoteHolder.ScheduleSoundEffect(currentBeat + 3, "bounce", 1.3f);
             keynoteHolder.QueueNoteInBeat(4f, instrument1);
             keynoteHolder.QueueNoteInBeat(4f, instrument2);
         }
@@ -122,16 +122,6 @@ public class GameManager : MonoBehaviour
     {
         Conductor.instance.StartSong(songs[1]);
         keynoteHolder.PreprocessSongNotes(songs[1].keynotes);
-    }
-
-
-    private IEnumerator ScheduleSoundEffect(string sfxName, float beat, float volume)
-    {
-        while (Conductor.instance.songPositionInBeats < beat + 0.1f)
-        {
-            yield return null;
-        }
-        AudioManager.instance.PlaySfx(sfxName, volume);
     }
 
     private IEnumerator FadeBlackSquare(float duration, float finalAlpha = 0f, Action onFinished = null)

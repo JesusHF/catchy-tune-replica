@@ -1,23 +1,32 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public struct QueuedSfx
+{
+    public float beat;
+    public string clipName;
+    public float volume;
+    public QueuedSfx(float beat, string clipName, float volume)
+    {
+        this.beat = beat;
+        this.clipName = clipName;
+        this.volume = volume;
+    }
+}
+
 public class KeynoteHolder : MonoBehaviour
 {
     [SerializeField, Range(100f, 300f)]
     private float threshold = 200f;
     private Queue<Keynote> keynoteTimes = new Queue<Keynote>();
     private Queue<Keynote> keynotesToSpawn = new Queue<Keynote>();
+    private Queue<QueuedSfx> sfxToPlay = new Queue<QueuedSfx>();
 
     private void Update()
     {
         CheckNotesToSpawn();
         CheckPassedNotes();
-    }
-
-    public void QueueNoteInBeat(float beatsFromNow, Instrument instrument)
-    {
-        float beat = Mathf.Floor(Conductor.instance.songPositionInBeats) + beatsFromNow;
-        keynoteTimes.Enqueue(new Keynote(beat, instrument));
+        CheckToPlaySoundEffects();
     }
 
     private void CheckNotesToSpawn()
@@ -54,6 +63,53 @@ public class KeynoteHolder : MonoBehaviour
         }
     }
 
+    private void CheckToPlaySoundEffects()
+    {
+        if (sfxToPlay.Count > 0)
+        {
+            float nextBounceBeat = sfxToPlay.Peek().beat;
+            if (Conductor.instance.songPositionInBeats >= nextBounceBeat)
+            {
+                QueuedSfx bounce = sfxToPlay.Dequeue();
+                if (sfxToPlay.Count > 0 && sfxToPlay.Peek().beat == bounce.beat)
+                {
+                    QueuedSfx nextBounce = sfxToPlay.Dequeue();
+                    if (nextBounce.clipName == bounce.clipName)
+                    {
+                        AudioManager.instance.PlaySfx(bounce.clipName, bounce.volume * 1.3f);
+                    }
+                    else
+                    {
+                        AudioManager.instance.PlaySfx(bounce.clipName, bounce.volume);
+                        AudioManager.instance.PlaySfx(nextBounce.clipName, nextBounce.volume);
+                    }
+                }
+                else
+                {
+                    AudioManager.instance.PlaySfx(bounce.clipName, bounce.volume);
+                }
+            }
+        }
+    }
+
+    private StairsSide GetSide(Instrument instrument)
+    {
+        if (instrument == Instrument.orangeL || instrument == Instrument.pineAppleL)
+        {
+            return StairsSide.Left;
+        }
+        else
+        {
+            return StairsSide.Right;
+        }
+    }
+
+    public void QueueNoteInBeat(float beatsFromNow, Instrument instrument)
+    {
+        float beat = Mathf.Floor(Conductor.instance.songPositionInBeats) + beatsFromNow;
+        keynoteTimes.Enqueue(new Keynote(beat, instrument));
+    }
+
     public bool CheckCurrentBeatHasAnyNoteInSide(StairsSide side)
     {
         if (keynoteTimes.Count > 0)
@@ -77,15 +133,8 @@ public class KeynoteHolder : MonoBehaviour
         }
     }
 
-    private StairsSide GetSide(Instrument instrument)
+    public void ScheduleSoundEffect(float beat, string sfxName, float volume)
     {
-        if (instrument == Instrument.orangeL || instrument == Instrument.pineAppleL)
-        {
-            return StairsSide.Left;
-        }
-        else
-        {
-            return StairsSide.Right;
-        }
+        sfxToPlay.Enqueue(new QueuedSfx(beat, sfxName, volume));
     }
 }

@@ -28,7 +28,15 @@ public class KeynoteHolder : MonoBehaviour
             if (Conductor.instance.songPositionMs >= nextKeynoteMS)
             {
                 Keynote note = keynotesToSpawn.Dequeue();
-                GameManager.instance.CreateKeynoteNow(note.instrument);
+                if (keynotesToSpawn.Count > 0 && keynotesToSpawn.Peek().beat == note.beat)
+                {
+                    Keynote doubleNote = keynotesToSpawn.Dequeue();
+                    GameManager.instance.CreateTwoKeynotesNow(note.instrument, doubleNote.instrument);
+                }
+                else
+                {
+                    GameManager.instance.CreateKeynoteNow(note.instrument);
+                }
             }
         }
     }

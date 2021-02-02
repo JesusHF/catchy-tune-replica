@@ -49,9 +49,9 @@ public class GameManager : MonoBehaviour
         float currentBeat = Conductor.instance.songPositionInBeats;
         if (instrument == Instrument.orangeL || instrument == Instrument.orangeR)
         {
-            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1));
-            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 2));
-            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 3));
+            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1, 1f));
+            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 2, 1f));
+            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 3, 1f));
             keynoteHolder.QueueNoteInBeat(4f, instrument);
         }
         else
@@ -59,6 +59,25 @@ public class GameManager : MonoBehaviour
             // todo: implement next intrument
         }
         fruitSpawner.SpawnFruit(instrument);
+    }
+
+    public void CreateTwoKeynotesNow(Instrument instrument1, Instrument instrument2)
+    {
+        float currentBeat = Conductor.instance.songPositionInBeats;
+        if (instrument1 == Instrument.orangeL || instrument1 == Instrument.orangeR)
+        {
+            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1, 1.3f));
+            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 2, 1.3f));
+            StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 3, 1.3f));
+            keynoteHolder.QueueNoteInBeat(4f, instrument1);
+            keynoteHolder.QueueNoteInBeat(4f, instrument2);
+        }
+        else
+        {
+            // todo: implement next intrument
+        }
+        fruitSpawner.SpawnFruit(instrument1);
+        fruitSpawner.SpawnFruit(instrument2);
     }
 
     public bool CheckCurrentBeatHasAnyNoteInSide(StairsSide side)
@@ -106,13 +125,13 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private IEnumerator ScheduleSoundEffect(string sfxName, float beat)
+    private IEnumerator ScheduleSoundEffect(string sfxName, float beat, float volume)
     {
         while (Conductor.instance.songPositionInBeats < beat + 0.1f)
         {
             yield return null;
         }
-        AudioManager.instance.PlaySfx(sfxName);
+        AudioManager.instance.PlaySfx(sfxName, volume);
     }
 
     private IEnumerator FadeBlackSquare(float duration, float finalAlpha = 0f, Action onFinished = null)

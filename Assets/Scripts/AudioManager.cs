@@ -50,12 +50,12 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(StartSongWithCallback(name, callback));
     }
 
-    public void PlaySfx(string name)
+    public void PlaySfx(string name, float volume = 1f)
     {
         var sfx = Array.Find(sfxSounds, sound => sound.name == name);
         Assert.IsNotNull(sfx, "SFX '" + name + "' not found");
 
-        sfxAudioSource.PlayOneShot(sfx.clip);
+        sfxAudioSource.PlayOneShot(sfx.clip, volume);
     }
 
     public void StopCurrentSfx()

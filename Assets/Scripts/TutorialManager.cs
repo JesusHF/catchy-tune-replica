@@ -68,8 +68,7 @@ public class TutorialManager : MonoBehaviour
 
     private void SpawnInstrumentLoop(Instrument instrument)
     {
-        float currentBeat = Conductor.instance.songPositionInBeats;
-        if (currentBeat >= nextBeatToSpawnItem)
+        if (Conductor.instance.songPositionInBeats >= nextBeatToSpawnItem)
         {
             nextBeatToSpawnItem += 8;
             GameManager.instance.CreateKeynoteNow(instrument);

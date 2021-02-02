@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     public void CreateKeynoteNow(Instrument instrument = Instrument.orangeR)
     {
-        float currentBeat = Conductor.instance.songPositionInBeats;
+        float currentBeat = Mathf.Floor(Conductor.instance.songPositionInBeats);
         if (instrument == Instrument.orangeL || instrument == Instrument.orangeR)
         {
             StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1, 1f));
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
 
     public void CreateTwoKeynotesNow(Instrument instrument1, Instrument instrument2)
     {
-        float currentBeat = Conductor.instance.songPositionInBeats;
+        float currentBeat = Mathf.Floor(Conductor.instance.songPositionInBeats);
         if (instrument1 == Instrument.orangeL || instrument1 == Instrument.orangeR)
         {
             StartCoroutine(ScheduleSoundEffect("bounce", currentBeat + 1, 1.3f));

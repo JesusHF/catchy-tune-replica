@@ -104,11 +104,18 @@ public class KeynoteHolder : MonoBehaviour
         }
     }
 
-    public void QueueNoteInBeat(float beatsFromNow, Instrument instrument)
+    public void QueueNoteInBeats(float beatsFromNow, Instrument instrument)
     {
         float currentBeat = (float)Mathf.Round(Conductor.instance.songPositionInBeats * 10f) / 10f;
         float beat = currentBeat + beatsFromNow;
         keynoteTimes.Enqueue(new Keynote(beat, instrument));
+    }
+
+    public void QueueSoundEffectInBeats(float beatsFromNow, string sfxName, float volume)
+    {
+        float currentBeat = (float)Mathf.Round(Conductor.instance.songPositionInBeats * 10f) / 10f;
+        float beat = currentBeat + beatsFromNow;
+        sfxToPlay.Enqueue(new QueuedSfx(beat, sfxName, volume));
     }
 
     public FruitType CheckCurrentBeatHasAnyFruitInSide(StairsSide side)
@@ -134,10 +141,5 @@ public class KeynoteHolder : MonoBehaviour
         {
             keynotesToSpawn.Enqueue(note);
         }
-    }
-
-    public void ScheduleSoundEffect(float beat, string sfxName, float volume)
-    {
-        sfxToPlay.Enqueue(new QueuedSfx(beat, sfxName, volume));
     }
 }

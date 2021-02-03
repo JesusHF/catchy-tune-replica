@@ -54,44 +54,42 @@ public class GameManager : MonoBehaviour
 
     public void CreateKeynoteNow(Instrument instrument = Instrument.orangeR)
     {
-        float currentBeat = (float)Math.Round(Conductor.instance.songPositionInBeats * 10f) / 10f;
         if (instrument == Instrument.orangeL || instrument == Instrument.orangeR)
         {
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 1, "bounce", 1f);
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 2, "bounce", 1f);
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 3, "bounce", 1f);
-            keynoteHolder.QueueNoteInBeat(4f, instrument);
+            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(2f, "bounce", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce", 1f);
+            keynoteHolder.QueueNoteInBeats(4f, instrument);
         }
         else
         {
             // todo: change provisional bounce sfx
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 1, "bounce", 1f);
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 3, "bounce", 1f);
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 5, "bounce", 1f);
-            keynoteHolder.QueueNoteInBeat(7f, instrument);
+            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(5f, "bounce", 1f);
+            keynoteHolder.QueueNoteInBeats(7f, instrument);
         }
         fruitSpawner.SpawnFruit(instrument);
     }
 
     public void CreateTwoKeynotesNow(Instrument instrument1, Instrument instrument2)
     {
-        float currentBeat = (float)Math.Round(Conductor.instance.songPositionInBeats * 10f) / 10f;
         if (instrument1 == Instrument.orangeL || instrument1 == Instrument.orangeR)
         {
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 1, "bounce", 1.3f);
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 2, "bounce", 1.3f);
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 3, "bounce", 1.3f);
-            keynoteHolder.QueueNoteInBeat(4f, instrument1);
-            keynoteHolder.QueueNoteInBeat(4f, instrument2);
+            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce", 1.3f);
+            keynoteHolder.QueueSoundEffectInBeats(2f, "bounce", 1.3f);
+            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce", 1.3f);
+            keynoteHolder.QueueNoteInBeats(4f, instrument1);
+            keynoteHolder.QueueNoteInBeats(4f, instrument2);
         }
         else
         {
             // todo: change provisional bounce sfx
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 1, "bounce", 1.3f);
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 3, "bounce", 1.3f);
-            keynoteHolder.ScheduleSoundEffect(currentBeat + 5, "bounce", 1.3f);
-            keynoteHolder.QueueNoteInBeat(7f, instrument1);
-            keynoteHolder.QueueNoteInBeat(7f, instrument2);
+            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce", 1.3f);
+            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce", 1.3f);
+            keynoteHolder.QueueSoundEffectInBeats(5f, "bounce", 1.3f);
+            keynoteHolder.QueueNoteInBeats(7f, instrument1);
+            keynoteHolder.QueueNoteInBeats(7f, instrument2);
         }
         fruitSpawner.SpawnFruit(instrument1);
         fruitSpawner.SpawnFruit(instrument2);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 public struct QueuedSfx
@@ -137,25 +138,28 @@ public class KeynoteHolder : MonoBehaviour
 
     public void PreprocessSongNotes(Keynote[] notes)
     {
+        List<QueuedSfx> sfxList = new List<QueuedSfx>();
         foreach (Keynote note in notes)
         {
             fruitsToSpawn.Enqueue(note);
 
             if (note.instrument == Instrument.orangeL || note.instrument == Instrument.orangeR)
             {
-                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 1f, "bounce", 1f));
-                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 2f, "bounce", 1f));
-                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 3f, "bounce", 1f));
+                sfxList.Add(new QueuedSfx(note.beat + 1f, "bounce", 1f));
+                sfxList.Add(new QueuedSfx(note.beat + 2f, "bounce", 1f));
+                sfxList.Add(new QueuedSfx(note.beat + 3f, "bounce", 1f));
                 keynoteTimes.Enqueue(new Keynote(note.beat + 4f, note.instrument));
             }
             else
             {
                 // todo: change provisional bounce sfx
-                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 1f, "bounce", 1f));
-                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 3f, "bounce", 1f));
-                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 5f, "bounce", 1f));
+                sfxList.Add(new QueuedSfx(note.beat + 1f, "bounce", 1f));
+                sfxList.Add(new QueuedSfx(note.beat + 3f, "bounce", 1f));
+                sfxList.Add(new QueuedSfx(note.beat + 5f, "bounce", 1f));
                 keynoteTimes.Enqueue(new Keynote(note.beat + 7f, note.instrument));
             }
         }
+        List<QueuedSfx> sortedList = sfxList.OrderBy(o=>o.beat).ToList();
+        sfxToPlay = new Queue<QueuedSfx>(sortedList);
     }
 }

@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
             keynoteHolder.QueueSoundEffectInBeats(5f, "bounce", 1f);
             keynoteHolder.QueueNoteInBeats(7f, instrument);
         }
-        fruitSpawner.SpawnFruit(instrument);
+        CreateFruitNow(instrument);
     }
 
     public void CreateTwoKeynotesNow(Instrument instrument1, Instrument instrument2)
@@ -91,8 +91,18 @@ public class GameManager : MonoBehaviour
             keynoteHolder.QueueNoteInBeats(7f, instrument1);
             keynoteHolder.QueueNoteInBeats(7f, instrument2);
         }
-        fruitSpawner.SpawnFruit(instrument1);
-        fruitSpawner.SpawnFruit(instrument2);
+        CreateTwoFruitsNow(instrument1, instrument2);
+    }
+
+    public void CreateFruitNow(Instrument instrument)
+    {
+        fruitSpawner.SpawnFruit(instrument);
+    }
+
+    public void CreateTwoFruitsNow(Instrument instrument1, Instrument instrument2)
+    {
+        CreateFruitNow(instrument1);
+        CreateFruitNow(instrument2);
     }
 
     public FruitType CheckCurrentBeatHasAnyNoteInSide(StairsSide side)

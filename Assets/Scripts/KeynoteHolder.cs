@@ -19,7 +19,7 @@ public class KeynoteHolder : MonoBehaviour
     [SerializeField, Range(100f, 300f)]
     private float threshold = 200f;
     private Queue<Keynote> keynoteTimes = new Queue<Keynote>();
-    private Queue<Keynote> keynotesToSpawn = new Queue<Keynote>();
+    private Queue<Keynote> fruitsToSpawn = new Queue<Keynote>();
     private Queue<QueuedSfx> sfxToPlay = new Queue<QueuedSfx>();
 
     private void Update()
@@ -31,20 +31,20 @@ public class KeynoteHolder : MonoBehaviour
 
     private void CheckNotesToSpawn()
     {
-        if (keynotesToSpawn.Count > 0)
+        if (fruitsToSpawn.Count > 0)
         {
-            float nextKeynoteMS = keynotesToSpawn.Peek().beat * Conductor.instance.secPerBeat * 1000f;
+            float nextKeynoteMS = fruitsToSpawn.Peek().beat * Conductor.instance.secPerBeat * 1000f;
             if (Conductor.instance.songPositionMs >= nextKeynoteMS)
             {
-                Keynote note = keynotesToSpawn.Dequeue();
-                if (keynotesToSpawn.Count > 0 && keynotesToSpawn.Peek().beat == note.beat)
+                Keynote fruit = fruitsToSpawn.Dequeue();
+                if (fruitsToSpawn.Count > 0 && fruitsToSpawn.Peek().beat == fruit.beat)
                 {
-                    Keynote doubleNote = keynotesToSpawn.Dequeue();
-                    GameManager.instance.CreateTwoKeynotesNow(note.instrument, doubleNote.instrument);
+                    Keynote doubleFruit = fruitsToSpawn.Dequeue();
+                    GameManager.instance.CreateTwoFruitsNow(fruit.instrument, doubleFruit.instrument);
                 }
                 else
                 {
-                    GameManager.instance.CreateKeynoteNow(note.instrument);
+                    GameManager.instance.CreateFruitNow(fruit.instrument);
                 }
             }
         }
@@ -139,7 +139,23 @@ public class KeynoteHolder : MonoBehaviour
     {
         foreach (Keynote note in notes)
         {
-            keynotesToSpawn.Enqueue(note);
+            fruitsToSpawn.Enqueue(note);
+
+            if (note.instrument == Instrument.orangeL || note.instrument == Instrument.orangeR)
+            {
+                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 1f, "bounce", 1f));
+                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 2f, "bounce", 1f));
+                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 3f, "bounce", 1f));
+                keynoteTimes.Enqueue(new Keynote(note.beat + 4f, note.instrument));
+            }
+            else
+            {
+                // todo: change provisional bounce sfx
+                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 1f, "bounce", 1f));
+                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 3f, "bounce", 1f));
+                sfxToPlay.Enqueue(new QueuedSfx(note.beat + 5f, "bounce", 1f));
+                keynoteTimes.Enqueue(new Keynote(note.beat + 7f, note.instrument));
+            }
         }
     }
 }

@@ -34,5 +34,39 @@ MonoBehaviour:
     instrument: 0
   - beat: 44
     instrument: 1
-  - beat: 47
+  - beat: 48
     instrument: 2
+  - beat: 56
+    instrument: 3
+  - beat: 64
+    instrument: 0
+  - beat: 68
+    instrument: 1
+  - beat: 72
+    instrument: 2
+  - beat: 72
+    instrument: 3
+  - beat: 80
+    instrument: 2
+  - beat: 81
+    instrument: 3
+  - beat: 88
+    instrument: 2
+  - beat: 89
+    instrument: 3
+  - beat: 96
+    instrument: 3
+  - beat: 97
+    instrument: 2
+  - beat: 104
+    instrument: 3
+  - beat: 105
+    instrument: 2
+  - beat: 112
+    instrument: 1
+  - beat: 120
+    instrument: 0
+  - beat: 124
+    instrument: 2
+  - beat: 124
+    instrument: 3

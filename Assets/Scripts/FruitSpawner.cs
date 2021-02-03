@@ -56,7 +56,7 @@ public class Fruit
         string animationName = GetLastAnimationName();
         isSynced = false;
         animator.Play(animationName);
-        animator.speed = 2f;
+        animator.speed = 1.5f;
     }
 
     internal void Release()

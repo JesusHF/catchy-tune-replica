@@ -8,6 +8,7 @@ public class PlayerStates
     public const string GrabPineapple = "player_grab_pineapple";
     public const string GrabFail = "player_grab_fail";
     public const string GrabPassed = "player_grab_passed";
+    public const string GrabPassed2 = "player_grab_passed_2";
 }
 
 public class PlayerController : MonoBehaviour
@@ -109,11 +110,20 @@ public class PlayerController : MonoBehaviour
         ChangeAnimationState(PlayerStates.Loop, 0f);
     }
 
-    void SetGrabPassedAnimation(StairsSide side)
+    void SetGrabPassedAnimation(StairsSide side, FruitType fruitType)
     {
         if (side == playerSide)
         {
-            ChangeAnimationState(PlayerStates.GrabPassed);
+            string grabAnimation = "";
+            if (fruitType == FruitType.Orange)
+            {
+                grabAnimation = PlayerStates.GrabPassed;
+            }
+            else
+            {
+                grabAnimation = PlayerStates.GrabPassed2;
+            }
+            ChangeAnimationState(grabAnimation);
             lockInput = 0.5f;
             AudioManager.instance.PlaySfx("grab_passed");
             ScheduleLoopAnimation();

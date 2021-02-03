@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
     public Image blackSquareImage;
     public SongData[] songs;
     public static event Action OnKeynotePressedSuccessfully;
-    public static event Action<StairsSide> OnKeynoteNotPressed;
+    public static event Action<StairsSide, FruitType> OnKeynoteNotPressed;
 
     void Start()
     {
@@ -115,9 +115,9 @@ public class GameManager : MonoBehaviour
         return fruit;
     }
 
-    public void NotifyNotePassedInSide(StairsSide side)
+    public void NotifyNotePassedInSide(StairsSide side, FruitType fruitType)
     {
-        OnKeynoteNotPressed?.Invoke(side);
+        OnKeynoteNotPressed?.Invoke(side, fruitType);
         // todo: track fails for score
     }
 

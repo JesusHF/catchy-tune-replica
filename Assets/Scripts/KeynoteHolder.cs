@@ -59,7 +59,7 @@ public class KeynoteHolder : MonoBehaviour
             if (Conductor.instance.songPositionMs > (nextKeynoteMS + (threshold / 2)))
             {
                 Keynote note = keynoteTimes.Dequeue();
-                GameManager.instance.NotifyNotePassedInSide(GetSide(note.instrument));
+                GameManager.instance.NotifyNotePassedInSide(GetSide(note.instrument), GetFruitType(note.instrument));
             }
         }
     }
@@ -102,6 +102,18 @@ public class KeynoteHolder : MonoBehaviour
         else
         {
             return StairsSide.Right;
+        }
+    }
+
+    private FruitType GetFruitType(Instrument instrument)
+    {
+        if (instrument == Instrument.orangeL || instrument == Instrument.orangeR)
+        {
+            return FruitType.Orange;
+        }
+        else
+        {
+            return FruitType.PineApple;
         }
     }
 

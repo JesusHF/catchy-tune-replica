@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
 
     public void CreateKeynoteNow(Instrument instrument = Instrument.orangeR)
     {
-        float currentBeat = Mathf.Floor(Conductor.instance.songPositionInBeats);
+        float currentBeat = (float)Math.Round(Conductor.instance.songPositionInBeats * 10f) / 10f;
         if (instrument == Instrument.orangeL || instrument == Instrument.orangeR)
         {
             keynoteHolder.ScheduleSoundEffect(currentBeat + 1, "bounce", 1f);
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
 
     public void CreateTwoKeynotesNow(Instrument instrument1, Instrument instrument2)
     {
-        float currentBeat = Mathf.Floor(Conductor.instance.songPositionInBeats);
+        float currentBeat = (float)Math.Round(Conductor.instance.songPositionInBeats * 10f) / 10f;
         if (instrument1 == Instrument.orangeL || instrument1 == Instrument.orangeR)
         {
             keynoteHolder.ScheduleSoundEffect(currentBeat + 1, "bounce", 1.3f);

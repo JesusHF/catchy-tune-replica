@@ -106,7 +106,8 @@ public class KeynoteHolder : MonoBehaviour
 
     public void QueueNoteInBeat(float beatsFromNow, Instrument instrument)
     {
-        float beat = Mathf.Floor(Conductor.instance.songPositionInBeats) + beatsFromNow;
+        float currentBeat = (float)Mathf.Round(Conductor.instance.songPositionInBeats * 10f) / 10f;
+        float beat = currentBeat + beatsFromNow;
         keynoteTimes.Enqueue(new Keynote(beat, instrument));
     }
 

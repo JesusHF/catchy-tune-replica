@@ -9,7 +9,7 @@ public class Conductor : MonoBehaviour
     public float songPositionInBeats { get; private set; }
     public float dspSongTime { get; private set; }
 
-    private float beatsPerLoop;
+    public float beatsPerLoop { get; private set; }
     public int completedLoops { get; private set; }
     public float loopPositionInBeats { get; private set; }
     public float loopPositionInAnalog { get; private set; }
@@ -77,5 +77,10 @@ public class Conductor : MonoBehaviour
         float timeToNextBeat = (nextBeat - songPositionInBeats);
         timeToNextBeat = timeToNextBeat / songBpm * 60f;
         return timeToNextBeat;
+    }
+
+    public float GetTimeToNextLoop()
+    {
+        return (beatsPerLoop - loopPositionInBeats) * secPerBeat;
     }
 }

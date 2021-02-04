@@ -14,6 +14,7 @@ public class Fruit
     public Instrument type;
     public float lifeSpawn;
     public float animationOffset;
+    public float loopOffset;
     public bool isSynced;
     public Fruit(GameObject fruitObject, Instrument type, float lifeSpawn, float animationOffset, bool isSynced = true)
     {
@@ -22,6 +23,7 @@ public class Fruit
         this.type = type;
         this.lifeSpawn = lifeSpawn;
         this.animationOffset = animationOffset;
+        this.loopOffset = 0f;
         this.isSynced = isSynced;
     }
 
@@ -33,11 +35,15 @@ public class Fruit
         animator.Play(animationName);
         lifeSpawn = time;
         animationOffset = Conductor.instance.loopPositionInAnalog;
+        loopOffset = Conductor.instance.GetTimeToNextLoop() < lifeSpawn ?
+           animationOffset : 0f;
+        Debug.Log("loop " + loopOffset);
     }
 
     internal void Update()
     {
-        float analogPosition = Conductor.instance.loopPositionInAnalog - animationOffset;
+        float analogPosition = Conductor.instance.loopPositionInAnalog;
+        analogPosition += analogPosition < loopOffset ? (1f - animationOffset) : -animationOffset;
         if (type == Instrument.orangeL || type == Instrument.orangeR)
         {
             analogPosition *= (8f / 4f);

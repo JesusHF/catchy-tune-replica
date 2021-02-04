@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (currentState == PlayerStates.Loop)
         {
-            float analogPosition = Conductor.instance.loopPositionInAnalog * (8 / durationInBeats);
+            float analogPosition = Conductor.instance.loopPositionInAnalog * (8f / durationInBeats);
             int loopHash = animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
             animator.Play(loopHash, -1, analogPosition);
         }

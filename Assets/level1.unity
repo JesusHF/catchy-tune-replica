@@ -774,7 +774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0450e6b290f159c4492d91ff6390b6c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshold: 100
+  threshold: 50
 --- !u!1 &1564408370
 GameObject:
   m_ObjectHideFlags: 0

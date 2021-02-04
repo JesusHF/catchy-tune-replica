@@ -17,16 +17,19 @@ public struct QueuedSfx
 
 public class KeynoteHolder : MonoBehaviour
 {
-    [SerializeField, Range(100f, 300f)]
+
+    [SerializeField, Range(25f, 300f)]
     private float threshold = 200f;
-    private Queue<Keynote> keynoteTimes = new Queue<Keynote>();
+    private Queue<Keynote> keynoteTimesL = new Queue<Keynote>();
+    private Queue<Keynote> keynoteTimesR = new Queue<Keynote>();
     private Queue<Keynote> fruitsToSpawn = new Queue<Keynote>();
     private Queue<QueuedSfx> sfxToPlay = new Queue<QueuedSfx>();
 
     private void Update()
     {
         CheckNotesToSpawn();
-        CheckPassedNotes();
+        CheckPassedNotes(StairsSide.Left);
+        CheckPassedNotes(StairsSide.Right);
         CheckToPlaySoundEffects();
     }
 
@@ -51,15 +54,16 @@ public class KeynoteHolder : MonoBehaviour
         }
     }
 
-    private void CheckPassedNotes()
+    private void CheckPassedNotes(StairsSide side)
     {
-        if (keynoteTimes.Count > 0)
+        ref Queue<Keynote> currentSideNotes = ref GetNotesInSide(side);
+        if (currentSideNotes.Count > 0)
         {
-            float nextKeynoteMS = keynoteTimes.Peek().beat * Conductor.instance.secPerBeat * 1000f;
+            float nextKeynoteMS = currentSideNotes.Peek().beat * Conductor.instance.secPerBeat * 1000f;
             if (Conductor.instance.songPositionMs > (nextKeynoteMS + (threshold / 2)))
             {
-                Keynote note = keynoteTimes.Dequeue();
-                GameManager.instance.NotifyNotePassedInSide(GetSide(note.instrument), GetFruitType(note.instrument));
+                Keynote note = currentSideNotes.Dequeue();
+                GameManager.instance.NotifyNotePassedInSide(side, GetFruitType(note.instrument));
             }
         }
     }
@@ -117,11 +121,28 @@ public class KeynoteHolder : MonoBehaviour
         }
     }
 
+    private void AddNoteToSide(StairsSide side, Keynote note)
+    {
+        if (side == StairsSide.Left)
+        {
+            keynoteTimesL.Enqueue(note);
+        }
+        else
+        {
+            keynoteTimesR.Enqueue(note);
+        }
+    }
+
+    private ref Queue<Keynote> GetNotesInSide(StairsSide side)
+    {
+        return ref side == StairsSide.Left ? ref keynoteTimesL : ref keynoteTimesR;
+    }
+
     public void QueueNoteInBeats(float beatsFromNow, Instrument instrument)
     {
         float currentBeat = (float)Mathf.Round(Conductor.instance.songPositionInBeats * 10f) / 10f;
         float beat = currentBeat + beatsFromNow;
-        keynoteTimes.Enqueue(new Keynote(beat, instrument));
+        AddNoteToSide(GetSide(instrument), new Keynote(beat, instrument));
     }
 
     public void QueueSoundEffectInBeats(float beatsFromNow, string sfxName, float volume)
@@ -133,13 +154,13 @@ public class KeynoteHolder : MonoBehaviour
 
     public FruitType CheckCurrentBeatHasAnyFruitInSide(StairsSide side)
     {
-        if (keynoteTimes.Count > 0)
+        ref Queue<Keynote> currentSideNotes = ref GetNotesInSide(side);
+        if (currentSideNotes.Count > 0)
         {
-            float nextKeynoteMS = keynoteTimes.Peek().beat * Conductor.instance.secPerBeat * 1000f;
-            if (GetSide(keynoteTimes.Peek().instrument) == side &&
-                Mathf.Abs(Conductor.instance.songPositionMs - nextKeynoteMS) < threshold)
+            float nextKeynoteMS = currentSideNotes.Peek().beat * Conductor.instance.secPerBeat * 1000f;
+            if (Mathf.Abs(Conductor.instance.songPositionMs - nextKeynoteMS) < threshold)
             {
-                Instrument note = keynoteTimes.Dequeue().instrument;
+                Instrument note = currentSideNotes.Dequeue().instrument;
                 FruitType type = note == Instrument.orangeL || note == Instrument.orangeR ?
                     FruitType.Orange : FruitType.PineApple;
                 return type;
@@ -160,17 +181,17 @@ public class KeynoteHolder : MonoBehaviour
                 sfxList.Add(new QueuedSfx(note.beat + 1f, "bounce", 1f));
                 sfxList.Add(new QueuedSfx(note.beat + 2f, "bounce", 1f));
                 sfxList.Add(new QueuedSfx(note.beat + 3f, "bounce", 1f));
-                keynoteTimes.Enqueue(new Keynote(note.beat + 4f, note.instrument));
+                AddNoteToSide(GetSide(note.instrument), new Keynote(note.beat + 4f, note.instrument));
             }
             else
             {
                 sfxList.Add(new QueuedSfx(note.beat + 1f, "bounce2", 1f));
                 sfxList.Add(new QueuedSfx(note.beat + 3f, "bounce2", 1f));
                 sfxList.Add(new QueuedSfx(note.beat + 5f, "bounce2", 1f));
-                keynoteTimes.Enqueue(new Keynote(note.beat + 7f, note.instrument));
+                AddNoteToSide(GetSide(note.instrument), new Keynote(note.beat + 7f, note.instrument));
             }
         }
-        List<QueuedSfx> sortedList = sfxList.OrderBy(o=>o.beat).ToList();
+        List<QueuedSfx> sortedList = sfxList.OrderBy(o => o.beat).ToList();
         sfxToPlay = new Queue<QueuedSfx>(sortedList);
     }
 }

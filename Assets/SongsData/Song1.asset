@@ -17,6 +17,7 @@ MonoBehaviour:
   presong_clip: song1_start
   song_clip: song1
   loop: 0
+  finish_beat: 136
   keynotes:
   - beat: 4
     instrument: 0

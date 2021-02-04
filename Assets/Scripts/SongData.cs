@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 
 public enum Instrument
 {
@@ -28,5 +29,21 @@ public class SongData : ScriptableObject
     public string presong_clip;
     public string song_clip;
     public bool loop;
+    [HideInInspector]
+    public int finish_beat = 0;
     public Keynote[] keynotes;
+}
+
+[CustomEditor(typeof(SongData))]
+public class SongEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        SongData songDataScript = target as SongData;
+        EditorGUI.BeginDisabledGroup(songDataScript.loop);
+        songDataScript.finish_beat = EditorGUILayout.IntField("Finish_beat", songDataScript.finish_beat);
+        EditorGUI.EndDisabledGroup();
+    }
 }

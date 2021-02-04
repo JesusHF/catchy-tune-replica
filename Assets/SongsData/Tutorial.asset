@@ -17,4 +17,5 @@ MonoBehaviour:
   presong_clip: tutorial_start
   song_clip: tutorial
   loop: 1
+  finish_beat: 0
   keynotes: []

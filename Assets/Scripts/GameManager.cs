@@ -63,10 +63,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // todo: change provisional bounce sfx
-            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce", 1f);
-            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce", 1f);
-            keynoteHolder.QueueSoundEffectInBeats(5f, "bounce", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce2", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce2", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(5f, "bounce2", 1f);
             keynoteHolder.QueueNoteInBeats(7f, instrument);
         }
         CreateFruitNow(instrument);

@@ -255,5 +255,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 60ccb205b007ea343a79d33480f700c6, type: 3}
   - name: bounce
     clip: {fileID: 8300000, guid: 41e38ad239268d34d920d72ad818c46c, type: 3}
+  - name: bounce2
+    clip: {fileID: 8300000, guid: 76a2c9947b47be443ba1345dce6d765c, type: 3}
   - name: grab_passed
     clip: {fileID: 8300000, guid: 46fe132f2fb0f2143aa9c6ee865c78b0, type: 3}

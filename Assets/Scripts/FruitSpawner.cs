@@ -37,7 +37,6 @@ public class Fruit
         animationOffset = Conductor.instance.loopPositionInAnalog;
         loopOffset = Conductor.instance.GetTimeToNextLoop() < lifeSpawn ?
            animationOffset : 0f;
-        Debug.Log("loop " + loopOffset);
     }
 
     internal void Update()

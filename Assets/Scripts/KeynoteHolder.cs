@@ -164,10 +164,9 @@ public class KeynoteHolder : MonoBehaviour
             }
             else
             {
-                // todo: change provisional bounce sfx
-                sfxList.Add(new QueuedSfx(note.beat + 1f, "bounce", 1f));
-                sfxList.Add(new QueuedSfx(note.beat + 3f, "bounce", 1f));
-                sfxList.Add(new QueuedSfx(note.beat + 5f, "bounce", 1f));
+                sfxList.Add(new QueuedSfx(note.beat + 1f, "bounce2", 1f));
+                sfxList.Add(new QueuedSfx(note.beat + 3f, "bounce2", 1f));
+                sfxList.Add(new QueuedSfx(note.beat + 5f, "bounce2", 1f));
                 keynoteTimes.Enqueue(new Keynote(note.beat + 7f, note.instrument));
             }
         }

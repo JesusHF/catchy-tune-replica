@@ -15,13 +15,24 @@ public struct QueuedSfx
     }
 }
 
+public struct QueuedKeynote
+{
+    public float beat;
+    public FruitType type;
+    public QueuedKeynote(float beat, FruitType type)
+    {
+        this.beat = beat;
+        this.type = type;
+    }
+}
+
 public class KeynoteHolder : MonoBehaviour
 {
 
     [SerializeField, Range(25f, 300f)]
     private float threshold = 200f;
-    private Queue<Keynote> keynoteTimesL = new Queue<Keynote>();
-    private Queue<Keynote> keynoteTimesR = new Queue<Keynote>();
+    private Queue<QueuedKeynote> keynoteTimesL = new Queue<QueuedKeynote>();
+    private Queue<QueuedKeynote> keynoteTimesR = new Queue<QueuedKeynote>();
     private Queue<Keynote> fruitsToSpawn = new Queue<Keynote>();
     private Queue<QueuedSfx> sfxToPlay = new Queue<QueuedSfx>();
 
@@ -56,14 +67,14 @@ public class KeynoteHolder : MonoBehaviour
 
     private void CheckPassedNotes(StairsSide side)
     {
-        ref Queue<Keynote> currentSideNotes = ref GetNotesInSide(side);
+        ref Queue<QueuedKeynote> currentSideNotes = ref GetNotesInSide(side);
         if (currentSideNotes.Count > 0)
         {
             float nextKeynoteMS = currentSideNotes.Peek().beat * Conductor.instance.secPerBeat * 1000f;
             if (Conductor.instance.songPositionMs > (nextKeynoteMS + (threshold / 2)))
             {
-                Keynote note = currentSideNotes.Dequeue();
-                GameManager.instance.NotifyNotePassedInSide(side, GetFruitType(note.instrument));
+                QueuedKeynote note = currentSideNotes.Dequeue();
+                GameManager.instance.NotifyNotePassedInSide(side, note.type);
             }
         }
     }
@@ -125,15 +136,15 @@ public class KeynoteHolder : MonoBehaviour
     {
         if (side == StairsSide.Left)
         {
-            keynoteTimesL.Enqueue(note);
+            keynoteTimesL.Enqueue(new QueuedKeynote(note.beat, GetFruitType(note.instrument)));
         }
         else
         {
-            keynoteTimesR.Enqueue(note);
+            keynoteTimesR.Enqueue(new QueuedKeynote(note.beat, GetFruitType(note.instrument)));
         }
     }
 
-    private ref Queue<Keynote> GetNotesInSide(StairsSide side)
+    private ref Queue<QueuedKeynote> GetNotesInSide(StairsSide side)
     {
         return ref side == StairsSide.Left ? ref keynoteTimesL : ref keynoteTimesR;
     }
@@ -154,15 +165,13 @@ public class KeynoteHolder : MonoBehaviour
 
     public FruitType CheckCurrentBeatHasAnyFruitInSide(StairsSide side)
     {
-        ref Queue<Keynote> currentSideNotes = ref GetNotesInSide(side);
+        ref Queue<QueuedKeynote> currentSideNotes = ref GetNotesInSide(side);
         if (currentSideNotes.Count > 0)
         {
             float nextKeynoteMS = currentSideNotes.Peek().beat * Conductor.instance.secPerBeat * 1000f;
             if (Mathf.Abs(Conductor.instance.songPositionMs - nextKeynoteMS) < threshold)
             {
-                Instrument note = currentSideNotes.Dequeue().instrument;
-                FruitType type = note == Instrument.orangeL || note == Instrument.orangeR ?
-                    FruitType.Orange : FruitType.PineApple;
+                FruitType type = currentSideNotes.Dequeue().type;
                 return type;
             }
         }

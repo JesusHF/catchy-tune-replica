@@ -32,6 +32,7 @@ public class TutorialManager : MonoBehaviour
 
     public void StartTutorial()
     {
+        tutorialState = TutorialStates.None;
         ShowUI(true);
         GetNextState();
         GameManager.OnKeynotePressedSuccessfully += DecreaseNumber;

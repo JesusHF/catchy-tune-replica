@@ -16,6 +16,15 @@ public enum FruitType
     PineApple
 }
 
+public enum GameStates
+{
+    None,
+    Tutorial,
+    GameTransition,
+    Game,
+    EndGameTransition,
+    EndGame
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -42,14 +51,72 @@ public class GameManager : MonoBehaviour
     public SongData[] songs;
     public static event Action OnKeynotePressedSuccessfully;
     public static event Action<StairsSide, FruitType> OnKeynoteNotPressed;
+    private GameStates currentState;
 
     void Start()
     {
-        StartCoroutine(FadeBlackSquare(2f, 0f, () =>
+        currentState = GameStates.None;
+        GetNextState();
+    }
+
+    private void GetNextState()
+    {
+        switch (currentState)
         {
-            tutorialManager.ShowUI();
-            AudioManager.instance.PlaySongWithCallback(songs[0].presong_clip, StartTutorial);
-        }));
+            case GameStates.None:
+                currentState = GameStates.Tutorial;
+                StartCoroutine(FadeBlackSquare(2f, 0f, () =>
+                {
+                    tutorialManager.enabled = true;
+                    tutorialManager.ShowUI();
+                    AudioManager.instance.PlaySongWithCallback(songs[0].presong_clip, StartTutorial);
+                }));
+                break;
+            case GameStates.Tutorial:
+                currentState = GameStates.GameTransition;
+                tutorialManager.enabled = false;
+                AudioManager.instance.FadeCurrentSong(3f);
+                StartCoroutine(FadeBlackSquare(3f, 1f, GetNextState));
+                break;
+            case GameStates.GameTransition:
+                currentState = GameStates.Game;
+                Conductor.instance.StopSong();
+                StartCoroutine(FadeBlackSquare(3f, 0f, () =>
+                {
+                    AudioManager.instance.PlaySongWithCallback(songs[1].presong_clip, StartGame);
+                }));
+                break;
+            case GameStates.Game:
+                currentState = GameStates.EndGameTransition;
+                keynoteHolder.enabled = false;
+                AudioManager.instance.FadeCurrentSong(3f);
+                StartCoroutine(FadeBlackSquare(3f, 1f, GetNextState));
+                break;
+            case GameStates.EndGameTransition:
+                currentState = GameStates.EndGame;
+                Conductor.instance.StopSong();
+                StartCoroutine(FadeBlackSquare(3f, 0f, StartEndGame));
+                break;
+            case GameStates.EndGame:
+                break;
+            default:
+                break;
+        }
+    }
+    private void StartTutorial()
+    {
+        Conductor.instance.StartSong(songs[0]);
+        tutorialManager.StartTutorial();
+    }
+    private void StartGame()
+    {
+        Conductor.instance.StartSong(songs[1]);
+        keynoteHolder.PreprocessSongNotes(songs[1].keynotes, songs[1].finish_beat);
+    }
+
+    private void StartEndGame()
+    {
+
     }
 
     public void CreateKeynoteNow(Instrument instrument = Instrument.orangeR)
@@ -120,32 +187,20 @@ public class GameManager : MonoBehaviour
         // todo: track fails for score
     }
 
-    private void StartTutorial()
-    {
-        Conductor.instance.StartSong(songs[0]);
-        tutorialManager.StartTutorial();
-    }
-
     public void EndTutorial()
     {
-        tutorialManager.enabled = false;
-        AudioManager.instance.FadeCurrentSong(3f);
-        StartCoroutine(FadeBlackSquare(3f, 1f, TransitionToGame));
-    }
-
-    private void TransitionToGame()
-    {
-        Conductor.instance.StopSong();
-        StartCoroutine(FadeBlackSquare(3f, 0f, () =>
+        if (currentState == GameStates.Tutorial)
         {
-            AudioManager.instance.PlaySongWithCallback(songs[1].presong_clip, StartGame);
-        }));
+            GetNextState();
+        }
     }
 
-    private void StartGame()
+    public void EndGame()
     {
-        Conductor.instance.StartSong(songs[1]);
-        keynoteHolder.PreprocessSongNotes(songs[1].keynotes);
+        if (currentState == GameStates.Game)
+        {
+            GetNextState();
+        }
     }
 
     private IEnumerator FadeBlackSquare(float duration, float finalAlpha = 0f, Action onFinished = null)

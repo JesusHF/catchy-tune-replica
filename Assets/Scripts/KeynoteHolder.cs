@@ -35,13 +35,19 @@ public class KeynoteHolder : MonoBehaviour
     private Queue<QueuedKeynote> keynoteTimesR = new Queue<QueuedKeynote>();
     private Queue<Keynote> fruitsToSpawn = new Queue<Keynote>();
     private Queue<QueuedSfx> sfxToPlay = new Queue<QueuedSfx>();
+    private float finishBeat;
+    private bool gameFinished = false;
 
     private void Update()
     {
-        CheckNotesToSpawn();
-        CheckPassedNotes(StairsSide.Left);
-        CheckPassedNotes(StairsSide.Right);
-        CheckToPlaySoundEffects();
+        if (!gameFinished)
+        {
+            CheckNotesToSpawn();
+            CheckPassedNotes(StairsSide.Left);
+            CheckPassedNotes(StairsSide.Right);
+            CheckToPlaySoundEffects();
+            CheckEndGame();
+        }
     }
 
     private void CheckNotesToSpawn()
@@ -105,6 +111,15 @@ public class KeynoteHolder : MonoBehaviour
                     AudioManager.instance.PlaySfx(bounce.clipName, bounce.volume);
                 }
             }
+        }
+    }
+
+    private void CheckEndGame()
+    {
+        if (finishBeat > 0 && Conductor.instance.songPositionInBeats >= finishBeat)
+        {
+            gameFinished = true;
+            GameManager.instance.EndGame();
         }
     }
 
@@ -178,8 +193,12 @@ public class KeynoteHolder : MonoBehaviour
         return FruitType.None;
     }
 
-    public void PreprocessSongNotes(Keynote[] notes)
+    public void PreprocessSongNotes(Keynote[] notes, float lastBeat)
     {
+        fruitsToSpawn.Clear();
+        keynoteTimesL.Clear();
+        keynoteTimesR.Clear();
+        sfxToPlay.Clear();
         List<QueuedSfx> sfxList = new List<QueuedSfx>();
         foreach (Keynote note in notes)
         {
@@ -202,5 +221,6 @@ public class KeynoteHolder : MonoBehaviour
         }
         List<QueuedSfx> sortedList = sfxList.OrderBy(o => o.beat).ToList();
         sfxToPlay = new Queue<QueuedSfx>(sortedList);
+        finishBeat = lastBeat;
     }
 }

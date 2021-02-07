@@ -141,7 +141,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Also...those pineapples can't get past you!
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -530,7 +530,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You caught those oranges well!
+  m_text: You missed some oranges.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -672,8 +672,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294966548
-  m_fontColor: {r: 0.08018869, g: 0.99175584, b: 1, a: 1}
+    rgba: 4294938369
+  m_fontColor: {r: 0.0039215684, g: 0.56129414, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -812,10 +812,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 6550921057851857188}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
-  m_MinValue: 81
+  m_MinValue: 80
   m_MaxValue: 100
   m_WholeNumbers: 1
-  m_Value: 81
+  m_Value: 80
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -973,10 +973,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 6550921057446219636}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
-  m_MinValue: 61
-  m_MaxValue: 80
+  m_MinValue: 62
+  m_MaxValue: 79
   m_WholeNumbers: 1
-  m_Value: 80
+  m_Value: 62
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1325,9 +1325,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 60
+  m_MaxValue: 59
   m_WholeNumbers: 1
-  m_Value: 60
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

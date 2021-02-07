@@ -47,8 +47,10 @@ public class GameManager : MonoBehaviour
     public FruitSpawner fruitSpawner;
     public KeynoteHolder keynoteHolder;
     public TutorialManager tutorialManager;
+    public EndGameManager endGameManager;
     public Image blackSquareImage;
     public SongData[] songs;
+    public GameObject objectsInGame;
     public static event Action OnKeynotePressedSuccessfully;
     public static event Action<StairsSide, FruitType> OnKeynoteNotPressed;
     private GameStates currentState;
@@ -90,12 +92,13 @@ public class GameManager : MonoBehaviour
                 currentState = GameStates.EndGameTransition;
                 keynoteHolder.enabled = false;
                 AudioManager.instance.FadeCurrentSong(3f);
-                StartCoroutine(FadeBlackSquare(3f, 1f, GetNextState));
+                StartCoroutine(FadeBlackSquare(4f, 1f, GetNextState));
                 break;
             case GameStates.EndGameTransition:
                 currentState = GameStates.EndGame;
+                objectsInGame.SetActive(false);
                 Conductor.instance.StopSong();
-                StartCoroutine(FadeBlackSquare(3f, 0f, StartEndGame));
+                StartEndGame();
                 break;
             case GameStates.EndGame:
                 break;
@@ -103,11 +106,13 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+
     private void StartTutorial()
     {
         Conductor.instance.StartSong(songs[0]);
         tutorialManager.StartTutorial();
     }
+
     private void StartGame()
     {
         Conductor.instance.StartSong(songs[1]);
@@ -116,7 +121,9 @@ public class GameManager : MonoBehaviour
 
     private void StartEndGame()
     {
-
+        endGameManager.enabled = true;
+        // todo: send real score
+        endGameManager.StartEndGame(80);
     }
 
     public void CreateKeynoteNow(Instrument instrument = Instrument.orangeR)

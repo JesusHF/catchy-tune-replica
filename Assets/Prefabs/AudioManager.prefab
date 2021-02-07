@@ -248,6 +248,12 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 06b468b9e59d4f84d907df0c8a535512, type: 3}
   - name: song1
     clip: {fileID: 8300000, guid: e655beeca6a7d4342893f18400050eb2, type: 3}
+  - name: end_tryagain
+    clip: {fileID: 8300000, guid: a1c2cd5a1799a6a43948af47ffd34b17, type: 3}
+  - name: end_ok
+    clip: {fileID: 8300000, guid: 7129b4648a818c0438e0d72ba3468154, type: 3}
+  - name: end_superb
+    clip: {fileID: 8300000, guid: ada0b335fb16e6c40b6a6275965f7b90, type: 3}
   sfxSounds:
   - name: grab_fail
     clip: {fileID: 8300000, guid: 309a5ce5730e8c541b2d7eca7833583a, type: 3}

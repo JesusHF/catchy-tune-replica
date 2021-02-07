@@ -62,6 +62,7 @@ public class EndGameManager : MonoBehaviour
         {
             currentEnd = superbResult;
         }
+
         commentsFirstText.text = currentEnd.commentFirstLine;
         if (currentEnd.commentSecondLine != "")
         {
@@ -130,8 +131,7 @@ public class EndGameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         AudioManager.instance.PlaySfx(currentEnd.sfxName);
         yield return new WaitForSeconds(1.5f);
-        // todo: add songs
-        // AudioManager.instance.PlaySong(currentEnd.songName, true);
+        AudioManager.instance.PlaySong(currentEnd.songName, true);
         // todo: show current end image
     }
 

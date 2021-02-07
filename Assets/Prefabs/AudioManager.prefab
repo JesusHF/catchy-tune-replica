@@ -259,3 +259,21 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 76a2c9947b47be443ba1345dce6d765c, type: 3}
   - name: grab_passed
     clip: {fileID: 8300000, guid: 46fe132f2fb0f2143aa9c6ee865c78b0, type: 3}
+  - name: ui_show1
+    clip: {fileID: 8300000, guid: b1ce5b4ca35ba1b4ea8d606b0d6f757f, type: 3}
+  - name: ui_show2
+    clip: {fileID: 8300000, guid: 224fe36284a059549a78c49211bc1b65, type: 3}
+  - name: ui_show3
+    clip: {fileID: 8300000, guid: c56a0da73dddb0f4d8022089dc2c71f8, type: 3}
+  - name: ui_slider
+    clip: {fileID: 8300000, guid: 459a90196d4429f419d8980b924207db, type: 3}
+  - name: ui_highscore
+    clip: {fileID: 8300000, guid: e7d0b55cd28e1b843af9f40153a88eef, type: 3}
+  - name: ui_score
+    clip: {fileID: 8300000, guid: a382b9f6f09b46c41877de4b8e8b72cf, type: 3}
+  - name: end_tryagain
+    clip: {fileID: 8300000, guid: 64decae25cf4e3b418ac5de68158e697, type: 3}
+  - name: end_ok
+    clip: {fileID: 8300000, guid: 8d44b81d2438e81489eaeaaf36dffb14, type: 3}
+  - name: end_superb
+    clip: {fileID: 8300000, guid: 3189a7ce68389cf4592379ba401eda1b, type: 3}

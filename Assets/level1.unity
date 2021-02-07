@@ -842,16 +842,22 @@ MonoBehaviour:
     commentFirstLine: You missed some oranges.
     commentSecondLine: 
     color: {r: 0.003921569, g: 0.5647059, b: 1, a: 1}
+    sfxName: end_tryagain
+    songName: end_tryagain
     image: {fileID: 0}
   okResult:
     commentFirstLine: Eh. Passable.
     commentSecondLine: 
     color: {r: 0, g: 0.7019608, b: 0.003921569, a: 1}
+    sfxName: end_ok
+    songName: end_ok
     image: {fileID: 0}
   superbResult:
     commentFirstLine: You caught those oranges well!
     commentSecondLine: Also... those pineapples can't get past you!
     color: {r: 1, g: 0, b: 0, a: 1}
+    sfxName: end_superb
+    songName: end_superb
     image: {fileID: 0}
 --- !u!1 &1564408370
 GameObject:
@@ -1498,6 +1504,51 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: sfxSounds.Array.size
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[10].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: a382b9f6f09b46c41877de4b8e8b72cf, type: 3}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[10].name
+      value: ui_score
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[11].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 64decae25cf4e3b418ac5de68158e697, type: 3}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[11].name
+      value: end_tryagain
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[12].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8d44b81d2438e81489eaeaaf36dffb14, type: 3}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[12].name
+      value: end_ok
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[13].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3189a7ce68389cf4592379ba401eda1b, type: 3}
+    - target: {fileID: 1446914669895302952, guid: 004fb058e567e3f4b8b92841b8f64930,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[13].name
+      value: end_superb
       objectReference: {fileID: 0}
     - target: {fileID: 1446914669895302953, guid: 004fb058e567e3f4b8b92841b8f64930,
         type: 3}

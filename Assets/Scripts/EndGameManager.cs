@@ -11,6 +11,8 @@ public struct EndGameResult
     [TextArea]
     public string commentSecondLine;
     public Color color;
+    public string sfxName;
+    public string songName;
     public Image image;
 }
 
@@ -45,29 +47,32 @@ public class EndGameManager : MonoBehaviour
         ScoreContainer.SetActive(false);
         commentsFirstText.text = "";
         commentsSecondText.text = "";
+        AudioManager.instance.PlaySfx("ui_show1");
         yield return new WaitForSeconds(1f);
-        string firstComment = "";
-        string secondComent = "";
+        EndGameResult currentEnd;
         if (score < 60)
         {
-            firstComment = tryAgainResult.commentFirstLine;
-            secondComent = tryAgainResult.commentSecondLine;
+            currentEnd = tryAgainResult;
         }
         else if (score < 80)
         {
-            firstComment = okResult.commentFirstLine;
-            secondComent = okResult.commentSecondLine;
+            currentEnd = okResult;
         }
         else
         {
-            firstComment = superbResult.commentFirstLine;
-            secondComent = superbResult.commentSecondLine;
+            currentEnd = superbResult;
         }
-        commentsFirstText.text = firstComment;
-        if (secondComent != "")
+        commentsFirstText.text = currentEnd.commentFirstLine;
+        if (currentEnd.commentSecondLine != "")
         {
+            AudioManager.instance.PlaySfx("ui_show2");
             yield return new WaitForSeconds(1f);
-            commentsSecondText.text = secondComent;
+            commentsSecondText.text = currentEnd.commentSecondLine;
+            AudioManager.instance.PlaySfx("ui_show3");
+        }
+        else
+        {
+            AudioManager.instance.PlaySfx("ui_show3");
         }
 
         yield return new WaitForSeconds(1f);
@@ -78,6 +83,7 @@ public class EndGameManager : MonoBehaviour
         sliderNumberText.text = "0";
         sliderNumberText.color = tryAgainResult.color;
         yield return new WaitForSeconds(0.5f);
+        AudioManager.instance.PlaySfx("ui_slider");
         float initialTime = 2.3f * score / 100f;
         float timeRemaining = initialTime;
         while (timeRemaining > 0)
@@ -110,8 +116,28 @@ public class EndGameManager : MonoBehaviour
             }
             yield return null;
         }
+        AudioManager.instance.StopCurrentSfx();
         sliderNumberText.text = score.ToString();
-        // todo: show highscore
-        // todo: show try again/ok/superb image
+        if (ShowHighScore(score))
+        {
+            // todo: show highscore
+            AudioManager.instance.PlaySfx("ui_highscore");
+        }
+        else
+        {
+            AudioManager.instance.PlaySfx("ui_score");
+        }
+        yield return new WaitForSeconds(1f);
+        AudioManager.instance.PlaySfx(currentEnd.sfxName);
+        yield return new WaitForSeconds(1.5f);
+        // todo: add songs
+        // AudioManager.instance.PlaySong(currentEnd.songName, true);
+        // todo: show current end image
+    }
+
+    private bool ShowHighScore(int score)
+    {
+        // todo: handle saving high scores
+        return false;
     }
 }

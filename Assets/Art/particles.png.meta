@@ -23,6 +23,9 @@ TextureImporter:
   - first:
       213: 6193290335882477365
     second: particles_6
+  - first:
+      213: -7872684065047532718
+    second: particles_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -262,6 +265,27 @@ TextureImporter:
       bones: []
       spriteID: 53f722d3fbcf2f550800000000000000
       internalID: 6193290335882477365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: particles_7
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 0
+        width: 300
+        height: 275
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25ba6f9dd8b9eb290800000000000000
+      internalID: -7872684065047532718
       vertices: []
       indices: 
       edges: []

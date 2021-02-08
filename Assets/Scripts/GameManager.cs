@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     public static event Action OnKeynotePressedSuccessfully;
     public static event Action<StairsSide, FruitType> OnKeynoteNotPressed;
     private GameStates currentState;
+    private int numberOfFails;
 
     void Start()
     {
@@ -117,13 +118,14 @@ public class GameManager : MonoBehaviour
     {
         Conductor.instance.StartSong(songs[1]);
         keynoteHolder.PreprocessSongNotes(songs[1].keynotes, songs[1].finish_beat);
+        numberOfFails = 0;
     }
 
     private void StartEndGame()
     {
         endGameManager.enabled = true;
-        // todo: send real score
-        endGameManager.StartEndGame(80);
+        float score = (1f - ((float)numberOfFails / songs[1].keynotes.Length)) * 100f;
+        endGameManager.StartEndGame((int)score);
     }
 
     public void CreateKeynoteNow(Instrument instrument = Instrument.orangeR)
@@ -157,10 +159,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // todo: change provisional bounce sfx
-            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce", 1.3f);
-            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce", 1.3f);
-            keynoteHolder.QueueSoundEffectInBeats(5f, "bounce", 1.3f);
+            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce2", 1.3f);
+            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce2", 1.3f);
+            keynoteHolder.QueueSoundEffectInBeats(5f, "bounce2", 1.3f);
             keynoteHolder.QueueNoteInBeats(7f, instrument1);
             keynoteHolder.QueueNoteInBeats(7f, instrument2);
         }
@@ -191,7 +192,7 @@ public class GameManager : MonoBehaviour
     public void NotifyNotePassedInSide(StairsSide side, FruitType fruitType)
     {
         OnKeynoteNotPressed?.Invoke(side, fruitType);
-        // todo: track fails for score
+        numberOfFails++;
     }
 
     public void EndTutorial()

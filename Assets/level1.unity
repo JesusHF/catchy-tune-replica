@@ -721,6 +721,12 @@ Transform:
   m_Father: {fileID: 21596633}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1381072999 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1381072999, guid: 464968b9189ed2344aab884877181008,
+    type: 3}
+  m_PrefabInstance: {fileID: 6550921057553222321}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1537707940
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,27 +844,28 @@ MonoBehaviour:
   slider80: {fileID: 6550921057553222325}
   slider100: {fileID: 6550921057553222324}
   sliderNumberText: {fileID: 6550921057553222323}
+  resultAnimator: {fileID: 1381072999}
   tryAgainResult:
     commentFirstLine: You missed some oranges.
     commentSecondLine: 
     color: {r: 0.003921569, g: 0.5647059, b: 1, a: 1}
     sfxName: end_tryagain
     songName: end_tryagain
-    image: {fileID: 0}
+    animationName: endgame_tryagain
   okResult:
     commentFirstLine: Eh. Passable.
     commentSecondLine: 
     color: {r: 0, g: 0.7019608, b: 0.003921569, a: 1}
     sfxName: end_ok
     songName: end_ok
-    image: {fileID: 0}
+    animationName: endgame_ok
   superbResult:
     commentFirstLine: You caught those oranges well!
     commentSecondLine: Also... those pineapples can't get past you!
     color: {r: 1, g: 0, b: 0, a: 1}
     sfxName: end_superb
     songName: end_superb
-    image: {fileID: 0}
+    animationName: endgame_superb
 --- !u!1 &1564408370
 GameObject:
   m_ObjectHideFlags: 0

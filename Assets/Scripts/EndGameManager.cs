@@ -13,7 +13,7 @@ public struct EndGameResult
     public Color color;
     public string sfxName;
     public string songName;
-    public Image image;
+    public string animationName;
 }
 
 public class EndGameManager : MonoBehaviour
@@ -26,6 +26,7 @@ public class EndGameManager : MonoBehaviour
     public Slider slider80;
     public Slider slider100;
     public TextMeshProUGUI sliderNumberText;
+    public Animator resultAnimator;
     public EndGameResult tryAgainResult;
     public EndGameResult okResult;
     public EndGameResult superbResult;
@@ -45,6 +46,7 @@ public class EndGameManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         EndGameContainer.SetActive(true);
         ScoreContainer.SetActive(false);
+        resultAnimator.gameObject.SetActive(false);
         commentsFirstText.text = "";
         commentsSecondText.text = "";
         AudioManager.instance.PlaySfx("ui_show1");
@@ -130,9 +132,10 @@ public class EndGameManager : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         AudioManager.instance.PlaySfx(currentEnd.sfxName);
+        resultAnimator.gameObject.SetActive(true);
+        resultAnimator.Play(currentEnd.animationName);
         yield return new WaitForSeconds(1.5f);
         AudioManager.instance.PlaySong(currentEnd.songName, true);
-        // todo: show current end image
     }
 
     private bool ShowHighScore(int score)

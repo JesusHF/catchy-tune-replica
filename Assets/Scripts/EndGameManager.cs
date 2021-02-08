@@ -27,6 +27,7 @@ public class EndGameManager : MonoBehaviour
     public Slider slider100;
     public TextMeshProUGUI sliderNumberText;
     public Animator resultAnimator;
+    public GameObject highscoreObject;
     public EndGameResult tryAgainResult;
     public EndGameResult okResult;
     public EndGameResult superbResult;
@@ -47,6 +48,7 @@ public class EndGameManager : MonoBehaviour
         EndGameContainer.SetActive(true);
         ScoreContainer.SetActive(false);
         resultAnimator.gameObject.SetActive(false);
+        highscoreObject.SetActive(false);
         commentsFirstText.text = "";
         commentsSecondText.text = "";
         AudioManager.instance.PlaySfx("ui_show1");
@@ -123,7 +125,7 @@ public class EndGameManager : MonoBehaviour
         sliderNumberText.text = score.ToString();
         if (ShowHighScore(score))
         {
-            // todo: show highscore
+            highscoreObject.SetActive(true);
             AudioManager.instance.PlaySfx("ui_highscore");
         }
         else
@@ -140,7 +142,12 @@ public class EndGameManager : MonoBehaviour
 
     private bool ShowHighScore(int score)
     {
-        // todo: handle saving high scores
+        int highscore = PlayerPrefs.GetInt("highscore", 0);
+        if (score > highscore)
+        {
+            PlayerPrefs.SetInt("highscore", score);
+            return true;
+        }
         return false;
     }
 }

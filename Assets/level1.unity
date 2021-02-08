@@ -325,6 +325,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 323237281}
     m_Modifications:
+    - target: {fileID: 5972900340696463532, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.2971698
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972900340696463532, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.85554224
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972900340696463532, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5972900341163523113, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
         type: 3}
       propertyPath: m_Name
@@ -334,6 +349,21 @@ PrefabInstance:
         type: 3}
       propertyPath: actionKey
       value: 102
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972900341163523542, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.29803923
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972900341163523542, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.85882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972900341163523542, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5972900341163523543, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
         type: 3}
@@ -861,6 +891,7 @@ MonoBehaviour:
   slider100: {fileID: 6550921057553222324}
   sliderNumberText: {fileID: 6550921057553222323}
   resultAnimator: {fileID: 1381072999}
+  highscoreObject: {fileID: 2046425437}
   tryAgainResult:
     commentFirstLine: You missed some oranges.
     commentSecondLine: 
@@ -1404,6 +1435,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &2046425437 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2046425437, guid: 464968b9189ed2344aab884877181008,
+    type: 3}
+  m_PrefabInstance: {fileID: 6550921057553222321}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2051303120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1592,6 +1629,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2056371053}
     m_Modifications:
+    - target: {fileID: 2751522042322107095, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.57
+      objectReference: {fileID: 0}
     - target: {fileID: 5972900341163523113, guid: 6ea64d9257b8d7b4fa35fc2d2b1cb68c,
         type: 3}
       propertyPath: m_Name

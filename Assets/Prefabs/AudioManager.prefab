@@ -279,6 +279,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: e7d0b55cd28e1b843af9f40153a88eef, type: 3}
   - name: ui_score
     clip: {fileID: 8300000, guid: a382b9f6f09b46c41877de4b8e8b72cf, type: 3}
+  - name: ui_click
+    clip: {fileID: 8300000, guid: ec104dc61e59a2942912e1e389320005, type: 3}
+  - name: ui_click2
+    clip: {fileID: 8300000, guid: c0903dd143fba0243b1dd87b9b9714a4, type: 3}
   - name: end_tryagain
     clip: {fileID: 8300000, guid: 64decae25cf4e3b418ac5de68158e697, type: 3}
   - name: end_ok

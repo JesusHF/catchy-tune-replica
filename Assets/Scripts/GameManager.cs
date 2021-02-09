@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
                 currentState = GameStates.EndGameTransition;
                 keynoteHolder.enabled = false;
                 AudioManager.instance.FadeCurrentSong(3f);
-                StartCoroutine(FadeBlackSquare(4f, 1f, GetNextState));
+                StartCoroutine(FadeBlackSquare(3f, 1f, GetNextState));
                 break;
             case GameStates.EndGameTransition:
                 currentState = GameStates.EndGame;
@@ -132,16 +132,16 @@ public class GameManager : MonoBehaviour
     {
         if (instrument == Instrument.orangeL || instrument == Instrument.orangeR)
         {
-            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce", 1f);
-            keynoteHolder.QueueSoundEffectInBeats(2f, "bounce", 1f);
-            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce", 0.5f);
+            keynoteHolder.QueueSoundEffectInBeats(2f, "bounce", 0.5f);
+            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce", 0.5f);
             keynoteHolder.QueueNoteInBeats(4f, instrument);
         }
         else
         {
-            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce2", 1f);
-            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce2", 1f);
-            keynoteHolder.QueueSoundEffectInBeats(5f, "bounce2", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce2", 0.5f);
+            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce2", 0.5f);
+            keynoteHolder.QueueSoundEffectInBeats(5f, "bounce2", 0.5f);
             keynoteHolder.QueueNoteInBeats(7f, instrument);
         }
         CreateFruitNow(instrument);
@@ -151,17 +151,17 @@ public class GameManager : MonoBehaviour
     {
         if (instrument1 == Instrument.orangeL || instrument1 == Instrument.orangeR)
         {
-            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce", 1.3f);
-            keynoteHolder.QueueSoundEffectInBeats(2f, "bounce", 1.3f);
-            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce", 1.3f);
+            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(2f, "bounce", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce", 1f);
             keynoteHolder.QueueNoteInBeats(4f, instrument1);
             keynoteHolder.QueueNoteInBeats(4f, instrument2);
         }
         else
         {
-            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce2", 1.3f);
-            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce2", 1.3f);
-            keynoteHolder.QueueSoundEffectInBeats(5f, "bounce2", 1.3f);
+            keynoteHolder.QueueSoundEffectInBeats(1f, "bounce2", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(3f, "bounce2", 1f);
+            keynoteHolder.QueueSoundEffectInBeats(5f, "bounce2", 1f);
             keynoteHolder.QueueNoteInBeats(7f, instrument1);
             keynoteHolder.QueueNoteInBeats(7f, instrument2);
         }

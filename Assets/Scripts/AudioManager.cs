@@ -35,13 +35,14 @@ public class AudioManager : MonoBehaviour
     }
     #endregion
 
-    public void PlaySong(string name, bool loop = false)
+    public void PlaySong(string name, bool loop = false, float volume = 1f)
     {
         var music = Array.Find(songs, song => song.name == name);
         Assert.IsNotNull(music, "Song '" + name + "' not found");
 
         songAudioSource.clip = music.clip;
         songAudioSource.loop = loop;
+        songAudioSource.volume = volume;
         songAudioSource.Play();
     }
 

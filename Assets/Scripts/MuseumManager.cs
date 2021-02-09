@@ -28,7 +28,7 @@ public class MuseumManager : MonoBehaviour
     void Start()
     {
         selector.gameObject.SetActive(false);
-        AudioManager.instance.PlaySong("museum", true);
+        AudioManager.instance.PlaySong("museum", true, 0.3f);
         StartCoroutine(FadeBlackSquare(1f, 0f, InitMuseum));
     }
 
@@ -83,6 +83,7 @@ public class MuseumManager : MonoBehaviour
     {
         if (levelSelected + direction >= 0 && levelSelected + direction < gridElements.Length)
         {
+            AudioManager.instance.PlaySfx("ui_click");
             levelSelected += direction;
             UpdateSelectorText();
         }
@@ -90,20 +91,13 @@ public class MuseumManager : MonoBehaviour
 
     private void PlaySelectedLevel()
     {
-        AudioManager.instance.FadeCurrentSong(2f);
         switch (levelSelected)
         {
             case 0:
-                StartCoroutine(FadeBlackSquare(2f, 1f, () =>
-                {
-                    LoadLevel("level1");
-                }));
+                LoadLevel("level1");
                 break;
             case 1:
-                StartCoroutine(FadeBlackSquare(2f, 1f, () =>
-                {
-                    LoadLevel("level2");
-                }));
+                LoadLevel("level2");
                 break;
             default:
                 break;
@@ -112,7 +106,12 @@ public class MuseumManager : MonoBehaviour
 
     private void LoadLevel(string sceneName)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        AudioManager.instance.PlaySfx("ui_click2");
+        AudioManager.instance.FadeCurrentSong(2f);
+        StartCoroutine(FadeBlackSquare(2f, 1f, () =>
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        }));
     }
 
     private IEnumerator FadeBlackSquare(float duration, float finalAlpha = 0f, Action onFinished = null)

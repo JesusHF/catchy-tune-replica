@@ -98,7 +98,7 @@ public class KeynoteHolder : MonoBehaviour
                     QueuedSfx nextBounce = sfxToPlay.Dequeue();
                     if (nextBounce.clipName == bounce.clipName)
                     {
-                        AudioManager.instance.PlaySfx(bounce.clipName, bounce.volume * 1.3f);
+                        AudioManager.instance.PlaySfx(bounce.clipName, bounce.volume * 2f);
                     }
                     else
                     {
@@ -206,16 +206,16 @@ public class KeynoteHolder : MonoBehaviour
 
             if (note.instrument == Instrument.orangeL || note.instrument == Instrument.orangeR)
             {
-                sfxList.Add(new QueuedSfx(note.beat + 1f, "bounce", 1f));
-                sfxList.Add(new QueuedSfx(note.beat + 2f, "bounce", 1f));
-                sfxList.Add(new QueuedSfx(note.beat + 3f, "bounce", 1f));
+                sfxList.Add(new QueuedSfx(note.beat + 1f, "bounce", 0.5f));
+                sfxList.Add(new QueuedSfx(note.beat + 2f, "bounce", 0.5f));
+                sfxList.Add(new QueuedSfx(note.beat + 3f, "bounce", 0.5f));
                 AddNoteToSide(GetSide(note.instrument), new Keynote(note.beat + 4f, note.instrument));
             }
             else
             {
-                sfxList.Add(new QueuedSfx(note.beat + 1f, "bounce2", 1f));
-                sfxList.Add(new QueuedSfx(note.beat + 3f, "bounce2", 1f));
-                sfxList.Add(new QueuedSfx(note.beat + 5f, "bounce2", 1f));
+                sfxList.Add(new QueuedSfx(note.beat + 1f, "bounce2", 0.5f));
+                sfxList.Add(new QueuedSfx(note.beat + 3f, "bounce2", 0.5f));
+                sfxList.Add(new QueuedSfx(note.beat + 5f, "bounce2", 0.5f));
                 AddNoteToSide(GetSide(note.instrument), new Keynote(note.beat + 7f, note.instrument));
             }
         }

@@ -14,6 +14,7 @@ public struct GridElement
 public class MuseumManager : MonoBehaviour
 {
     public Image blackSquareImage;
+    public RectTransform patternRect;
     public GridElement[] gridElements;
     [Header("Selector")]
     public RectTransform selector;
@@ -24,6 +25,7 @@ public class MuseumManager : MonoBehaviour
     private int levelSelected;
     private float selectorAnimationTime;
     private float selectorAnimationDirection;
+    private float patternAnimationTime;
 
     void Start()
     {
@@ -36,6 +38,7 @@ public class MuseumManager : MonoBehaviour
     {
         selector.gameObject.SetActive(true);
         levelSelected = 0;
+        patternAnimationTime = 0f;
         selectorAnimationTime = 0f;
         selectorAnimationDirection = 1f;
         UpdateSelectorText();
@@ -62,6 +65,15 @@ public class MuseumManager : MonoBehaviour
         selector.position = new Vector3(xPosition, offsetYPosition);
     }
 
+    private void AnimatePattern()
+    {
+        patternAnimationTime += Time.deltaTime;
+        if (patternAnimationTime >= 3f)
+        {
+            patternAnimationTime = 0f;
+        }
+        patternRect.anchoredPosition = new Vector2(-100f * patternAnimationTime, -100f * patternAnimationTime);
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -77,6 +89,7 @@ public class MuseumManager : MonoBehaviour
             PlaySelectedLevel();
         }
         AnimateSelector();
+        AnimatePattern();
     }
 
     private void ChangeLevelSelected(int direction)

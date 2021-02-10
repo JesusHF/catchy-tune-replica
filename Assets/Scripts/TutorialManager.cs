@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using TMPro;
+﻿using TMPro;
+using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -9,6 +9,14 @@ public class TutorialManager : MonoBehaviour
     private TextMeshProUGUI numberText;
     [SerializeField]
     private TextMeshProUGUI pressEscapeText;
+    [SerializeField]
+    private GameObject panelObject;
+    [SerializeField]
+    private TextMeshProUGUI panelText;
+    [SerializeField]
+    private GameObject bannerObject;
+    [SerializeField]
+    private TextMeshProUGUI bannerText;
     [SerializeField]
     private int nextBeatToSpawnItem = 11;
     private int itemsLeft;
@@ -48,7 +56,7 @@ public class TutorialManager : MonoBehaviour
 
     void UpdateTutorial()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && tutorialState != TutorialStates.End)
         {
             tutorialState = TutorialStates.End;
             EndTutorial();
@@ -84,7 +92,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (Conductor.instance.songPositionInBeats >= nextBeatToSpawnItem)
         {
-            if(nextInstrument == Instrument.pineAppleR)
+            if (nextInstrument == Instrument.pineAppleR)
             {
                 nextInstrument = Instrument.pineAppleL;
             }
@@ -103,13 +111,20 @@ public class TutorialManager : MonoBehaviour
         switch (tutorialState)
         {
             case TutorialStates.SpawnLoopOrangesRight:
-                ResetUI();
+                panelObject.SetActive(false);
+                ShowInBanner("Right side: press \"J\" to catch");
+                ResetMoreTimesText();
                 break;
             case TutorialStates.SpawnLoopOrangesLeft:
-                ResetUI();
+                panelObject.SetActive(false);
+                ShowInBanner("Left side: press \"F\" to catch");
+                ResetMoreTimesText();
                 break;
             case TutorialStates.SpawnLoopPineApples:
-                ResetUI();
+                panelObject.SetActive(false);
+                bannerObject.SetActive(false);
+                ResetMoreTimesText();
+                MoveTextsTop();
                 nextBeatToSpawnItem += nextBeatToSpawnItem % 8;
                 break;
             case TutorialStates.End:
@@ -148,13 +163,34 @@ public class TutorialManager : MonoBehaviour
         moreTimesText.gameObject.SetActive(show);
         numberText.gameObject.SetActive(show);
         pressEscapeText.gameObject.SetActive(show);
+        panelObject.SetActive(show);
+        bannerObject.SetActive(show);
     }
 
-    private void ResetUI()
+    private void ResetMoreTimesText()
     {
         itemsLeft = 3;
         numberText.text = itemsLeft.ToString();
         moreTimesText.text = "More times!";
+    }
+
+    private void MoveTextsTop()
+    {
+        numberText.rectTransform.anchoredPosition = Vector2.zero;
+        moreTimesText.rectTransform.anchoredPosition = Vector2.zero;
+        pressEscapeText.rectTransform.anchoredPosition = Vector2.zero;
+    }
+
+    private void ShowInPanel(string text)
+    {
+        panelObject.SetActive(true);
+        panelText.text = text;
+    }
+
+    private void ShowInBanner(string text)
+    {
+        bannerObject.SetActive(true);
+        bannerText.text = text;
     }
 
 }

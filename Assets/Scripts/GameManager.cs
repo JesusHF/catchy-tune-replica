@@ -71,7 +71,6 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(FadeBlackSquare(2f, 0f, () =>
                 {
                     tutorialManager.enabled = true;
-                    tutorialManager.ShowUI();
                     AudioManager.instance.PlaySongWithCallback(songs[0].presong_clip, StartTutorial);
                 }));
                 break;

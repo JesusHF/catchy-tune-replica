@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(FadeBlackSquare(2f, 0f, () =>
                 {
                     tutorialManager.enabled = true;
-                    AudioManager.instance.PlaySongWithCallback(songs[0].presong_clip, StartTutorial);
+                    tutorialManager.StartTutorial();
                 }));
                 break;
             case GameStates.Tutorial:
@@ -107,10 +107,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void PlayTutorialPresong()
+    {
+        AudioManager.instance.PlaySongWithCallback(songs[0].presong_clip, StartTutorial);
+    }
+
     private void StartTutorial()
     {
         Conductor.instance.StartSong(songs[0]);
-        tutorialManager.StartTutorial();
+        tutorialManager.StartTutorialLoop();
     }
 
     private void StartGame()

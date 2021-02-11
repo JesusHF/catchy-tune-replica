@@ -1,5 +1,37 @@
 ﻿using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
+
+public class Panel
+{
+    public bool isDone { get; private set; }
+    private Queue<string> sentences;
+
+    public Panel()
+    {
+        this.isDone = false;
+        this.sentences = new Queue<string>();
+    }
+
+    public string GetNextSentence()
+    {
+        if (sentences.Count > 0)
+        {
+            return sentences.Dequeue();
+        }
+        else
+        {
+            isDone = true;
+            return "";
+        }
+    }
+
+    public void QueueSentence(string sentence)
+    {
+        sentences.Enqueue(sentence);
+        isDone = false;
+    }
+}
 
 public class TutorialManager : MonoBehaviour
 {
@@ -18,39 +50,56 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI bannerText;
     [SerializeField]
-    private int nextBeatToSpawnItem = 11;
+    private int nextBeatToSpawnItem = 12;
     private int itemsLeft;
     private Instrument nextInstrument;
     private TutorialStates tutorialState;
+    private Panel panel = new Panel();
 
     private enum TutorialStates
     {
         None,
-        SpawnLoopOrangesRight,
-        SpawnLoopOrangesLeft,
-        SpawnLoopPineApples,
+        PreLoopRight,
+        WaitForSong,
+        LoopOrangesRight,
+        PreLoopLeft,
+        LoopOrangesLeft,
+        PreLoopBoth,
+        LoopPineApples,
+        PreEnd,
         End
     }
 
     void Start()
     {
-        tutorialState = TutorialStates.None;
         ShowUI(false);
+        panelObject.SetActive(false);
     }
 
     public void StartTutorial()
     {
         tutorialState = TutorialStates.None;
-        ShowUI(true);
         GetNextState();
+    }
+
+    public void StartTutorialLoop()
+    {
         GameManager.OnKeynotePressedSuccessfully += DecreaseNumber;
+        GetNextState();
     }
 
     void Update()
     {
         if (tutorialState != TutorialStates.None)
         {
-            UpdateTutorial();
+            if (panel.isDone)
+            {
+                UpdateTutorial();
+            }
+            else
+            {
+                UpdatePanelText();
+            }
         }
     }
 
@@ -63,13 +112,13 @@ public class TutorialManager : MonoBehaviour
         }
         switch (tutorialState)
         {
-            case TutorialStates.SpawnLoopOrangesRight:
+            case TutorialStates.LoopOrangesRight:
                 SpawnInstrumentLoop(Instrument.orangeR);
                 break;
-            case TutorialStates.SpawnLoopOrangesLeft:
+            case TutorialStates.LoopOrangesLeft:
                 SpawnInstrumentLoop(Instrument.orangeL);
                 break;
-            case TutorialStates.SpawnLoopPineApples:
+            case TutorialStates.LoopPineApples:
                 SpawnPineApplesLoop();
                 break;
             case TutorialStates.End:
@@ -77,6 +126,15 @@ public class TutorialManager : MonoBehaviour
                 return;
             default:
                 break;
+        }
+    }
+
+    private void UpdatePanelText()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GetNextPanelSentence();
+            AudioManager.instance.PlaySfx("ui_click2");
         }
     }
 
@@ -110,21 +168,45 @@ public class TutorialManager : MonoBehaviour
         tutorialState++;
         switch (tutorialState)
         {
-            case TutorialStates.SpawnLoopOrangesRight:
-                panelObject.SetActive(false);
+            case TutorialStates.PreLoopRight:
+                QueueSentence("Fruit just bounces down these stairs. Let's catch some of it!");
+                QueueSentence("First it will come down on the right (press \"J\" to catch).");
+                break;
+            case TutorialStates.WaitForSong:
+                GameManager.instance.PlayTutorialPresong();
+                break;
+            case TutorialStates.PreLoopLeft:
+                ShowUI(false);
+                QueueSentence("But that's not all!");
+                QueueSentence("Next, it will down on the left (press \"F\" to catch).");
+                break;
+            case TutorialStates.PreLoopBoth:
+                ShowUI(false);
+                QueueSentence("Yes! That's it!");
+                QueueSentence("Incoming pineapple!");
+                break;
+            case TutorialStates.PreEnd:
+                ShowUI(false);
+                QueueSentence("You really dodged a seed pod there!");
+                QueueSentence("Let's do it for real now!");
+                break;
+            case TutorialStates.LoopOrangesRight:
+                ShowUI(true);
                 ShowInBanner("Right side: press \"J\" to catch");
                 ResetMoreTimesText();
                 break;
-            case TutorialStates.SpawnLoopOrangesLeft:
-                panelObject.SetActive(false);
+            case TutorialStates.LoopOrangesLeft:
+                ShowUI(true);
                 ShowInBanner("Left side: press \"F\" to catch");
                 ResetMoreTimesText();
+                nextBeatToSpawnItem = (int)Conductor.instance.songPositionInBeats + 4;
+                nextBeatToSpawnItem += nextBeatToSpawnItem % 8;
                 break;
-            case TutorialStates.SpawnLoopPineApples:
-                panelObject.SetActive(false);
-                bannerObject.SetActive(false);
+            case TutorialStates.LoopPineApples:
+                ShowUI(true);
                 ResetMoreTimesText();
                 MoveTextsTop();
+                nextBeatToSpawnItem = (int)Conductor.instance.songPositionInBeats;
                 nextBeatToSpawnItem += nextBeatToSpawnItem % 8;
                 break;
             case TutorialStates.End:
@@ -136,12 +218,13 @@ public class TutorialManager : MonoBehaviour
     private void EndTutorial()
     {
         ShowUI(false);
+        panelObject.SetActive(false);
         GameManager.OnKeynotePressedSuccessfully -= DecreaseNumber;
         GameManager.instance.EndTutorial();
         this.enabled = false;
     }
 
-    void DecreaseNumber()
+    private void DecreaseNumber()
     {
         if (itemsLeft == 1)
         {
@@ -163,7 +246,6 @@ public class TutorialManager : MonoBehaviour
         moreTimesText.gameObject.SetActive(show);
         numberText.gameObject.SetActive(show);
         pressEscapeText.gameObject.SetActive(show);
-        panelObject.SetActive(show);
         bannerObject.SetActive(show);
     }
 
@@ -176,15 +258,10 @@ public class TutorialManager : MonoBehaviour
 
     private void MoveTextsTop()
     {
+        bannerObject.SetActive(false);
         numberText.rectTransform.anchoredPosition = Vector2.zero;
         moreTimesText.rectTransform.anchoredPosition = Vector2.zero;
         pressEscapeText.rectTransform.anchoredPosition = Vector2.zero;
-    }
-
-    private void ShowInPanel(string text)
-    {
-        panelObject.SetActive(true);
-        panelText.text = text;
     }
 
     private void ShowInBanner(string text)
@@ -193,4 +270,27 @@ public class TutorialManager : MonoBehaviour
         bannerText.text = text;
     }
 
+    private void QueueSentence(string sentence)
+    {
+        panel.QueueSentence(sentence);
+        if (!panelObject.activeInHierarchy)
+        {
+            panelObject.SetActive(true);
+            GetNextPanelSentence();
+        }
+    }
+
+    private void GetNextPanelSentence()
+    {
+        string sentence = panel.GetNextSentence();
+        if (sentence != "")
+        {
+            panelText.text = sentence;
+        }
+        else
+        {
+            panelObject.SetActive(false);
+            GetNextState();
+        }
+    }
 }

@@ -64,43 +64,37 @@ public class GameManager : MonoBehaviour
 
     private void GetNextState()
     {
+        currentState++;
         switch (currentState)
         {
-            case GameStates.None:
-                currentState = GameStates.Tutorial;
+            case GameStates.Tutorial:
                 StartCoroutine(FadeBlackSquare(blackSquareImage, 2f, 0f, () =>
                 {
                     tutorialManager.enabled = true;
                     tutorialManager.StartTutorial();
                 }));
                 break;
-            case GameStates.Tutorial:
-                currentState = GameStates.GameTransition;
+            case GameStates.GameTransition:
                 tutorialManager.enabled = false;
                 AudioManager.instance.FadeCurrentSong(3f);
                 StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 1f, GetNextState));
                 break;
-            case GameStates.GameTransition:
-                currentState = GameStates.Game;
+            case GameStates.Game:
                 Conductor.instance.StopSong();
                 StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 0f, () =>
                 {
                     AudioManager.instance.PlaySongWithCallback(songs[1].presong_clip, StartGame);
                 }));
                 break;
-            case GameStates.Game:
-                currentState = GameStates.EndGameTransition;
+            case GameStates.EndGameTransition:
                 keynoteHolder.enabled = false;
                 AudioManager.instance.FadeCurrentSong(3f);
                 StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 1f, GetNextState));
                 break;
-            case GameStates.EndGameTransition:
-                currentState = GameStates.EndGame;
+            case GameStates.EndGame:
                 objectsInGame.SetActive(false);
                 Conductor.instance.StopSong();
                 StartEndGame();
-                break;
-            case GameStates.EndGame:
                 break;
             default:
                 break;

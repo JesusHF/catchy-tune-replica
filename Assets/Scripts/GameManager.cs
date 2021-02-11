@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         {
             case GameStates.None:
                 currentState = GameStates.Tutorial;
-                StartCoroutine(FadeBlackSquare(2f, 0f, () =>
+                StartCoroutine(FadeBlackSquare(blackSquareImage, 2f, 0f, () =>
                 {
                     tutorialManager.enabled = true;
                     tutorialManager.StartTutorial();
@@ -78,12 +78,12 @@ public class GameManager : MonoBehaviour
                 currentState = GameStates.GameTransition;
                 tutorialManager.enabled = false;
                 AudioManager.instance.FadeCurrentSong(3f);
-                StartCoroutine(FadeBlackSquare(3f, 1f, GetNextState));
+                StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 1f, GetNextState));
                 break;
             case GameStates.GameTransition:
                 currentState = GameStates.Game;
                 Conductor.instance.StopSong();
-                StartCoroutine(FadeBlackSquare(3f, 0f, () =>
+                StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 0f, () =>
                 {
                     AudioManager.instance.PlaySongWithCallback(songs[1].presong_clip, StartGame);
                 }));
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
                 currentState = GameStates.EndGameTransition;
                 keynoteHolder.enabled = false;
                 AudioManager.instance.FadeCurrentSong(3f);
-                StartCoroutine(FadeBlackSquare(3f, 1f, GetNextState));
+                StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 1f, GetNextState));
                 break;
             case GameStates.EndGameTransition:
                 currentState = GameStates.EndGame;
@@ -215,7 +215,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator FadeBlackSquare(float duration, float finalAlpha = 0f, Action onFinished = null)
+    public static IEnumerator FadeBlackSquare(Image blackSquareImage, float duration, float finalAlpha = 0f, Action onFinished = null)
     {
         float currentTime = 0;
         float startAlpha = 1 - finalAlpha;

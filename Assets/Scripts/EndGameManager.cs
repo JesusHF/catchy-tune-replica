@@ -21,6 +21,7 @@ public class EndGameManager : MonoBehaviour
 {
     public GameObject EndGameContainer;
     public GameObject ScoreContainer;
+    public Image blackSquareImage;
     public TextMeshProUGUI commentsFirstText;
     public TextMeshProUGUI commentsSecondText;
     public Slider slider60;
@@ -149,7 +150,7 @@ public class EndGameManager : MonoBehaviour
     {
         string sceneName = SceneManager.GetActiveScene().name;
         int highscore = PlayerPrefs.GetInt(sceneName, 0);
-        if (score > highscore)
+        if (score >= 60 && score > highscore)
         {
             PlayerPrefs.SetInt(sceneName, score);
             return true;
@@ -161,8 +162,12 @@ public class EndGameManager : MonoBehaviour
     {
         if (isOver && Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene(0);
             isOver = false;
+            AudioManager.instance.FadeCurrentSong(2f);
+            StartCoroutine(GameManager.FadeBlackSquare(blackSquareImage, 2f, 1f, () =>
+            {
+                SceneManager.LoadScene(0);
+            }));
         }
     }
 }

@@ -248,6 +248,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 06b468b9e59d4f84d907df0c8a535512, type: 3}
   - name: song1
     clip: {fileID: 8300000, guid: e655beeca6a7d4342893f18400050eb2, type: 3}
+  - name: song2_start
+    clip: {fileID: 8300000, guid: 9d7f886680fb2104b819eafdf48a916a, type: 3}
+  - name: song2
+    clip: {fileID: 8300000, guid: 5d48ef76fd2aa6c4d8c702125a38cd9b, type: 3}
   - name: end_tryagain
     clip: {fileID: 8300000, guid: a1c2cd5a1799a6a43948af47ffd34b17, type: 3}
   - name: end_ok

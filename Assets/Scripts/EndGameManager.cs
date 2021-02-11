@@ -163,6 +163,7 @@ public class EndGameManager : MonoBehaviour
         if (isOver && Input.GetKeyDown(KeyCode.Space))
         {
             isOver = false;
+            AudioManager.instance.PlaySfx("ui_click2");
             AudioManager.instance.FadeCurrentSong(2f);
             StartCoroutine(GameManager.FadeBlackSquare(blackSquareImage, 2f, 1f, () =>
             {

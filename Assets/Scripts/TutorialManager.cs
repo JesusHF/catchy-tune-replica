@@ -74,6 +74,7 @@ public class TutorialManager : MonoBehaviour
     {
         ShowUI(false);
         panelObject.SetActive(false);
+        enabled = false;
     }
 
     public void StartTutorial()

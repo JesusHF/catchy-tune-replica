@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public struct EndGameResult
@@ -31,10 +32,13 @@ public class EndGameManager : MonoBehaviour
     public EndGameResult tryAgainResult;
     public EndGameResult okResult;
     public EndGameResult superbResult;
+    private bool isOver;
 
     void Start()
     {
         EndGameContainer.SetActive(false);
+        isOver = false;
+        enabled = false;
     }
 
     public void StartEndGame(int score = 75)
@@ -138,16 +142,27 @@ public class EndGameManager : MonoBehaviour
         resultAnimator.Play(currentEnd.animationName);
         yield return new WaitForSeconds(1.5f);
         AudioManager.instance.PlaySong(currentEnd.songName, true);
+        isOver = true;
     }
 
     private bool ShowHighScore(int score)
     {
-        int highscore = PlayerPrefs.GetInt("highscore", 0);
+        string sceneName = SceneManager.GetActiveScene().name;
+        int highscore = PlayerPrefs.GetInt(sceneName, 0);
         if (score > highscore)
         {
-            PlayerPrefs.SetInt("highscore", score);
+            PlayerPrefs.SetInt(sceneName, score);
             return true;
         }
         return false;
+    }
+
+    private void Update()
+    {
+        if (isOver && Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene(0);
+            isOver = false;
+        }
     }
 }

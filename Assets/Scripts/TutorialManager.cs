@@ -174,6 +174,8 @@ public class TutorialManager : MonoBehaviour
                 QueueSentence("First it will come down on the right (press \"J\" to catch).");
                 break;
             case TutorialStates.WaitForSong:
+                ShowInBanner("Right side: press \"J\" to catch");
+                ShowUI(true);
                 GameManager.instance.PlayTutorialPresong();
                 break;
             case TutorialStates.PreLoopLeft:
@@ -193,7 +195,6 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStates.LoopOrangesRight:
                 ShowUI(true);
-                ShowInBanner("Right side: press \"J\" to catch");
                 ResetMoreTimesText();
                 break;
             case TutorialStates.LoopOrangesLeft:

@@ -15,7 +15,6 @@ public class Conductor : MonoBehaviour
     public float loopPositionInAnalog { get; private set; }
     private bool paused;
 
-
     #region Singleton
     public static Conductor instance { get; private set; }
     private void Awake()
@@ -31,6 +30,11 @@ public class Conductor : MonoBehaviour
         }
     }
     #endregion
+
+    private void Start()
+    {
+        StopSong();
+    }
 
     public void StartSong(SongData songData)
     {

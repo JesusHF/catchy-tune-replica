@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrabbing;
     private string currentState;
     private float lockInput;
+    private float animationChangeBeat;
     const float durationInBeats = 1f;
 
     void Start()
@@ -32,6 +33,8 @@ public class PlayerController : MonoBehaviour
         animator.Play(currentState);
 
         isGrabbing = false;
+        lockInput = 0f;
+        animationChangeBeat = 0f;
         GameManager.OnKeynoteNotPressed += SetGrabPassedAnimation;
     }
 
@@ -54,31 +57,33 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrabbing)
         {
-            FruitType fruit = GameManager.instance.CheckCurrentBeatHasAnyNoteInSide(playerSide);
-            if (fruit != FruitType.None)
-            {
-                string animation = fruit == FruitType.Orange ?
-                    PlayerStates.GrabOrange : PlayerStates.GrabPineapple;
-                ChangeAnimationState(animation);
-                AudioManager.instance.PlaySfx("grab_success");
-            }
-            else
-            {
-                ChangeAnimationState(PlayerStates.GrabFail);
-                AudioManager.instance.PlaySfx("grab_fail");
-            }
-
+            SetGrabAnimation();
             isGrabbing = false;
-            ScheduleLoopAnimation();
         }
         else if (currentState == PlayerStates.Loop)
         {
-            float analogPosition = Conductor.instance.loopPositionInAnalog * (8f / durationInBeats);
-            int loopHash = animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
-            animator.Play(loopHash, -1, analogPosition);
+            UpdateLoopAnimation();
+        }
+        else
+        {
+            float currentBeat = Conductor.instance.songPositionInBeats;
+            if (animationChangeBeat == 0f)
+            {
+                if (lockInput > 0f)
+                {
+                    animationChangeBeat = Mathf.Max(Mathf.Ceil(Conductor.instance.songPositionInBeats), 1f);
+                }
+            }
+            else
+            {
+                if (lockInput <= 0f && currentBeat >= animationChangeBeat)
+                {
+                    SetLoopAnimation();
+                    animationChangeBeat = 0f;
+                }
+            }
         }
     }
-
 
     public void ChangeAnimationState(string newState, float speed = 1f)
     {
@@ -98,16 +103,28 @@ public class PlayerController : MonoBehaviour
         currentState = newState;
     }
 
-    void ScheduleLoopAnimation()
-    {
-        float delayedTime = Mathf.Max(Conductor.instance.GetTimeToNextBeat(), 0.35f);
-        CancelInvoke("SetLoopAnimation");
-        Invoke("SetLoopAnimation", delayedTime);
-    }
-
     void SetLoopAnimation()
     {
         ChangeAnimationState(PlayerStates.Loop, 0f);
+    }
+
+    private void SetGrabAnimation()
+    {
+        FruitType fruit = GameManager.instance.CheckCurrentBeatHasAnyNoteInSide(playerSide);
+        if (fruit != FruitType.None)
+        {
+            string animation = fruit == FruitType.Orange ?
+                PlayerStates.GrabOrange : PlayerStates.GrabPineapple;
+            ChangeAnimationState(animation);
+            AudioManager.instance.PlaySfx("grab_success");
+            lockInput = 0.3f;
+        }
+        else
+        {
+            ChangeAnimationState(PlayerStates.GrabFail);
+            AudioManager.instance.PlaySfx("grab_fail");
+            lockInput = 0.1f;
+        }
     }
 
     void SetGrabPassedAnimation(StairsSide side, FruitType fruitType)
@@ -124,9 +141,15 @@ public class PlayerController : MonoBehaviour
                 grabAnimation = PlayerStates.GrabPassed2;
             }
             ChangeAnimationState(grabAnimation);
-            lockInput = 0.5f;
             AudioManager.instance.PlaySfx("grab_passed");
-            ScheduleLoopAnimation();
+            lockInput = 0.5f;
         }
+    }
+
+    private void UpdateLoopAnimation()
+    {
+        float analogPosition = Conductor.instance.loopPositionInAnalog * (8f / durationInBeats);
+        int loopHash = animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
+        animator.Play(loopHash, -1, analogPosition);
     }
 }

@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     public Image blackSquareImage;
     public SongData[] songs;
     public GameObject objectsInGame;
-    public static event Action OnKeynotePressedSuccessfully;
+    public static event Action<StairsSide, FruitType> OnKeynotePressedSuccessfully;
     public static event Action<StairsSide, FruitType> OnKeynoteNotPressed;
     private GameStates currentState;
     private int numberOfFails;
@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
         FruitType fruit = keynoteHolder.CheckCurrentBeatHasAnyFruitInSide(side);
         if (fruit != FruitType.None)
         {
-            OnKeynotePressedSuccessfully?.Invoke();
+            OnKeynotePressedSuccessfully?.Invoke(side, fruit);
         }
         return fruit;
     }

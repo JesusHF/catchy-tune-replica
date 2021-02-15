@@ -11,15 +11,17 @@ public class Fruit
     public const string PINEAPPLE_HIT = "pineapple_hit";
     public GameObject fruitObject;
     public Animator animator;
-    public Instrument type;
+    public StairsSide side;
+    public FruitType type;
     public float lifeSpawn;
     public float animationOffset;
     public float loopOffset;
     public bool isSynced;
-    public Fruit(GameObject fruitObject, Instrument type, float lifeSpawn, float animationOffset, bool isSynced = true)
+    public Fruit(GameObject fruitObject, StairsSide side, FruitType type, float lifeSpawn, float animationOffset, bool isSynced = true)
     {
         this.fruitObject = fruitObject;
         this.animator = fruitObject.GetComponent<Animator>();
+        this.side = side;
         this.type = type;
         this.lifeSpawn = lifeSpawn;
         this.animationOffset = animationOffset;
@@ -43,11 +45,11 @@ public class Fruit
     {
         float analogPosition = Conductor.instance.loopPositionInAnalog;
         analogPosition += analogPosition < loopOffset ? (1f - animationOffset) : -animationOffset;
-        if (type == Instrument.orangeL || type == Instrument.orangeR)
+        if (type == FruitType.Orange)
         {
             analogPosition *= (8f / 4f);
         }
-        else
+        else if (type == FruitType.PineApple)
         {
             analogPosition *= (8f / 7f);
         }
@@ -74,7 +76,7 @@ public class Fruit
 
     private string GetLastAnimationName()
     {
-        if (type == Instrument.orangeL || type == Instrument.orangeR)
+        if (type == FruitType.Orange)
         {
             return ORANGE_HIT;
         }
@@ -115,8 +117,8 @@ public class FruitSpawner : MonoBehaviour
             orangeRObject.name = "OrangeRight";
             orangeLObject.SetActive(false);
             orangeRObject.SetActive(false);
-            Fruit orangeL = new Fruit(orangeLObject, Instrument.orangeL, 0f, 0f, false);
-            Fruit orangeR = new Fruit(orangeRObject, Instrument.orangeR, 0f, 0f, false);
+            Fruit orangeL = new Fruit(orangeLObject, StairsSide.Left, FruitType.Orange, 0f, 0f, false);
+            Fruit orangeR = new Fruit(orangeRObject, StairsSide.Right, FruitType.Orange, 0f, 0f, false);
             fruitBasket.Add(orangeL);
             fruitBasket.Add(orangeR);
         }
@@ -128,8 +130,8 @@ public class FruitSpawner : MonoBehaviour
             pineappleRObject.name = "PineAppleRight";
             pineappleLObject.SetActive(false);
             pineappleRObject.SetActive(false);
-            Fruit pineappleL = new Fruit(pineappleLObject, Instrument.pineAppleL, 0f, 0f, false);
-            Fruit pineappleR = new Fruit(pineappleRObject, Instrument.pineAppleR, 0f, 0f, false);
+            Fruit pineappleL = new Fruit(pineappleLObject, StairsSide.Left, FruitType.PineApple, 0f, 0f, false);
+            Fruit pineappleR = new Fruit(pineappleRObject, StairsSide.Right, FruitType.PineApple, 0f, 0f, false);
             fruitBasket.Add(pineappleL);
             fruitBasket.Add(pineappleR);
         }
@@ -158,16 +160,14 @@ public class FruitSpawner : MonoBehaviour
 
     public void SpawnOrange(StairsSide side)
     {
-        Instrument fruitType = side == StairsSide.Left ? Instrument.orangeL : Instrument.orangeR;
-        int orangeIndex = GetFruitFromPool(fruitType);
+        int orangeIndex = GetFruitFromPool(side, FruitType.Orange);
         float orangelifeSpawn = 4 * Conductor.instance.secPerBeat;
         fruitBasket[orangeIndex].PlaySyncedAnimation(Fruit.ORANGE_LOOP, orangelifeSpawn);
     }
 
     public void SpawnPineapple(StairsSide side)
     {
-        Instrument fruitType = side == StairsSide.Left ? Instrument.pineAppleL : Instrument.pineAppleR;
-        int pineIndex = GetFruitFromPool(fruitType);
+        int pineIndex = GetFruitFromPool(side, FruitType.PineApple);
         float pinelifeSpawn = 7 * Conductor.instance.secPerBeat;
         fruitBasket[pineIndex].PlaySyncedAnimation(Fruit.PINEAPPLE_LOOP, pinelifeSpawn);
     }
@@ -197,27 +197,28 @@ public class FruitSpawner : MonoBehaviour
         fruit.Release();
     }
 
-    void StopFruitHitAnimations()
+    void StopFruitHitAnimations(StairsSide side, FruitType type)
     {
         if (fruitBasket.Count > 0)
         {
             foreach (var fruit in fruitBasket)
             {
-                if (fruit.fruitObject.activeInHierarchy && fruit.lifeSpawn <= 0.25f)
+                if (fruit.fruitObject.activeInHierarchy &&
+                    fruit.side == side && fruit.type == type && fruit.lifeSpawn < 0.1f)
                 {
                     fruit.Release();
                     break;
-                    // todo: check fruit side
                 }
             }
         }
     }
 
-    int GetFruitFromPool(Instrument fruitType)
+    int GetFruitFromPool(StairsSide side, FruitType fruitType)
     {
         for (int i = 0; i < fruitBasket.Count; i++)
         {
-            if (fruitBasket[i].lifeSpawn == 0f && fruitBasket[i].type == fruitType)
+            if (fruitBasket[i].lifeSpawn == 0f &&
+                fruitBasket[i].side == side && fruitBasket[i].type == fruitType)
             {
                 return i;
             }

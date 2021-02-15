@@ -226,7 +226,7 @@ public class TutorialManager : MonoBehaviour
         this.enabled = false;
     }
 
-    private void DecreaseNumber()
+    private void DecreaseNumber(StairsSide side, FruitType type)
     {
         if (itemsLeft == 1)
         {

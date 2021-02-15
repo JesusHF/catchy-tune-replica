@@ -9,6 +9,7 @@ public struct GridElement
 {
     public RectTransform rect;
     public string name;
+    public string level;
 }
 
 public class MuseumManager : MonoBehaviour
@@ -29,6 +30,7 @@ public class MuseumManager : MonoBehaviour
 
     void Start()
     {
+        patternAnimationTime = 0f;
         selector.gameObject.SetActive(false);
         AudioManager.instance.PlaySong("museum", true, 0.3f);
         StartCoroutine(FadeBlackSquare(1f, 0f, InitMuseum));
@@ -38,7 +40,6 @@ public class MuseumManager : MonoBehaviour
     {
         selector.gameObject.SetActive(true);
         levelSelected = 0;
-        patternAnimationTime = 0f;
         selectorAnimationTime = 0f;
         selectorAnimationDirection = 1f;
         UpdateSelectorText();
@@ -104,17 +105,7 @@ public class MuseumManager : MonoBehaviour
 
     private void PlaySelectedLevel()
     {
-        switch (levelSelected)
-        {
-            case 0:
-                LoadLevel("level1");
-                break;
-            case 1:
-                LoadLevel("level2");
-                break;
-            default:
-                break;
-        }
+        LoadLevel(gridElements[levelSelected].level);
     }
 
     private void LoadLevel(string sceneName)

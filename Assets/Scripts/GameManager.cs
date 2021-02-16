@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     public TutorialManager tutorialManager;
     public EndGameManager endGameManager;
     public Image blackSquareImage;
-    public SongData[] songs;
+    public SongData gameSong;
     public GameObject objectsInGame;
     public static event Action OnGameStarted;
     public static event Action OnGameEnded;
@@ -72,14 +72,21 @@ public class GameManager : MonoBehaviour
             case GameStates.Tutorial:
                 OnGameStarted?.Invoke();
                 OnGameStarted = null;
-                StartCoroutine(FadeBlackSquare(blackSquareImage, 2f, 0f, () =>
+                if (tutorialManager != null)
                 {
-                    tutorialManager.enabled = true;
-                    tutorialManager.StartTutorial();
-                }));
+                    StartCoroutine(FadeBlackSquare(blackSquareImage, 2f, 0f, () =>
+                    {
+                        tutorialManager.gameObject.SetActive(true);
+                        tutorialManager.StartTutorial();
+                    }));
+                }
+                else
+                {
+                    currentState++;
+                    GetNextState();
+                }
                 break;
             case GameStates.GameTransition:
-                tutorialManager.enabled = false;
                 AudioManager.instance.FadeCurrentSong(3f);
                 StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 1f, GetNextState));
                 break;
@@ -87,7 +94,7 @@ public class GameManager : MonoBehaviour
                 Conductor.instance.StopSong();
                 StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 0f, () =>
                 {
-                    AudioManager.instance.PlaySongWithCallback(songs[1].presong_clip, StartGame);
+                    AudioManager.instance.PlaySongWithCallback(gameSong.presong_clip, StartGame);
                 }));
                 break;
             case GameStates.EndGameTransition:
@@ -107,28 +114,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayTutorialPresong()
-    {
-        AudioManager.instance.PlaySongWithCallback(songs[0].presong_clip, StartTutorial);
-    }
-
-    private void StartTutorial()
-    {
-        Conductor.instance.StartSong(songs[0]);
-        tutorialManager.StartTutorialLoop();
-    }
-
     private void StartGame()
     {
-        Conductor.instance.StartSong(songs[1]);
-        keynoteHolder.PreprocessSongNotes(songs[1].keynotes, songs[1].finish_beat);
+        Conductor.instance.StartSong(gameSong);
+        keynoteHolder.PreprocessSongNotes(gameSong.keynotes, gameSong.finish_beat);
         numberOfFails = 0;
     }
 
     private void StartEndGame()
     {
         endGameManager.enabled = true;
-        float score = (1f - ((float)numberOfFails / songs[1].keynotes.Length)) * 100f;
+        float score = (1f - ((float)numberOfFails / gameSong.keynotes.Length)) * 100f;
         endGameManager.StartEndGame((int)score);
     }
 
@@ -203,6 +199,7 @@ public class GameManager : MonoBehaviour
     {
         if (currentState == GameStates.Tutorial)
         {
+            tutorialManager.gameObject.SetActive(false);
             GetNextState();
         }
     }

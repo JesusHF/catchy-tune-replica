@@ -36,6 +36,8 @@ public class Panel
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField]
+    private SongData song;
+    [SerializeField]
     private TextMeshProUGUI moreTimesText;
     [SerializeField]
     private TextMeshProUGUI numberText;
@@ -74,7 +76,7 @@ public class TutorialManager : MonoBehaviour
     {
         ShowUI(false);
         panelObject.SetActive(false);
-        enabled = false;
+        gameObject.SetActive(false);
     }
 
     public void StartTutorial()
@@ -85,6 +87,7 @@ public class TutorialManager : MonoBehaviour
 
     public void StartTutorialLoop()
     {
+        Conductor.instance.StartSong(song);
         GameManager.OnKeynotePressedSuccessfully += DecreaseNumber;
         GetNextState();
     }
@@ -176,7 +179,7 @@ public class TutorialManager : MonoBehaviour
             case TutorialStates.WaitForSong:
                 ShowInBanner("Right side: press \"J\" to catch");
                 ShowUI(true);
-                GameManager.instance.PlayTutorialPresong();
+                AudioManager.instance.PlaySongWithCallback(song.presong_clip, StartTutorialLoop);
                 break;
             case TutorialStates.PreLoopLeft:
                 ShowUI(false);

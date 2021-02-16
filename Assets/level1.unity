@@ -155,6 +155,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &123984119 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3105173431612827451, guid: 062c129e06f84974c803ba44220efdfe,
+    type: 3}
+  m_PrefabInstance: {fileID: 3105173431560224716}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b27b06afbb4174ca73425940959ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &323237281 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8106622123126367251, guid: 89c89e04af94a714ca830643440ca8ad,
@@ -353,7 +365,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1537707941}
   - component: {fileID: 1537707942}
-  - component: {fileID: 1537707943}
   - component: {fileID: 1537707946}
   - component: {fileID: 1537707945}
   - component: {fileID: 1537707944}
@@ -376,7 +387,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1537707942
 MonoBehaviour:
@@ -392,33 +403,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fruitSpawner: {fileID: 344896621}
   keynoteHolder: {fileID: 1537707945}
-  tutorialManager: {fileID: 1537707943}
+  tutorialManager: {fileID: 123984119}
   endGameManager: {fileID: 1537707946}
   blackSquareImage: {fileID: 824404363}
-  songs:
-  - {fileID: 11400000, guid: 152d1449d02400b4ea41bb12c7ac2332, type: 2}
-  - {fileID: 11400000, guid: d8307db9c5d5ac545a699a5764a00fee, type: 2}
+  gameSong: {fileID: 11400000, guid: d8307db9c5d5ac545a699a5764a00fee, type: 2}
   objectsInGame: {fileID: 21596632}
---- !u!114 &1537707943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1537707940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58b27b06afbb4174ca73425940959ece, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moreTimesText: {fileID: 1755269777}
-  numberText: {fileID: 1009885551}
-  pressEscapeText: {fileID: 1874637334}
-  panelObject: {fileID: 1096761438}
-  panelText: {fileID: 1858696317}
-  bannerObject: {fileID: 2052369649}
-  bannerText: {fileID: 1551530100}
-  nextBeatToSpawnItem: 12
 --- !u!114 &1537707944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,7 +589,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1982828817
 GameObject:
@@ -696,7 +685,7 @@ RectTransform:
   - {fileID: 824404362}
   - {fileID: 737866317}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -940,6 +929,110 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 004fb058e567e3f4b8b92841b8f64930, type: 3}
+--- !u!1001 &3105173431560224716
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3105173431612827444, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827444, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827444, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827444, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827444, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827444, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827444, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827444, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827444, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827444, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827444, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827450, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: m_Name
+      value: TutorialManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3105173431612827451, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: panelText
+      value: 
+      objectReference: {fileID: 1858696317}
+    - target: {fileID: 3105173431612827451, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: bannerText
+      value: 
+      objectReference: {fileID: 1551530100}
+    - target: {fileID: 3105173431612827451, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: numberText
+      value: 
+      objectReference: {fileID: 1009885551}
+    - target: {fileID: 3105173431612827451, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: panelObject
+      value: 
+      objectReference: {fileID: 1096761438}
+    - target: {fileID: 3105173431612827451, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: bannerObject
+      value: 
+      objectReference: {fileID: 2052369649}
+    - target: {fileID: 3105173431612827451, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: moreTimesText
+      value: 
+      objectReference: {fileID: 1755269777}
+    - target: {fileID: 3105173431612827451, guid: 062c129e06f84974c803ba44220efdfe,
+        type: 3}
+      propertyPath: pressEscapeText
+      value: 
+      objectReference: {fileID: 1874637334}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 062c129e06f84974c803ba44220efdfe, type: 3}
 --- !u!1001 &4379532920971080763
 PrefabInstance:
   m_ObjectHideFlags: 0

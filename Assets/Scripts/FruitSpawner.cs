@@ -95,7 +95,13 @@ public class FruitSpawner : MonoBehaviour
     private GameObject containerRight;
     private List<Fruit> fruitBasket = new List<Fruit>();
 
-    void Start()
+    private void Start()
+    {
+        GameManager.OnGameStarted += Init;
+        GameManager.OnGameEnded += Destroy;
+    }
+
+    void Init()
     {
         containerLeft = new GameObject("ContainerLeft");
         containerRight = new GameObject("ContainerRight");
@@ -105,6 +111,11 @@ public class FruitSpawner : MonoBehaviour
         InitFruitBasket();
 
         GameManager.OnKeynotePressedSuccessfully += StopFruitHitAnimations;
+    }
+
+    void Destroy()
+    {
+        GameManager.OnKeynotePressedSuccessfully -= StopFruitHitAnimations;
     }
 
     private void InitFruitBasket()

@@ -27,8 +27,15 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        GameManager.OnGameStarted += Init;
+        GameManager.OnGameEnded += Destroy;
+    }
+
+    void Init()
+    {
         currentState = PlayerStates.Loop;
         animator = GetComponent<Animator>();
+        animator.enabled = true;
         animator.speed = 0;
         animator.Play(currentState);
 
@@ -36,6 +43,12 @@ public class PlayerController : MonoBehaviour
         lockInput = 0f;
         animationChangeBeat = 0f;
         GameManager.OnKeynoteNotPressed += SetGrabPassedAnimation;
+    }
+
+    void Destroy()
+    {
+        animator.enabled = false;
+        GameManager.OnKeynoteNotPressed -= SetGrabPassedAnimation;
     }
 
     void Update()

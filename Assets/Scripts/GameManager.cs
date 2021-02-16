@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
     public Image blackSquareImage;
     public SongData[] songs;
     public GameObject objectsInGame;
+    public static event Action OnGameStarted;
+    public static event Action OnGameEnded;
     public static event Action<StairsSide, FruitType> OnKeynotePressedSuccessfully;
     public static event Action<StairsSide, FruitType> OnKeynoteNotPressed;
     private GameStates currentState;
@@ -68,6 +70,8 @@ public class GameManager : MonoBehaviour
         switch (currentState)
         {
             case GameStates.Tutorial:
+                OnGameStarted?.Invoke();
+                OnGameStarted = null;
                 StartCoroutine(FadeBlackSquare(blackSquareImage, 2f, 0f, () =>
                 {
                     tutorialManager.enabled = true;
@@ -92,6 +96,8 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 1f, GetNextState));
                 break;
             case GameStates.EndGame:
+                OnGameEnded?.Invoke();
+                OnGameEnded = null;
                 objectsInGame.SetActive(false);
                 Conductor.instance.StopSong();
                 StartEndGame();

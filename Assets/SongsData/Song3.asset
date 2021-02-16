@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56a254b938b6c2f49b08221b5037693c, type: 3}
+  m_Name: Song3
+  m_EditorClassIdentifier: 
+  bpm: 137
+  beats_per_loop: 8
+  presong_clip: song3_start
+  song_clip: song3
+  loop: 0
+  finish_beat: 200
+  keynotes:
+  - beat: 8
+    instrument: 0
+  - beat: 12
+    instrument: 1
+  - beat: 16
+    instrument: 0
+  - beat: 20
+    instrument: 1
+  - beat: 24
+    instrument: 0
+  - beat: 24
+    instrument: 1
+  - beat: 27
+    instrument: 0
+  - beat: 27
+    instrument: 1
+  - beat: 27
+    instrument: 2
+  - beat: 27
+    instrument: 3
+  - beat: 52
+    instrument: 0
+  - beat: 56
+    instrument: 1
+  - beat: 60
+    instrument: 2
+  - beat: 60
+    instrument: 3
+  - beat: 68
+    instrument: 0
+  - beat: 72
+    instrument: 1
+  - beat: 76
+    instrument: 0
+  - beat: 76
+    instrument: 1
+  - beat: 79
+    instrument: 0
+  - beat: 79
+    instrument: 1
+  - beat: 84
+    instrument: 1
+  - beat: 88
+    instrument: 0
+  - beat: 92
+    instrument: 0
+  - beat: 92
+    instrument: 1
+  - beat: 95
+    instrument: 0
+  - beat: 95
+    instrument: 1
+  - beat: 100
+    instrument: 0
+  - beat: 104
+    instrument: 1
+  - beat: 108
+    instrument: 3
+  - beat: 110
+    instrument: 0
+  - beat: 116
+    instrument: 1
+  - beat: 120
+    instrument: 0
+  - beat: 124
+    instrument: 2
+  - beat: 126
+    instrument: 1
+  - beat: 132
+    instrument: 0
+  - beat: 132
+    instrument: 1
+  - beat: 135.5
+    instrument: 0
+  - beat: 136
+    instrument: 1
+  - beat: 140
+    instrument: 0
+  - beat: 144
+    instrument: 1
+  - beat: 148
+    instrument: 0
+  - beat: 151
+    instrument: 1
+  - beat: 155
+    instrument: 2
+  - beat: 156
+    instrument: 3
+  - beat: 160
+    instrument: 0
+  - beat: 164
+    instrument: 1
+  - beat: 167
+    instrument: 0
+  - beat: 172
+    instrument: 2
+  - beat: 172
+    instrument: 3
+  - beat: 178
+    instrument: 2
+  - beat: 178
+    instrument: 3
+  - beat: 183
+    instrument: 0
+  - beat: 183
+    instrument: 1
+  - beat: 185
+    instrument: 2
+  - beat: 185
+    instrument: 3

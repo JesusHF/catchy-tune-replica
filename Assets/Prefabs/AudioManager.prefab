@@ -260,6 +260,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: ada0b335fb16e6c40b6a6275965f7b90, type: 3}
   - name: museum
     clip: {fileID: 8300000, guid: 36f00a1af052b014ba322ac23e689138, type: 3}
+  - name: song3_start
+    clip: {fileID: 8300000, guid: 70ee18798a690b14e95c9c902c708a21, type: 3}
+  - name: song3
+    clip: {fileID: 8300000, guid: ce39b91c1094b124f9f30ade57e73589, type: 3}
   sfxSounds:
   - name: grab_fail
     clip: {fileID: 8300000, guid: 309a5ce5730e8c541b2d7eca7833583a, type: 3}

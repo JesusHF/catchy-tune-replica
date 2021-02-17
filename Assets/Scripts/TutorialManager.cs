@@ -264,7 +264,8 @@ public class TutorialManager : MonoBehaviour
     private void MoveTextsTop()
     {
         bannerObject.SetActive(false);
-        numberText.rectTransform.anchoredPosition = Vector2.zero;
+        numberText.rectTransform.anchoredPosition = new Vector2(
+            numberText.rectTransform.anchoredPosition.x, 0f);
         moreTimesText.rectTransform.anchoredPosition = Vector2.zero;
         pressEscapeText.rectTransform.anchoredPosition = Vector2.zero;
     }

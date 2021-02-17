@@ -19,53 +19,53 @@ MonoBehaviour:
   loop: 0
   finish_beat: 200
   keynotes:
-  - beat: 8
-    instrument: 0
-  - beat: 12
-    instrument: 1
   - beat: 16
     instrument: 0
   - beat: 20
     instrument: 1
   - beat: 24
     instrument: 0
-  - beat: 24
+  - beat: 28
     instrument: 1
-  - beat: 27
-    instrument: 0
-  - beat: 27
-    instrument: 1
-  - beat: 27
+  - beat: 32
     instrument: 2
-  - beat: 27
+  - beat: 32
     instrument: 3
+  - beat: 36
+    instrument: 0
+  - beat: 36
+    instrument: 1
+  - beat: 40
+    instrument: 2
+  - beat: 42
+    instrument: 1
+  - beat: 44
+    instrument: 1
+  - beat: 48
+    instrument: 3
+  - beat: 50
+    instrument: 0
   - beat: 52
     instrument: 0
   - beat: 56
     instrument: 1
   - beat: 60
-    instrument: 2
-  - beat: 60
-    instrument: 3
+    instrument: 0
+  - beat: 64
+    instrument: 0
+  - beat: 64
+    instrument: 1
+  - beat: 67.5
+    instrument: 0
   - beat: 68
-    instrument: 0
+    instrument: 1
   - beat: 72
-    instrument: 1
+    instrument: 2
+  - beat: 72
+    instrument: 3
   - beat: 76
     instrument: 0
   - beat: 76
-    instrument: 1
-  - beat: 79
-    instrument: 0
-  - beat: 79
-    instrument: 1
-  - beat: 84
-    instrument: 1
-  - beat: 88
-    instrument: 0
-  - beat: 92
-    instrument: 0
-  - beat: 92
     instrument: 1
   - beat: 95
     instrument: 0

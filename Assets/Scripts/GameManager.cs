@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
 
     private void StartEndGame()
     {
-        endGameManager.enabled = true;
+        endGameManager.gameObject.SetActive(true);
         float score = (1f - ((float)numberOfFails / gameSong.keynotes.Length)) * 100f;
         endGameManager.StartEndGame((int)score);
     }

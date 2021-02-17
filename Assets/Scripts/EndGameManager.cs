@@ -19,7 +19,7 @@ public struct EndGameResult
 
 public class EndGameManager : MonoBehaviour
 {
-    public GameObject EndGameContainer;
+    public GameObject PanelContainer;
     public GameObject ScoreContainer;
     public Image blackSquareImage;
     public TextMeshProUGUI commentsFirstText;
@@ -31,6 +31,7 @@ public class EndGameManager : MonoBehaviour
     public Animator resultAnimator;
     public GameObject highscoreObject;
     public GameObject spaceIconObject;
+    public GameObject backgroundObject;
     public EndGameResult tryAgainResult;
     public EndGameResult okResult;
     public EndGameResult superbResult;
@@ -38,9 +39,8 @@ public class EndGameManager : MonoBehaviour
 
     void Start()
     {
-        EndGameContainer.SetActive(false);
+        gameObject.SetActive(false);
         isOver = false;
-        enabled = false;
     }
 
     public void StartEndGame(int score = 75)
@@ -50,12 +50,14 @@ public class EndGameManager : MonoBehaviour
 
     private IEnumerator ShowEndGame(int score)
     {
-        yield return new WaitForSeconds(2f);
-        EndGameContainer.SetActive(true);
+        PanelContainer.SetActive(false);
         ScoreContainer.SetActive(false);
         resultAnimator.gameObject.SetActive(false);
         highscoreObject.SetActive(false);
         spaceIconObject.SetActive(false);
+        backgroundObject.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        PanelContainer.SetActive(true);
         commentsFirstText.text = "";
         commentsSecondText.text = "";
         AudioManager.instance.PlaySfx("ui_show1");
@@ -143,6 +145,7 @@ public class EndGameManager : MonoBehaviour
         AudioManager.instance.PlaySfx(currentEnd.sfxName);
         resultAnimator.gameObject.SetActive(true);
         resultAnimator.Play(currentEnd.animationName);
+        backgroundObject.SetActive(true);
         yield return new WaitForSeconds(1.5f);
         AudioManager.instance.PlaySong(currentEnd.songName, true);
         spaceIconObject.SetActive(true);

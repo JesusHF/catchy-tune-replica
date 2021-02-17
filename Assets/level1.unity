@@ -456,6 +456,7 @@ MonoBehaviour:
   sliderNumberText: {fileID: 6550921057553222323}
   resultAnimator: {fileID: 1381072999}
   highscoreObject: {fileID: 2046425437}
+  spaceIconObject: {fileID: 6550921057553222331}
   tryAgainResult:
     commentFirstLine: You missed some oranges.
     commentSecondLine: 
@@ -1451,6 +1452,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6550921057553222331 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2631712534098022619, guid: 464968b9189ed2344aab884877181008,
+    type: 3}
+  m_PrefabInstance: {fileID: 6550921057553222321}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7063371094253479980
 PrefabInstance:
   m_ObjectHideFlags: 0

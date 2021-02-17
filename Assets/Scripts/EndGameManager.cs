@@ -30,6 +30,7 @@ public class EndGameManager : MonoBehaviour
     public TextMeshProUGUI sliderNumberText;
     public Animator resultAnimator;
     public GameObject highscoreObject;
+    public GameObject spaceIconObject;
     public EndGameResult tryAgainResult;
     public EndGameResult okResult;
     public EndGameResult superbResult;
@@ -54,6 +55,7 @@ public class EndGameManager : MonoBehaviour
         ScoreContainer.SetActive(false);
         resultAnimator.gameObject.SetActive(false);
         highscoreObject.SetActive(false);
+        spaceIconObject.SetActive(false);
         commentsFirstText.text = "";
         commentsSecondText.text = "";
         AudioManager.instance.PlaySfx("ui_show1");
@@ -143,6 +145,7 @@ public class EndGameManager : MonoBehaviour
         resultAnimator.Play(currentEnd.animationName);
         yield return new WaitForSeconds(1.5f);
         AudioManager.instance.PlaySong(currentEnd.songName, true);
+        spaceIconObject.SetActive(true);
         isOver = true;
     }
 

@@ -97,7 +97,7 @@ public class FruitSpawner : MonoBehaviour
 
     private void Start()
     {
-        GameManager.OnGameStarted += Init;
+        Init();
         GameManager.OnGameEnded += Destroy;
     }
 

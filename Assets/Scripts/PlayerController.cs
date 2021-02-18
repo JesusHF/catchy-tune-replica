@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        GameManager.OnGameStarted += Init;
+        Init();
         GameManager.OnGameEnded += Destroy;
     }
 

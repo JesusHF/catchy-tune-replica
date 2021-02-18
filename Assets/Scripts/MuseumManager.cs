@@ -27,9 +27,11 @@ public class MuseumManager : MonoBehaviour
     private float selectorAnimationTime;
     private float selectorAnimationDirection;
     private float patternAnimationTime;
+    private bool lockedSelector;
 
     void Start()
     {
+        lockedSelector = false;
         patternAnimationTime = 0f;
         selector.gameObject.SetActive(false);
         AudioManager.instance.PlaySong("museum", true, 0.3f);
@@ -77,17 +79,20 @@ public class MuseumManager : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (!lockedSelector)
         {
-            ChangeLevelSelected(-1);
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            ChangeLevelSelected(+1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-        {
-            PlaySelectedLevel();
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                ChangeLevelSelected(-1);
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                ChangeLevelSelected(+1);
+            }
+            else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                PlaySelectedLevel();
+            }
         }
         AnimateSelector();
         AnimatePattern();
@@ -105,6 +110,7 @@ public class MuseumManager : MonoBehaviour
 
     private void PlaySelectedLevel()
     {
+        lockedSelector = true;
         LoadLevel(gridElements[levelSelected].level);
     }
 

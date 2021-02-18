@@ -205,14 +205,14 @@ public class TutorialManager : MonoBehaviour
                 ShowInBanner("Left side: press \"F\" to catch");
                 ResetMoreTimesText();
                 nextBeatToSpawnItem = (int)Conductor.instance.songPositionInBeats + 4;
-                nextBeatToSpawnItem += nextBeatToSpawnItem % 8;
+                nextBeatToSpawnItem += 4 - (nextBeatToSpawnItem % 4);
                 break;
             case TutorialStates.LoopPineApples:
                 ShowUI(true);
                 ResetMoreTimesText();
                 MoveTextsTop();
                 nextBeatToSpawnItem = (int)Conductor.instance.songPositionInBeats;
-                nextBeatToSpawnItem += nextBeatToSpawnItem % 8;
+                nextBeatToSpawnItem += 8 - (nextBeatToSpawnItem % 8);
                 break;
             case TutorialStates.End:
                 EndTutorial();

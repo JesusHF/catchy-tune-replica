@@ -152,20 +152,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blackSquareImage: {fileID: 733583711}
   patternRect: {fileID: 1701315555}
-  gridElements:
-  - rect: {fileID: 1163784018}
-    name: Catchy Tune
-    level: level1
-  - rect: {fileID: 539432380}
-    name: Catchy Tune 2
-    level: level2
-  - rect: {fileID: 1509954101}
-    name: Catchy Tune 3
-    level: level3
   levels:
   - {fileID: 667012348798141601}
   - {fileID: 539432381}
   - {fileID: 1509954102}
+  silverFrame: {fileID: -4199210806560527923, guid: 2fda0a24dd95df34a9e5297ec22f55ee,
+    type: 3}
+  goldenFrame: {fileID: 4149587158431635310, guid: 2fda0a24dd95df34a9e5297ec22f55ee,
+    type: 3}
   selector: {fileID: 1611651465}
   selectorText: {fileID: 901211272}
   selectorXOffset: 65

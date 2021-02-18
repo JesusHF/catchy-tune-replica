@@ -10,6 +10,9 @@ public class MuseumManager : MonoBehaviour
     public Image blackSquareImage;
     public RectTransform patternRect;
     public Level[] levels;
+    public Sprite silverFrame;
+    public Sprite goldenFrame;
+
     [Header("Selector")]
     public RectTransform selector;
     public TextMeshProUGUI selectorText;
@@ -28,17 +31,37 @@ public class MuseumManager : MonoBehaviour
         patternAnimationTime = 0f;
         selector.gameObject.SetActive(false);
         AudioManager.instance.PlaySong("museum", true, 0.3f);
+        ShowLevels(false);
         StartCoroutine(FadeBlackSquare(1f, 0f, InitMuseum));
     }
 
     void InitMuseum()
     {
+        ShowLevels(true);
         selector.gameObject.SetActive(true);
         levelSelected = 0;
         selectorAnimationTime = 0f;
         selectorAnimationDirection = 1f;
         UpdateSelectorText();
     }
+
+    private void ShowLevels(bool show)
+    {
+        foreach (Level level in levels)
+        {
+            level.gameObject.SetActive(show);
+            if (show == true)
+            {
+                int highscore = PlayerPrefs.GetInt(level.level, 0);
+                level.scoreText.text = highscore.ToString();
+                if (highscore >= 80)
+                {
+                    level.frameImage.sprite = goldenFrame;
+                }
+            }
+        }
+    }
+
     private void UpdateSelectorText()
     {
         selectorText.text = levels[levelSelected].name;

@@ -56,6 +56,7 @@ public class MuseumManager : MonoBehaviour
                 level.scoreText.text = highscore.ToString();
                 if (highscore >= 80)
                 {
+                    level.scoreText.color = new Color(1f, 0.8228265f, 0f);
                     level.frameImage.sprite = goldenFrame;
                 }
             }

@@ -4,19 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-[Serializable]
-public struct GridElement
-{
-    public RectTransform rect;
-    public string name;
-    public string level;
-}
 
 public class MuseumManager : MonoBehaviour
 {
     public Image blackSquareImage;
     public RectTransform patternRect;
-    public GridElement[] gridElements;
+    public Level[] levels;
     [Header("Selector")]
     public RectTransform selector;
     public TextMeshProUGUI selectorText;
@@ -48,7 +41,7 @@ public class MuseumManager : MonoBehaviour
     }
     private void UpdateSelectorText()
     {
-        selectorText.text = gridElements[levelSelected].name;
+        selectorText.text = levels[levelSelected].name;
     }
 
     private void AnimateSelector()
@@ -62,8 +55,8 @@ public class MuseumManager : MonoBehaviour
             selectorAnimationDirection = +1f;
         }
         selectorAnimationTime += Time.deltaTime * selectorAnimationDirection;
-        float xPosition = gridElements[levelSelected].rect.position.x + selectorXOffset;
-        float initialYPosition = gridElements[levelSelected].rect.position.y + selectorYOffset;
+        float xPosition = levels[levelSelected].rect.position.x + selectorXOffset;
+        float initialYPosition = levels[levelSelected].rect.position.y + selectorYOffset;
         float offsetYPosition = initialYPosition + selectorYRange * selectorAnimationTime;
         selector.position = new Vector3(xPosition, offsetYPosition);
     }
@@ -100,7 +93,7 @@ public class MuseumManager : MonoBehaviour
 
     private void ChangeLevelSelected(int direction)
     {
-        if (levelSelected + direction >= 0 && levelSelected + direction < gridElements.Length)
+        if (levelSelected + direction >= 0 && levelSelected + direction < levels.Length)
         {
             AudioManager.instance.PlaySfx("ui_click");
             levelSelected += direction;
@@ -111,7 +104,7 @@ public class MuseumManager : MonoBehaviour
     private void PlaySelectedLevel()
     {
         lockedSelector = true;
-        LoadLevel(gridElements[levelSelected].level);
+        LoadLevel(levels[levelSelected].level);
     }
 
     private void LoadLevel(string sceneName)

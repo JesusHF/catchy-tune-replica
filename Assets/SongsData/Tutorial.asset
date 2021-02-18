@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56a254b938b6c2f49b08221b5037693c, type: 3}
   m_Name: Tutorial
   m_EditorClassIdentifier: 
-  bpm: 130
+  bpm: 129
   beats_per_loop: 8
   presong_clip: tutorial_start
   song_clip: tutorial

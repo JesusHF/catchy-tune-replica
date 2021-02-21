@@ -27,7 +27,7 @@ public class MuseumManager : MonoBehaviour
 
     void Start()
     {
-        lockedSelector = false;
+        lockedSelector = true;
         patternAnimationTime = 0f;
         selector.gameObject.SetActive(false);
         AudioManager.instance.PlaySong("museum", true, 0.3f);
@@ -40,6 +40,7 @@ public class MuseumManager : MonoBehaviour
         ShowLevels(true);
         selector.gameObject.SetActive(true);
         levelSelected = 0;
+        lockedSelector = false;
         selectorAnimationTime = 0f;
         selectorAnimationDirection = 1f;
         UpdateSelectorText();

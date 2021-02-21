@@ -96,14 +96,14 @@ public class GameManager : MonoBehaviour
                 break;
             case GameStates.EndGameTransition:
                 keynoteHolder.enabled = false;
+                Conductor.instance.StopSong();
                 AudioManager.instance.FadeCurrentSong(3f);
-                StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 1f, GetNextState));
+                StartCoroutine(FadeBlackSquare(blackSquareImage, 4f, 1f, GetNextState));
                 break;
             case GameStates.EndGame:
                 OnGameEnded?.Invoke();
                 OnGameEnded = null;
                 objectsInGame.SetActive(false);
-                Conductor.instance.StopSong();
                 StartEndGame();
                 break;
             default:

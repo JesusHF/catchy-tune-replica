@@ -3,11 +3,15 @@
 public class Conductor : MonoBehaviour
 {
     private float songBpm;
+    /// <summary>Returns how many seconds one beat lasts</summary>
     public float secPerBeat { get; private set; }
+    /// <summary>Returns the song position in seconds</summary>
     public float songPosition { get; private set; }
+    /// <summary>Returns the song position in milliseconds</summary>
     public float songPositionMs { get; private set; }
+    /// <summary>Returns the song position in beats</summary>
     public float songPositionInBeats { get; private set; }
-    public float dspSongTime { get; private set; }
+    private float dspSongTime;
 
     public float beatsPerLoop { get; private set; }
     public int completedLoops { get; private set; }

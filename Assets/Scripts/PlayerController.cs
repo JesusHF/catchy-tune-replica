@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         GameManager.OnKeynoteNotPressed -= SetGrabPassedAnimation;
     }
 
-    void Update()
+    void UpdateInput()
     {
         if (lockInput <= 0f)
         {
@@ -66,8 +66,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        UpdateInput();
         if (isGrabbing)
         {
             SetGrabAnimation();
@@ -84,7 +85,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (lockInput > 0f)
                 {
-                    animationChangeBeat = Mathf.Max(Mathf.Ceil(Conductor.instance.songPositionInBeats), 1f);
+                    animationChangeBeat = Mathf.Max(Mathf.Ceil(Conductor.instance.songPositionInBeats + 0.2f), 1f);
                 }
             }
             else

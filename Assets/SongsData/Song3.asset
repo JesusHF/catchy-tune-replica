@@ -55,7 +55,7 @@ MonoBehaviour:
     instrument: 0
   - beat: 64
     instrument: 1
-  - beat: 67.5
+  - beat: 68
     instrument: 0
   - beat: 68
     instrument: 1
@@ -67,34 +67,36 @@ MonoBehaviour:
     instrument: 0
   - beat: 76
     instrument: 1
-  - beat: 95
-    instrument: 0
-  - beat: 95
-    instrument: 1
-  - beat: 100
-    instrument: 0
-  - beat: 104
-    instrument: 1
-  - beat: 108
-    instrument: 3
-  - beat: 110
-    instrument: 0
-  - beat: 116
-    instrument: 1
-  - beat: 120
-    instrument: 0
-  - beat: 124
+  - beat: 80
     instrument: 2
-  - beat: 126
-    instrument: 1
-  - beat: 132
+  - beat: 81
+    instrument: 3
+  - beat: 85
     instrument: 0
-  - beat: 132
-    instrument: 1
-  - beat: 135.5
+  - beat: 88
     instrument: 0
-  - beat: 136
+  - beat: 92
     instrument: 1
+  - beat: 96
+    instrument: 0
+  - beat: 99
+    instrument: 1
+  - beat: 102
+    instrument: 0
+  - beat: 102
+    instrument: 1
+  - beat: 106
+    instrument: 0
+  - beat: 106
+    instrument: 1
+  - beat: 109.5
+    instrument: 0
+  - beat: 110
+    instrument: 1
+  - beat: 113.5
+    instrument: 1
+  - beat: 114
+    instrument: 0
   - beat: 140
     instrument: 0
   - beat: 144

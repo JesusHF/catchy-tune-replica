@@ -89,10 +89,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameStates.Game:
                 Conductor.instance.StopSong();
-                StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 0f, () =>
-                {
-                    AudioManager.instance.PlaySongWithCallback(gameSong.presong_clip, StartGame);
-                }));
+                StartCoroutine(FadeBlackSquare(blackSquareImage, 3f, 0f, PlaySong));
                 break;
             case GameStates.EndGameTransition:
                 keynoteHolder.enabled = false;
@@ -109,6 +106,16 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void PlaySong()
+    {
+        if (gameSong.presong_clip == "")
+        {
+            StartGame();
+            return;
+        }
+        AudioManager.instance.PlaySongWithCallback(gameSong.presong_clip, StartGame);
     }
 
     private void StartGame()

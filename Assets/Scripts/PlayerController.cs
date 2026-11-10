@@ -12,6 +12,7 @@ public class PlayerStates
     public const string GrabPassed2 = "player_grab_passed_2";
 }
 
+[DefaultExecutionOrder(-90)]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
@@ -157,7 +158,7 @@ public class PlayerController : MonoBehaviour
             }
             ChangeAnimationState(grabAnimation);
             AudioManager.instance.PlaySfx("grab_passed");
-            lockInput = 0.5f;
+            lockInput = 0.15f;
         }
     }
 

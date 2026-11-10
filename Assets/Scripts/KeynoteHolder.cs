@@ -26,11 +26,14 @@ public struct QueuedKeynote
     }
 }
 
+[DefaultExecutionOrder(-80)]
 public class KeynoteHolder : MonoBehaviour
 {
 
     [SerializeField, Range(25f, 300f)]
     private float threshold = 200f;
+    [SerializeField]
+    private bool debugTiming = false;
     private Queue<QueuedKeynote> keynoteTimesL = new Queue<QueuedKeynote>();
     private Queue<QueuedKeynote> keynoteTimesR = new Queue<QueuedKeynote>();
     private Queue<Keynote> fruitsToSpawn = new Queue<Keynote>();
@@ -77,7 +80,7 @@ public class KeynoteHolder : MonoBehaviour
         if (currentSideNotes.Count > 0)
         {
             float nextKeynoteMS = currentSideNotes.Peek().beat * Conductor.instance.secPerBeat * 1000f;
-            if (Conductor.instance.songPositionMs > (nextKeynoteMS + (threshold / 2)))
+            if (Conductor.instance.songPositionMs > (nextKeynoteMS + threshold))
             {
                 QueuedKeynote note = currentSideNotes.Dequeue();
                 GameManager.instance.NotifyNotePassedInSide(side, note.type);
@@ -184,10 +187,19 @@ public class KeynoteHolder : MonoBehaviour
         if (currentSideNotes.Count > 0)
         {
             float nextKeynoteMS = currentSideNotes.Peek().beat * Conductor.instance.secPerBeat * 1000f;
-            if (Mathf.Abs(Conductor.instance.songPositionMs - nextKeynoteMS) < threshold)
+            float offset = Conductor.instance.songPositionMs - nextKeynoteMS;
+            if (Mathf.Abs(offset) < threshold)
             {
+                if (debugTiming)
+                {
+                    Debug.Log($"[Timing] {side} HIT {offset:F1} ms off note (window +-{threshold:F0} ms)");
+                }
                 FruitType type = currentSideNotes.Dequeue().type;
                 return type;
+            }
+            else if (debugTiming)
+            {
+                Debug.Log($"[Timing] {side} MISS press {offset:F1} ms off note (window +-{threshold:F0} ms)");
             }
         }
         return FruitType.None;

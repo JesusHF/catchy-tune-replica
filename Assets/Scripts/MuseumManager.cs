@@ -9,7 +9,6 @@ using UnityEngine.InputSystem;
 public class MuseumManager : MonoBehaviour
 {
     public Image blackSquareImage;
-    public RectTransform patternRect;
     public Level[] levels;
     public Sprite silverFrame;
     public Sprite goldenFrame;
@@ -23,13 +22,11 @@ public class MuseumManager : MonoBehaviour
     private int levelSelected;
     private float selectorAnimationTime;
     private float selectorAnimationDirection;
-    private float patternAnimationTime;
     private bool lockedSelector;
 
     void Start()
     {
         lockedSelector = true;
-        patternAnimationTime = 0f;
         selector.gameObject.SetActive(false);
         AudioManager.instance.PlaySong("museum", true, 0.3f);
         ShowLevels(false);
@@ -87,15 +84,6 @@ public class MuseumManager : MonoBehaviour
         selector.position = new Vector3(xPosition, offsetYPosition);
     }
 
-    private void AnimatePattern()
-    {
-        patternAnimationTime += Time.deltaTime;
-        if (patternAnimationTime >= 3f)
-        {
-            patternAnimationTime = 0f;
-        }
-        patternRect.anchoredPosition = new Vector2(-100f * patternAnimationTime, -100f * patternAnimationTime);
-    }
     void Update()
     {
         if (!lockedSelector)
@@ -114,7 +102,6 @@ public class MuseumManager : MonoBehaviour
             }
         }
         AnimateSelector();
-        AnimatePattern();
     }
 
     private void ChangeLevelSelected(int direction)

@@ -23,5 +23,5 @@
     },
     "git.ignoreMissingGitWarning": true,
     "dotnet.preferCSharpExtension": true,
-    "dotnet.defaultSolution": "catchy-tune-replica.sln"
+    "dotnet.defaultSolution": "catchy-tune-replica.slnx"
 }

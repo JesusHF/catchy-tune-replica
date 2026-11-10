@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
 public class Panel
@@ -109,7 +110,7 @@ public class TutorialManager : MonoBehaviour
 
     void UpdateTutorial()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && tutorialState != TutorialStates.End)
+        if (KeyboardInput.Pressed(Key.Escape) && tutorialState != TutorialStates.End)
         {
             tutorialState = TutorialStates.End;
             EndTutorial();
@@ -135,7 +136,7 @@ public class TutorialManager : MonoBehaviour
 
     private void UpdatePanelText()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (KeyboardInput.Pressed(Key.Space))
         {
             GetNextPanelSentence();
             AudioManager.instance.PlaySfx("ui_click2");

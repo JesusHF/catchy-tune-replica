@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 
 public class MuseumManager : MonoBehaviour
@@ -99,15 +100,15 @@ public class MuseumManager : MonoBehaviour
     {
         if (!lockedSelector)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (KeyboardInput.Pressed(Key.LeftArrow))
             {
                 ChangeLevelSelected(-1);
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            else if (KeyboardInput.Pressed(Key.RightArrow))
             {
                 ChangeLevelSelected(+1);
             }
-            else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            else if (KeyboardInput.Pressed(Key.Space) || KeyboardInput.Pressed(Key.Enter))
             {
                 PlaySelectedLevel();
             }

@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
@@ -166,7 +167,7 @@ public class EndGameManager : MonoBehaviour
 
     private void Update()
     {
-        if (isOver && Input.GetKeyDown(KeyCode.Space))
+        if (isOver && KeyboardInput.Pressed(Key.Space))
         {
             isOver = false;
             AudioManager.instance.PlaySfx("ui_click2");

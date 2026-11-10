@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82d44135cee7ed543b11442f454def0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionKey: 32
+  actionKey: 1
   playerSide: 0
 --- !u!1 &5972900341281192088
 GameObject:

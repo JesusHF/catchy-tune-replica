@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerStates
 {
@@ -14,7 +15,7 @@ public class PlayerStates
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private KeyCode actionKey = KeyCode.Space;
+    private Key actionKey = Key.Space;
     [SerializeField]
     private StairsSide playerSide;
     private Animator animator;
@@ -55,7 +56,7 @@ public class PlayerController : MonoBehaviour
     {
         if (lockInput <= 0f)
         {
-            if (Input.GetKeyDown(actionKey))
+            if (KeyboardInput.Pressed(actionKey))
             {
                 isGrabbing = true;
             }

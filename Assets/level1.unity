@@ -190,7 +190,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17228f94c9a6f74babb26800c45220d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fruitPrefab: {fileID: 3902888179420746711, guid: 9f49eceb29e1669468b04b8e6cb5e851,
+  orangePrefab: {fileID: 3902888179420746711, guid: 9f49eceb29e1669468b04b8e6cb5e851,
+    type: 3}
+  pineapplePrefab: {fileID: 3902888179420746711, guid: 5364b15dbf144fad84e063ad17de03b6,
     type: 3}
 --- !u!4 &344896622
 Transform:

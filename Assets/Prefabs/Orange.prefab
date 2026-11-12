@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3902888179420746709}
   - component: {fileID: 3902888179420746708}
   m_Layer: 0
-  m_Name: Fruit
+  m_Name: Orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

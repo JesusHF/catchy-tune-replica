@@ -17,6 +17,7 @@ public class Fruit
     public float animationOffset;
     public float loopOffset;
     public bool isSynced;
+    public string currentAnimationName;
     public Fruit(GameObject fruitObject, StairsSide side, FruitType type, float lifeSpawn, float animationOffset, bool isSynced = true)
     {
         this.fruitObject = fruitObject;
@@ -35,6 +36,7 @@ public class Fruit
         fruitObject.SetActive(true);
         animator.speed = 0f;
         animator.Play(animationName);
+        currentAnimationName = animationName;
         lifeSpawn = time;
         animationOffset = Conductor.instance.loopPositionInAnalog;
         loopOffset = Conductor.instance.GetTimeToNextLoop() < lifeSpawn ?
@@ -53,8 +55,12 @@ public class Fruit
         {
             analogPosition *= (8f / 7f);
         }
-        int loopHash = animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
-        animator.Play(loopHash, -1, analogPosition);
+        // Play by the tracked name, not GetCurrentAnimatorStateInfo: on the frame
+        // the fruit is spawned the animator has not evaluated the Play request
+        // from PlaySyncedAnimation yet, so the current state is still the
+        // controller default and replaying its hash would override the
+        // animation we just queued.
+        animator.Play(currentAnimationName, -1, analogPosition);
         lifeSpawn -= Time.deltaTime;
     }
 
@@ -63,6 +69,7 @@ public class Fruit
         string animationName = GetLastAnimationName();
         isSynced = false;
         animator.Play(animationName);
+        currentAnimationName = animationName;
         animator.speed = 1.5f;
     }
 
@@ -89,7 +96,8 @@ public class Fruit
 
 public class FruitSpawner : MonoBehaviour
 {
-    public GameObject fruitPrefab;
+    public GameObject orangePrefab;
+    public GameObject pineapplePrefab;
 
     private GameObject containerLeft;
     private GameObject containerRight;
@@ -122,8 +130,8 @@ public class FruitSpawner : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            GameObject orangeLObject = Instantiate(fruitPrefab, containerLeft.transform);
-            GameObject orangeRObject = Instantiate(fruitPrefab, containerRight.transform);
+            GameObject orangeLObject = Instantiate(orangePrefab, containerLeft.transform);
+            GameObject orangeRObject = Instantiate(orangePrefab, containerRight.transform);
             orangeLObject.name = "OrangeLeft";
             orangeRObject.name = "OrangeRight";
             orangeLObject.SetActive(false);
@@ -135,8 +143,8 @@ public class FruitSpawner : MonoBehaviour
         }
         for (int i = 0; i < 2; i++)
         {
-            GameObject pineappleLObject = Instantiate(fruitPrefab, containerLeft.transform);
-            GameObject pineappleRObject = Instantiate(fruitPrefab, containerRight.transform);
+            GameObject pineappleLObject = Instantiate(pineapplePrefab, containerLeft.transform);
+            GameObject pineappleRObject = Instantiate(pineapplePrefab, containerRight.transform);
             pineappleLObject.name = "PineAppleLeft";
             pineappleRObject.name = "PineAppleRight";
             pineappleLObject.SetActive(false);

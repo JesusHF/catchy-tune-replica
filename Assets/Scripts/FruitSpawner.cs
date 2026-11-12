@@ -17,6 +17,8 @@ public class Fruit
     public float animationOffset;
     public float loopOffset;
     public bool isSynced;
+    /// <summary>True while this fruit is taken from the pool, from spawn until Release.</summary>
+    public bool isActive;
     public string currentAnimationName;
     public Fruit(GameObject fruitObject, StairsSide side, FruitType type, float lifeSpawn, float animationOffset, bool isSynced = true)
     {
@@ -28,10 +30,12 @@ public class Fruit
         this.animationOffset = animationOffset;
         this.loopOffset = 0f;
         this.isSynced = isSynced;
+        this.isActive = false;
     }
 
     internal void PlaySyncedAnimation(string animationName, float time)
     {
+        isActive = true;
         isSynced = true;
         fruitObject.SetActive(true);
         animator.speed = 0f;
@@ -76,6 +80,7 @@ public class Fruit
     internal void Release()
     {
         fruitObject.SetActive(false);
+        isActive = false;
         isSynced = false;
         lifeSpawn = 0f;
         animationOffset = 0f;
@@ -118,42 +123,48 @@ public class FruitSpawner : MonoBehaviour
         containerRight.transform.parent = this.gameObject.transform;
         InitFruitBasket();
 
-        GameManager.OnKeynotePressedSuccessfully += StopFruitHitAnimations;
+        // Both events are the authoritative hit/miss decisions from KeynoteHolder.
+        // The fruit pool must follow them instead of its own countdown, otherwise a
+        // valid grab can arrive after the countdown expired (or be rejected because
+        // the countdown is still slightly positive) and the fruit plays its hit
+        // animation even though it was grabbed.
+        GameManager.OnKeynotePressedSuccessfully += ReleaseGrabbedFruit;
+        GameManager.OnKeynoteNotPressed += PlayMissedFruitAnimation;
     }
 
     void Destroy()
     {
-        GameManager.OnKeynotePressedSuccessfully -= StopFruitHitAnimations;
+        GameManager.OnKeynotePressedSuccessfully -= ReleaseGrabbedFruit;
+        GameManager.OnKeynoteNotPressed -= PlayMissedFruitAnimation;
     }
 
     private void InitFruitBasket()
     {
         for (int i = 0; i < 2; i++)
         {
-            GameObject orangeLObject = Instantiate(orangePrefab, containerLeft.transform);
-            GameObject orangeRObject = Instantiate(orangePrefab, containerRight.transform);
-            orangeLObject.name = "OrangeLeft";
-            orangeRObject.name = "OrangeRight";
-            orangeLObject.SetActive(false);
-            orangeRObject.SetActive(false);
-            Fruit orangeL = new Fruit(orangeLObject, StairsSide.Left, FruitType.Orange, 0f, 0f, false);
-            Fruit orangeR = new Fruit(orangeRObject, StairsSide.Right, FruitType.Orange, 0f, 0f, false);
-            fruitBasket.Add(orangeL);
-            fruitBasket.Add(orangeR);
+            CreateFruit(StairsSide.Left, FruitType.Orange);
+            CreateFruit(StairsSide.Right, FruitType.Orange);
         }
         for (int i = 0; i < 2; i++)
         {
-            GameObject pineappleLObject = Instantiate(pineapplePrefab, containerLeft.transform);
-            GameObject pineappleRObject = Instantiate(pineapplePrefab, containerRight.transform);
-            pineappleLObject.name = "PineAppleLeft";
-            pineappleRObject.name = "PineAppleRight";
-            pineappleLObject.SetActive(false);
-            pineappleRObject.SetActive(false);
-            Fruit pineappleL = new Fruit(pineappleLObject, StairsSide.Left, FruitType.PineApple, 0f, 0f, false);
-            Fruit pineappleR = new Fruit(pineappleRObject, StairsSide.Right, FruitType.PineApple, 0f, 0f, false);
-            fruitBasket.Add(pineappleL);
-            fruitBasket.Add(pineappleR);
+            CreateFruit(StairsSide.Left, FruitType.PineApple);
+            CreateFruit(StairsSide.Right, FruitType.PineApple);
         }
+    }
+
+    private Fruit CreateFruit(StairsSide side, FruitType type)
+    {
+        Transform container = side == StairsSide.Left ? containerLeft.transform : containerRight.transform;
+        GameObject prefab = type == FruitType.Orange ? orangePrefab : pineapplePrefab;
+        GameObject fruitObject = Instantiate(prefab, container);
+        fruitObject.name = type == FruitType.Orange
+            ? (side == StairsSide.Left ? "OrangeLeft" : "OrangeRight")
+            : (side == StairsSide.Left ? "PineAppleLeft" : "PineAppleRight");
+        fruitObject.SetActive(false);
+
+        Fruit fruit = new Fruit(fruitObject, side, type, 0f, 0f, false);
+        fruitBasket.Add(fruit);
+        return fruit;
     }
 
     public void SpawnFruit(Instrument instrument)
@@ -179,33 +190,27 @@ public class FruitSpawner : MonoBehaviour
 
     public void SpawnOrange(StairsSide side)
     {
-        int orangeIndex = GetFruitFromPool(side, FruitType.Orange);
-        float orangelifeSpawn = 4 * Conductor.instance.secPerBeat;
-        fruitBasket[orangeIndex].PlaySyncedAnimation(Fruit.ORANGE_LOOP, orangelifeSpawn);
+        Fruit fruit = GetFruitFromPool(side, FruitType.Orange);
+        float orangeLifeSpawn = 4 * Conductor.instance.secPerBeat;
+        fruit.PlaySyncedAnimation(Fruit.ORANGE_LOOP, orangeLifeSpawn);
     }
 
     public void SpawnPineapple(StairsSide side)
     {
-        int pineIndex = GetFruitFromPool(side, FruitType.PineApple);
-        float pinelifeSpawn = 7 * Conductor.instance.secPerBeat;
-        fruitBasket[pineIndex].PlaySyncedAnimation(Fruit.PINEAPPLE_LOOP, pinelifeSpawn);
+        Fruit fruit = GetFruitFromPool(side, FruitType.PineApple);
+        float pineLifeSpawn = 7 * Conductor.instance.secPerBeat;
+        fruit.PlaySyncedAnimation(Fruit.PINEAPPLE_LOOP, pineLifeSpawn);
     }
 
     void Update()
     {
-        if (fruitBasket.Count > 0)
+        // Only fruits that are still awaiting their note need the synchronized loop
+        // animation. Once a miss is confirmed the hit animation plays on its own.
+        foreach (Fruit fruit in fruitBasket)
         {
-            foreach (Fruit fruit in fruitBasket)
+            if (fruit.isActive && fruit.isSynced)
             {
-                if (fruit.lifeSpawn > 0f)
-                {
-                    fruit.Update();
-                }
-                else if (fruit.isSynced)
-                {
-                    fruit.PlayLastAnimation();
-                    StartCoroutine(StartReleaseCountDown(fruit, 0.7f));
-                }
+                fruit.Update();
             }
         }
     }
@@ -216,32 +221,68 @@ public class FruitSpawner : MonoBehaviour
         fruit.Release();
     }
 
-    void StopFruitHitAnimations(StairsSide side, FruitType type)
+    /// <summary>
+    /// The player grabbed the note: hide the fruit that belongs to it immediately.
+    /// </summary>
+    void ReleaseGrabbedFruit(StairsSide side, FruitType type)
     {
-        if (fruitBasket.Count > 0)
+        Fruit fruit = GetPendingFruit(side, type);
+        if (fruit != null)
         {
-            foreach (var fruit in fruitBasket)
-            {
-                if (fruit.fruitObject.activeInHierarchy &&
-                    fruit.side == side && fruit.type == type && fruit.lifeSpawn < 0.1f)
-                {
-                    fruit.Release();
-                    break;
-                }
-            }
+            fruit.Release();
         }
     }
 
-    int GetFruitFromPool(StairsSide side, FruitType fruitType)
+    /// <summary>
+    /// The note was not grabbed: play the hit animation, then return the fruit to the pool.
+    /// </summary>
+    void PlayMissedFruitAnimation(StairsSide side, FruitType type)
     {
-        for (int i = 0; i < fruitBasket.Count; i++)
+        Fruit fruit = GetPendingFruit(side, type);
+        if (fruit == null)
         {
-            if (fruitBasket[i].lifeSpawn == 0f &&
-                fruitBasket[i].side == side && fruitBasket[i].type == fruitType)
+            return;
+        }
+
+        fruit.PlayLastAnimation();
+        StartCoroutine(StartReleaseCountDown(fruit, 0.7f));
+    }
+
+    /// <summary>
+    /// Returns the fruit that is waiting for the note currently being judged. Notes are
+    /// consumed in order, so the pending fruit closest to (or past) its hit time is the
+    /// one the event refers to.
+    /// </summary>
+    Fruit GetPendingFruit(StairsSide side, FruitType type)
+    {
+        Fruit pending = null;
+        foreach (Fruit fruit in fruitBasket)
+        {
+            if (!fruit.isActive || !fruit.isSynced || fruit.side != side || fruit.type != type)
             {
-                return i;
+                continue;
+            }
+
+            if (pending == null || fruit.lifeSpawn < pending.lifeSpawn)
+            {
+                pending = fruit;
             }
         }
-        return -1;
+        return pending;
+    }
+
+    Fruit GetFruitFromPool(StairsSide side, FruitType type)
+    {
+        foreach (Fruit fruit in fruitBasket)
+        {
+            if (!fruit.isActive && fruit.side == side && fruit.type == type)
+            {
+                return fruit;
+            }
+        }
+
+        // Missing notes keep fruits busy longer than the initial pool covers. Grow the
+        // pool on demand instead of failing to spawn (or reusing a fruit mid-animation).
+        return CreateFruit(side, type);
     }
 }

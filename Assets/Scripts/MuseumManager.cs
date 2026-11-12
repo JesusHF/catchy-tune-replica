@@ -86,6 +86,12 @@ public class MuseumManager : MonoBehaviour
 
     void Update()
     {
+        if (KeyboardInput.Pressed(Key.Escape))
+        {
+            QuitGame();
+            return;
+        }
+
         if (!lockedSelector)
         {
             if (KeyboardInput.Pressed(Key.LeftArrow))
@@ -118,6 +124,15 @@ public class MuseumManager : MonoBehaviour
     {
         lockedSelector = true;
         LoadLevel(levels[levelSelected].level);
+    }
+
+    private static void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#elif !UNITY_WEBGL
+        Application.Quit();
+#endif
     }
 
     private void LoadLevel(string sceneName)
